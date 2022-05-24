@@ -1,4 +1,4 @@
-package com.fpt.capstone.backend.api.BackEnd.configuration;
+package com.fpt.capstone.backend.api.BackEnd.configuration.sercurity;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

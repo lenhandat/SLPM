@@ -1,47 +1,31 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
+import lombok.Data;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role",
-        uniqueConstraints = @UniqueConstraint(columnNames = "role"))
+@Table(name = "role")
+@Data
 public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+	@Id
+	@Column(name = "id")
 
-    @Column(name = "role")
-    private String role;
-    
-    @ManyToMany(fetch = FetchType.LAZY, 
-            cascade = CascadeType.ALL,
-            mappedBy= "roles",
-            targetEntity = DAOUser.class)
-    private Set<DAOUser> users = new HashSet<DAOUser>();
+	private int id;
 
-	public long getId() {
-		return id;
-	}
+	@Column(name = "role_name")
+	private String roleName;
 
-	public void setId(long id) {
+	@OneToMany(mappedBy = "role")
+	private Set<Users> users;
+
+	public Role(int id, String roleName) {
 		this.id = id;
+		this.roleName = roleName;
 	}
 
-	public String getRole() {
-		return role;
+	public Role() {
 	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public Set<DAOUser> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<DAOUser> users) {
-		this.users = users;
-	} 
 }

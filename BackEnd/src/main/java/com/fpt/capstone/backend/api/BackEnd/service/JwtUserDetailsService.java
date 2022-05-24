@@ -2,9 +2,11 @@ package com.fpt.capstone.backend.api.BackEnd.service;
 
 
 import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
-import com.fpt.capstone.backend.api.BackEnd.entity.DAOUser;
+
 import com.fpt.capstone.backend.api.BackEnd.entity.Role;
-import com.fpt.capstone.backend.api.BackEnd.repository.UserDao;
+import com.fpt.capstone.backend.api.BackEnd.entity.Users;
+import com.fpt.capstone.backend.api.BackEnd.repository.RoleRepository;
+import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,28 +35,65 @@ Here using the Online Bcrypt Generator you can generate the Bcrypt for a passwor
 public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
+//    @Autowired
+//    private ModelMapper mapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        DAOUser user = userDao.findByUsername(username);
+        Users user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
+
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        for (final Role role : user.getRoles()) {
-            authorities.add((GrantedAuthority)new SimpleGrantedAuthority(role.getRole()));
-        }
-        return new User(user.getUsername(), user.getPassword(),authorities);
+
+        authorities.add((GrantedAuthority) new SimpleGrantedAuthority(user.getRole().getRoleName()));
+
+        return new User(user.getUsername(), user.getPassword(), authorities);
+//        return new CustomUserDetails(user);
     }
 
-    public DAOUser save(UserDTO user) {
-        DAOUser newUser = new DAOUser();
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        return userDao.save(newUser);
+    public Users createUser(Users users) {
+        Role rollUser = new Role();
+        rollUser.setId(1);
+        rollUser.setRoleName("Student");
+        users.setRole(rollUser);
+
+        users.setUsername(users.getUsername());
+        users.setPassword(bcryptEncoder.encode(users.getPassword()));
+        users.setStatusId(1);
+        users.setCreatedBy(0);
+        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
+        users.setCreated(date);
+        users.setModified(date);
+        users.setModifiedBy(0);
+
+        return userRepository.save(users);
+    }
+
+    public void updateUser(UserDTO usersDTO) {
+//        Users users = mapper.map(usersDTO, Users.class);
+//        users.setRole(getRole(usersDTO.getRoleId()));
+//
+        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
+
+        userRepository.updateUser(usersDTO.getFullName(), usersDTO.getBirthday(), usersDTO.getTel(),
+                usersDTO.getEmail(), usersDTO.getAvatarLink(), usersDTO.getRole().getId(), date, 0, usersDTO.getId());
+    }
+
+    public Role getRole(int id) {
+        return roleRepository.findRoleById(id);
+    }
+
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
     }
 }

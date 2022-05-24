@@ -1,4 +1,4 @@
-package com.fpt.capstone.backend.api.BackEnd.configuration;
+package com.fpt.capstone.backend.api.BackEnd.configuration.sercurity;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
