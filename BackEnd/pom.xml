@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<start-class>com.fpt.capstone.backend.api.BackEnd.BackEndApplication</start-class>
 	</properties>
 
 	<dependencies>
@@ -60,23 +61,25 @@
             <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.fpt.capstone.backend.api</groupId>
-            <artifactId>BackEnd</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>3.0.0</version>
-		</dependency>
+
+
     </dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+					<mainClass>${start-class}</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

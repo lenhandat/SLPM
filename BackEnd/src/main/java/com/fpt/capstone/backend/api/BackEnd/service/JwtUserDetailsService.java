@@ -62,10 +62,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public Users createUser(Users users) {
-        Role rollUser = new Role();
-        rollUser.setId(1);
-        rollUser.setRoleName("Student");
-        users.setRole(rollUser);
+
 
         users.setUsername(users.getUsername());
         users.setPassword(bcryptEncoder.encode(users.getPassword()));
