@@ -1,11 +1,15 @@
-package com.fpt.capstone.backend.api.BackEnd.dto;
+package com.fpt.capstone.backend.api.BackEnd.entity;
 
-import com.fpt.capstone.backend.api.BackEnd.entity.Users;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+@Data
 public class CustomUserDetails implements UserDetails {
 
     private Users users;
@@ -14,38 +18,41 @@ public class CustomUserDetails implements UserDetails {
         this.users = users;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add((GrantedAuthority)new SimpleGrantedAuthority(this.users.getRole().getRoleName()));
+        return  authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return users.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return users.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

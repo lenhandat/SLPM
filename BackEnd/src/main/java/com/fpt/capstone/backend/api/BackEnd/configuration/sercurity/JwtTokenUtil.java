@@ -1,4 +1,4 @@
-package com.fpt.capstone.backend.api.BackEnd.configuration;
+package com.fpt.capstone.backend.api.BackEnd.configuration.sercurity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

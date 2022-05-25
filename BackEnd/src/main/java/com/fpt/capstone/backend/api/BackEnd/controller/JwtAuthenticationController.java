@@ -1,23 +1,26 @@
 package com.fpt.capstone.backend.api.BackEnd.controller;
 
 
-import com.fpt.capstone.backend.api.BackEnd.configuration.JwtTokenUtil;
-import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
+import com.fpt.capstone.backend.api.BackEnd.configuration.sercurity.JwtTokenUtil;
+import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
+import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtRequest;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtResponse;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.UserResponse;
 import com.fpt.capstone.backend.api.BackEnd.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,25 +43,56 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody Users user) throws Exception {
-        return ResponseEntity.ok(userDetailsService.createUser(user));
+        ResponseObject response = new ResponseObject();
+
+        try {
+            response.setStatus("OK");
+            response.setMessage("Register success");
+            response.setData(userDetailsService.createUser(user));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            response.setStatus("Fail");
+            response.setMessage("Register fail "+"Message:"+ e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+       // return ResponseEntity.ok(userDetailsService.createUser(user));
+
     }
+
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+        ResponseObject response = new ResponseObject();
+        try{
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
-        
-        Set<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toSet());
-        return ResponseEntity.ok(new JwtResponse(token, new UserResponse().userResponse(userDetails, roles)));
+            authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+
+            final UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(authenticationRequest.getUsername());
+
+            final String token = jwtTokenUtil.generateToken(userDetails);
+//            return ResponseEntity.ok(new JwtResponse(token));
+            response.setStatus("OK");
+            response.setMessage("Login success");
+            response.setData(new JwtResponse(token));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(AuthenticationException authenticationException) {
+            response.setStatus("Fail");
+            response.setMessage("Login fail username or password wrong");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+        catch(Exception e) {
+            response.setStatus("Fail");
+            response.setMessage("Login fail "+e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+
+
     }
 
 
@@ -71,16 +105,4 @@ public class JwtAuthenticationController {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
-
-    @GetMapping("/delete/{id}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteUser(@PathVariable("id") int id){
-        userDetailsService.deleteUser(id);
-    }
-
-    @PostMapping("/update")
-    public void updateUser(@RequestBody UsersDTO user) throws Exception {
-        userDetailsService.updateUser(user);
-    }
-
 }

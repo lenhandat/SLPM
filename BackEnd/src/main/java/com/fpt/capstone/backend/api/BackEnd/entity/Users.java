@@ -1,14 +1,13 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "users")
 @Data
-
 public class Users {
     @Id
     @Column(name = "id")
@@ -57,7 +56,6 @@ public class Users {
 
     @Column(name = "modified_by")
     private Integer modifiedBy;
-
 
 
 }
