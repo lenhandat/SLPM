@@ -20,6 +20,7 @@ public class Users {
     @Column(name = "password")
     private String password;
 
+
     @Column(name = "full_name",nullable = true)
     private String fullName;
 
@@ -54,7 +55,8 @@ public class Users {
     @Column(name = "modified",nullable = true)
     private java.sql.Timestamp modified;
 
-    @Column(name = "modified_by",nullable = true)
+
+    @Column(name = "modified_by")
     private Integer modifiedBy;
 
 
