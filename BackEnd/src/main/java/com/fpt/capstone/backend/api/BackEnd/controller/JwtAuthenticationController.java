@@ -2,13 +2,11 @@ package com.fpt.capstone.backend.api.BackEnd.controller;
 
 
 import com.fpt.capstone.backend.api.BackEnd.configuration.sercurity.JwtTokenUtil;
-import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtRequest;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtResponse;
-import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.UserResponse;
-import com.fpt.capstone.backend.api.BackEnd.service.JwtUserDetailsService;
+import com.fpt.capstone.backend.api.BackEnd.service.impl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +15,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /*
 Expose a POST API /authenticate using the JwtAuthenticationController. The POST API gets username and password in the
