@@ -1,8 +1,9 @@
-package com.fpt.capstone.backend.api.BackEnd.service;
+package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
+import com.fpt.capstone.backend.api.BackEnd.service.SettingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SettingsService {
+public class SettingsServiceImpl implements SettingService {
 
     ModelMapper mapper = new ModelMapper();
 
@@ -32,7 +33,7 @@ public class SettingsService {
         settingsRepository.deleteById(id);
     }
 
-    public List<SettingsDTO> settingsDTOList() {
+    public List<SettingsDTO> showSettingsList() {
         List<Settings> settings = settingsRepository.findAll();
         List<SettingsDTO> settingsDTOS = settings.stream()
                 .map(setting -> mapper.map(setting, SettingsDTO.class))
@@ -57,7 +58,7 @@ public class SettingsService {
         return settingsDTO;
 
     }
-    public List<Settings> listAll(String keyword) {
+    public List<Settings> listBy(String keyword) {
         if (keyword != null) {
             return settingsRepository.search(keyword);
         }

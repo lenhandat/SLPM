@@ -7,9 +7,13 @@ import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtRequest;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtResponse;
+
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.UserResponse;
-import com.fpt.capstone.backend.api.BackEnd.service.JwtUserDetailsService;
+
 import org.modelmapper.ModelMapper;
+
+import com.fpt.capstone.backend.api.BackEnd.service.impl.JwtUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +25,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.HashSet;
 import java.util.Set;
+
 
 /*
 Expose a POST API /authenticate using the JwtAuthenticationController. The POST API gets username and password in the

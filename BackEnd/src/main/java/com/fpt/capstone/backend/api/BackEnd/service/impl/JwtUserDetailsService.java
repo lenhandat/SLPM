@@ -1,4 +1,4 @@
-package com.fpt.capstone.backend.api.BackEnd.service;
+package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 
 import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
