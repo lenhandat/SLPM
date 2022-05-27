@@ -1,5 +1,6 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -42,10 +43,11 @@ public class Settings {
     private Integer modifiedBy;
 
     @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
-    // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
+    // Quan hệ 1-n với đối tượng ở dưới (setting) (1 seting role có nhiều người )
+    // MapopedBy trỏ tới tên biến settings ở trong Users.
 //    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
 //    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @JsonManagedReference
     private Collection<Users> Users;
 
 }

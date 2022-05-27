@@ -41,7 +41,7 @@ public class SettingsServiceImpl implements SettingService {
         return settingsDTOS;
     }
 
-    public SettingsDTO updateSetting(SettingsDTO settingsDTO){
+    public SettingsDTO updateSetting(SettingsDTO settingsDTO) {
         java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
         settingsDTO.setModified(date);
         Settings settings = settingsRepository.getOne(settingsDTO.getId());
@@ -58,9 +58,10 @@ public class SettingsServiceImpl implements SettingService {
         return settingsDTO;
 
     }
-    public List<Settings> listBy(String keyword) {
-        if (keyword != null) {
-            return settingsRepository.search(keyword);
+
+    public List<Settings> listBy(String keyTitle, String keyValue) {
+        if (keyTitle != null || keyValue != null) {
+            return settingsRepository.search(keyTitle,keyValue);
         }
         return settingsRepository.findAll();
     }

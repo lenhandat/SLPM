@@ -82,8 +82,8 @@ public class JwtAuthenticationController {
             final UserDetails userDetails = userDetailsService
                     .loadUserByUsername(authenticationRequest.getUsername());
             final String token = jwtTokenUtil.generateToken(userDetails);
-            //get role
 
+            //get role
             response.setStatus("OK");
             response.setMessage("Login success");
             response.setData(new JwtResponse(token, userDetails.getAuthorities().iterator().next().toString()));

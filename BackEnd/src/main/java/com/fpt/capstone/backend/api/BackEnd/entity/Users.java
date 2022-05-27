@@ -1,5 +1,6 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -47,6 +48,7 @@ public class Users {
  //   private Address address;
     @ManyToOne
     @JoinColumn(name = "role_id")
+    @JsonBackReference
     private Settings settings;
 
     @Column(name = "status_id")
@@ -64,6 +66,5 @@ public class Users {
 
     @Column(name = "modified_by")
     private Integer modifiedBy;
-
 
 }

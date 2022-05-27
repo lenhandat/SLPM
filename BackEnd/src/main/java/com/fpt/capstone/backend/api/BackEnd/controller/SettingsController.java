@@ -75,12 +75,12 @@ public class SettingsController {
         }
     }
     @GetMapping("/findSettingByTile")
-    public ResponseEntity<?> findSettingByTile(@RequestParam("key") String key){
+    public ResponseEntity<?> findSettingByTile(@RequestParam("keyTitle") String keyTitle,@RequestParam("keyValue") String keyValue){
         ResponseObject response = new ResponseObject();
         try {
             response.setStatus("OK");
             response.setMessage("Show list search setting success");
-            response.setData(settingsService.listBy(key));
+            response.setData(settingsService.listBy(keyTitle,keyValue));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             response.setStatus("Fail");

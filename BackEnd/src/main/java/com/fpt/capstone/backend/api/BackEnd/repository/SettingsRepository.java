@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface SettingsRepository extends JpaRepository<Settings, Integer> {
     @Query("SELECT p FROM Settings p WHERE p.title LIKE %?1%"
-            + " OR p.value LIKE %?1%"
-            + " OR p.title LIKE %?1%")
-    public List<Settings> search(String keyword);
+
+            + " OR p.value LIKE %?2%")
+    public List<Settings> search(String keyTitle,String keyValue);
 }

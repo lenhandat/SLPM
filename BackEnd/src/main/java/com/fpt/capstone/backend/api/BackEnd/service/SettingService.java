@@ -15,6 +15,6 @@ public interface SettingService {
 
     SettingsDTO updateSetting(SettingsDTO settingsDTO);
 
-    List<Settings> listBy(String keyword);
+    List<Settings> listBy(String keyTitle, String keyValue);
 
 }
