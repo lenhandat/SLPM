@@ -3,6 +3,7 @@ package com.fpt.capstone.backend.api.BackEnd.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "settings")
@@ -40,5 +41,11 @@ public class Settings {
     @Column(name = "modified_by")
     private Integer modifiedBy;
 
+    @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
+    // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
+    // MapopedBy trỏ tới tên biến Address ở trong Person.
+//    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+//    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private Collection<Users> Users;
 
 }

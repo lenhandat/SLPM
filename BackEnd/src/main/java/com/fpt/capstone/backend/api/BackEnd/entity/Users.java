@@ -39,20 +39,26 @@ public class Users {
     @Column(name = "facebook_link",nullable = true)
     private String facebookLink;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id",nullable = true)
-    private Role role;
 
-    @Column(name = "status_id",nullable = true)
+//    @JoinColumn(name = "role_id",nullable = true)
+
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+ //   private Address address;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Settings settings;
+
+    @Column(name = "status_id")
     private Integer statusId;
 
-    @Column(name = "created",nullable = true)
+    @Column(name = "created")
     private java.sql.Timestamp created;
 
-    @Column(name = "created_by",nullable = true)
+    @Column(name = "created_by")
     private Integer createdBy;
 
-    @Column(name = "modified",nullable = true)
+    @Column(name = "modified")
     private java.sql.Timestamp modified;
 
 
