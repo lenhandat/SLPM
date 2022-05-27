@@ -20,27 +20,34 @@ public class Users {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "full_name")
+
+    @Column(name = "full_name",nullable = true)
     private String fullName;
 
-    @Column(name = "birthday")
+    @Column(name = "birthday",nullable = true)
     private java.sql.Timestamp birthday;
 
-    @Column(name = "tel")
+    @Column(name = "tel",nullable = true)
     private String tel;
 
-    @Column(name = "email")
+    @Column(name = "email",nullable = true)
     private String email;
 
-    @Column(name = "avatar_link")
+    @Column(name = "avatar_link",nullable = true)
     private String avatarLink;
 
-    @Column(name = "facebook_link")
+    @Column(name = "facebook_link",nullable = true)
     private String facebookLink;
 
+
+//    @JoinColumn(name = "role_id",nullable = true)
+
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+ //   private Address address;
     @ManyToOne
     @JoinColumn(name = "role_id")
-    private Role role;
+    private Settings settings;
 
     @Column(name = "status_id")
     private Integer statusId;
@@ -53,6 +60,7 @@ public class Users {
 
     @Column(name = "modified")
     private java.sql.Timestamp modified;
+
 
     @Column(name = "modified_by")
     private Integer modifiedBy;

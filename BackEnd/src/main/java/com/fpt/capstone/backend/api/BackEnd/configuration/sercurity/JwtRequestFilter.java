@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import com.fpt.capstone.backend.api.BackEnd.service.JwtUserDetailsService;
+import com.fpt.capstone.backend.api.BackEnd.service.impl.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;

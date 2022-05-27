@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+
 public class HelloController {
 
     @RequestMapping({ "/hello" })
@@ -23,4 +24,5 @@ public class HelloController {
     	UserDetails u = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return "Hello World" + u.getUsername() + " " + u.getAuthorities();
     }
+
 }

@@ -2,17 +2,18 @@ package com.fpt.capstone.backend.api.BackEnd.controller;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
-import com.fpt.capstone.backend.api.BackEnd.service.SettingsService;
+import com.fpt.capstone.backend.api.BackEnd.service.impl.SettingsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("setting")
 public class SettingsController {
 
     @Autowired
-    private SettingsService settingsService;
+    private SettingsServiceImpl settingsService;
 
     @PostMapping("/add_setting")
     public ResponseEntity<?> addSetting(@RequestBody SettingsDTO settingsDTO) throws Exception{
@@ -50,7 +51,7 @@ public class SettingsController {
         try {
             response.setStatus("OK");
             response.setMessage("Show list setting success");
-            response.setData(settingsService.settingsDTOList());
+            response.setData(settingsService.showSettingsList());
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             response.setStatus("Fail");
@@ -70,6 +71,20 @@ public class SettingsController {
         }catch (Exception e){
             response.setStatus("Fail");
             response.setMessage("Edit setting fail "+"Message:"+ e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/findSettingByTile")
+    public ResponseEntity<?> findSettingByTile(@RequestParam("key") String key){
+        ResponseObject response = new ResponseObject();
+        try {
+            response.setStatus("OK");
+            response.setMessage("Show list search setting success");
+            response.setData(settingsService.listBy(key));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            response.setStatus("Fail");
+            response.setMessage("Show list search setting fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

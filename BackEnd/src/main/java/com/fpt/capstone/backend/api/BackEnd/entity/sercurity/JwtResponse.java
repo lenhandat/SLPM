@@ -1,5 +1,7 @@
 package com.fpt.capstone.backend.api.BackEnd.entity.sercurity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 
@@ -7,30 +9,19 @@ import java.io.Serializable;
 /*
 This is class is required for creating a response containing the JWT to be returned to the user.
  */
+@Data
 public class JwtResponse implements Serializable {
 
     private static final long serialVersionUID = -8091879091924046844L;
-    private final String jwttoken;
-    private UserResponse user;
+    private final String jwtToken;
+//    private UserResponse user;
 
-    public JwtResponse(String jwttoken, UserResponse user) {
-		this.jwttoken = jwttoken;
-		this.user = user;
+    private  String role;
+
+    public JwtResponse(String jwtToken, String role) {
+		this.jwtToken = jwtToken;
+		this.role = role;
 	}
 
-    public UserResponse getUser() {
-		return user;
-	}
 
-	public void setUser(UserResponse user) {
-		this.user = user;
-	}
-
-	public JwtResponse(String jwttoken) {
-        this.jwttoken = jwttoken;
-    }
-
-    public String getToken() {
-        return this.jwttoken;
-    }
 }

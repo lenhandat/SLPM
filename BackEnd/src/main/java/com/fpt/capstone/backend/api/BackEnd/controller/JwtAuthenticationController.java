@@ -7,8 +7,14 @@ import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtRequest;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtResponse;
+
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.UserResponse;
-import com.fpt.capstone.backend.api.BackEnd.service.JwtUserDetailsService;
+
+import com.fpt.capstone.backend.api.BackEnd.service.Validate;
+import org.modelmapper.ModelMapper;
+
+import com.fpt.capstone.backend.api.BackEnd.service.impl.JwtUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +23,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 /*
 Expose a POST API /authenticate using the JwtAuthenticationController. The POST API gets username and password in the
@@ -31,7 +37,7 @@ body- Using Spring Authentication Manager we authenticate the username and passw
 a JWT token is created using the JWTTokenUtil and provided to the client.
  */
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class JwtAuthenticationController {
 
     @Autowired
@@ -42,23 +48,38 @@ public class JwtAuthenticationController {
 
     @Autowired
     private JwtUserDetailsService userDetailsService;
+    @Autowired
+    private ModelMapper modelMapper;
 
+    private Validate validate =new Validate();
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody Users user) throws Exception {
+    public ResponseEntity<?> saveUser(@RequestBody UserDTO usersDTO) throws Exception {
         ResponseObject response = new ResponseObject();
 
         try {
-            response.setStatus("OK");
+            if(userDetailsService.checkDuplicateUsername(usersDTO.getUsername())){
+                throw new Exception("Username is already");
+            }
+            if(!validate.validatePassword(usersDTO.getPassword())){
+                throw new Exception("Invalid password");
+            }
+            if(!validate.validateEmail(usersDTO.getEmail())){
+                throw new Exception("Invalid email");
+            }
+
+            userDetailsService.createUser(usersDTO);
+            response.setStatus("True");
             response.setMessage("Register success");
-            response.setData(userDetailsService.createUser(user));
+            //response.setData(userDetailsService.createUser(usersDTO));
+            //response.setData(modelMapper.map(users,UserDTO.class));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setStatus("Fail");
-            response.setMessage("Register fail "+"Message:"+ e.getMessage());
+            response.setMessage("Register fail catch " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-       // return ResponseEntity.ok(userDetailsService.createUser(user));
+        // return ResponseEntity.ok(userDetailsService.createUser(user));
 
     }
 
@@ -68,27 +89,25 @@ public class JwtAuthenticationController {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         ResponseObject response = new ResponseObject();
-        try{
-
+        try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
             final UserDetails userDetails = userDetailsService
                     .loadUserByUsername(authenticationRequest.getUsername());
-
             final String token = jwtTokenUtil.generateToken(userDetails);
-//            return ResponseEntity.ok(new JwtResponse(token));
+            //get role
+
             response.setStatus("OK");
             response.setMessage("Login success");
-            response.setData(new JwtResponse(token));
+            response.setData(new JwtResponse(token, userDetails.getAuthorities().iterator().next().toString()));
+
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch(AuthenticationException authenticationException) {
+        } catch (AuthenticationException authenticationException) {
             response.setStatus("Fail");
             response.setMessage("Login fail username or password wrong");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             response.setStatus("Fail");
-            response.setMessage("Login fail "+e.getMessage());
+            response.setMessage("Login fail " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
 

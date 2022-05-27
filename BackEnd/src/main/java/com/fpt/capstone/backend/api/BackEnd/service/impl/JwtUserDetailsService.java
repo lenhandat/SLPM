@@ -1,13 +1,13 @@
-package com.fpt.capstone.backend.api.BackEnd.service;
+package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 
 import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
-
-import com.fpt.capstone.backend.api.BackEnd.entity.Role;
+import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
-import com.fpt.capstone.backend.api.BackEnd.repository.RoleRepository;
+import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,15 +36,16 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SettingsRepository settingsRepository;
+
 
     @Autowired
-    private RoleRepository roleRepository;
-
+    private ModelMapper modelMapper;
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
-//    @Autowired
-//    private ModelMapper mapper;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,28 +55,24 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
 
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-
-        authorities.add((GrantedAuthority) new SimpleGrantedAuthority(user.getRole().getRoleName()));
-
+        authorities.add((GrantedAuthority) new SimpleGrantedAuthority(user.getSettings().getValue()));
         return new User(user.getUsername(), user.getPassword(), authorities);
 //        return new CustomUserDetails(user);
     }
 
-    public Users createUser(Users users) {
-        Role rollUser = new Role();
-        rollUser.setId(1);
-        rollUser.setRoleName("Student");
-        users.setRole(rollUser);
+    public boolean checkDuplicateUsername(String username) {
+        return userRepository.findByUsername(username)!=null;
+    }
 
-        users.setUsername(users.getUsername());
-        users.setPassword(bcryptEncoder.encode(users.getPassword()));
-        users.setStatusId(1);
-        users.setCreatedBy(0);
-        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
-        users.setCreated(date);
-        users.setModified(date);
-        users.setModifiedBy(0);
-
+    public Users createUser(UserDTO usersDTO) {
+        Users users= new Users();
+        users.setUsername(usersDTO.getUsername());
+        users.setPassword(bcryptEncoder.encode(usersDTO.getPassword()));
+        users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
+        users.setEmail(usersDTO.getEmail());
+       // Users user = modelMapper.map(usersDTO, Users.class);
+       // user.setSettings(modelMapper.map(usersDTO.getSettingsDTO(), Settings.class));
+        System.out.println("ok");
         return userRepository.save(users);
     }
 
@@ -85,13 +82,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 //
         java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
 
-        userRepository.updateUser(usersDTO.getFullName(), usersDTO.getBirthday(), usersDTO.getTel(),
-                usersDTO.getEmail(), usersDTO.getAvatarLink(), usersDTO.getRole().getId(), date, 0, usersDTO.getId());
+//        userRepository.updateUser(usersDTO.getFullName(), usersDTO.getBirthday(), usersDTO.getTel(),
+//                usersDTO.getEmail(), usersDTO.getAvatarLink(), usersDTO.get, date, 0, usersDTO.getId());
     }
 
-    public Role getRole(int id) {
-        return roleRepository.findRoleById(id);
-    }
+
 
     public void deleteUser(int id) {
         userRepository.deleteById(id);
