@@ -19,7 +19,7 @@ public class SettingsController {
     public ResponseEntity<?> addSetting(@RequestBody SettingsDTO settingsDTO) throws Exception{
         ResponseObject response = new ResponseObject();
         try {
-            response.setStatus("OK");
+            response.setStatus("True");
             response.setMessage("Add setting success");
             response.setData(settingsService.addSettings(settingsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -34,12 +34,12 @@ public class SettingsController {
     public ResponseEntity<?> deleteSetting(@PathVariable("id") int id){
         ResponseObject response = new ResponseObject();
         try {
-            response.setStatus("OK");
+            response.setStatus("True");
             response.setMessage("Delete setting success");
             settingsService.deleteSetting(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            response.setStatus("Fail");
+            response.setStatus("False");
             response.setMessage("Delete setting fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -49,12 +49,12 @@ public class SettingsController {
     public ResponseEntity<?> showListSetting(){
         ResponseObject response = new ResponseObject();
         try {
-            response.setStatus("OK");
+            response.setStatus("True");
             response.setMessage("Show list setting success");
             response.setData(settingsService.showSettingsList());
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            response.setStatus("Fail");
+            response.setStatus("False");
             response.setMessage("Show list setting fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -64,12 +64,12 @@ public class SettingsController {
     public ResponseEntity<?> editSetting(@RequestBody SettingsDTO settingsDTO) throws Exception{
         ResponseObject response = new ResponseObject();
         try {
-            response.setStatus("OK");
+            response.setStatus("True");
             response.setMessage("Edit setting success");
             response.setData(settingsService.updateSetting(settingsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            response.setStatus("Fail");
+            response.setStatus("False");
             response.setMessage("Edit setting fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -78,12 +78,12 @@ public class SettingsController {
     public ResponseEntity<?> findSettingByTile(@RequestParam("keyTitle") String keyTitle,@RequestParam("keyValue") String keyValue){
         ResponseObject response = new ResponseObject();
         try {
-            response.setStatus("OK");
+            response.setStatus("True");
             response.setMessage("Show list search setting success");
             response.setData(settingsService.listBy(keyTitle,keyValue));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
-            response.setStatus("Fail");
+            response.setStatus("False");
             response.setMessage("Show list search setting fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }

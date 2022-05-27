@@ -10,6 +10,7 @@ import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtResponse;
 
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.UserResponse;
 
+import com.fpt.capstone.backend.api.BackEnd.service.Validate;
 import org.modelmapper.ModelMapper;
 
 import com.fpt.capstone.backend.api.BackEnd.service.impl.JwtUserDetailsService;
@@ -50,12 +51,23 @@ public class JwtAuthenticationController {
     @Autowired
     private ModelMapper modelMapper;
 
+    private Validate validate=new Validate();
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody UserDTO usersDTO) throws Exception {
         ResponseObject response = new ResponseObject();
 
         try {
+            if(userDetailsService.checkDuplicateUsername(usersDTO.getUsername())){
+                throw new Exception("Username is already");
+            }
+            if(!validate.validatePassword(usersDTO.getPassword())){
+                throw new Exception("Invalid password");
+            }
+            if(!validate.validateEmail(usersDTO.getEmail())){
+                throw new Exception("Invalid email");
+            }
+
             Users users = userDetailsService.createUser(usersDTO);
             response.setStatus("True");
             response.setMessage("Register success");
@@ -63,7 +75,7 @@ public class JwtAuthenticationController {
             //response.setData(modelMapper.map(users,UserDTO.class));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.setStatus("Fail");
+            response.setStatus("False");
             response.setMessage("Register fail catch " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -84,17 +96,17 @@ public class JwtAuthenticationController {
             final String token = jwtTokenUtil.generateToken(userDetails);
 
             //get role
-            response.setStatus("OK");
+            response.setStatus("True");
             response.setMessage("Login success");
             response.setData(new JwtResponse(token, userDetails.getAuthorities().iterator().next().toString()));
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AuthenticationException authenticationException) {
-            response.setStatus("Fail");
-            response.setMessage("Login fail username or password wrong");
+            response.setStatus("False");
+            response.setMessage("Login fail: username or password wrong");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            response.setStatus("Fail");
+            response.setStatus("False");
             response.setMessage("Login fail " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }

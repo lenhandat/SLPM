@@ -65,12 +65,14 @@ public class JwtUserDetailsService implements UserDetailsService {
         Users users= new Users();
         users.setUsername(usersDTO.getUsername());
         users.setPassword(bcryptEncoder.encode(usersDTO.getPassword()));
-        users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
+        //Setting =1 ->ROLE_STUDENT
+        users.setSettings(settingsRepository.getById(1));
+       // users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
 
-        System.out.println("ok1");
-       // Users user = modelMapper.map(usersDTO, Users.class);
-       // user.setSettings(modelMapper.map(usersDTO.getSettingsDTO(), Settings.class));
-        System.out.println("ok");
+//        System.out.println("ok1");
+//       // Users user = modelMapper.map(usersDTO, Users.class);
+//       // user.setSettings(modelMapper.map(usersDTO.getSettingsDTO(), Settings.class));
+//        System.out.println("ok");
         return userRepository.save(users);
     }
 
@@ -89,4 +91,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
+
+
+
+        public boolean checkDuplicateUsername(String username) {
+            return userRepository.findByUsername(username)!=null;
+        }
+
+
 }
