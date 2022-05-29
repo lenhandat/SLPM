@@ -2,11 +2,11 @@ package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 
 import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
-import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 
+import com.fpt.capstone.backend.api.BackEnd.service.ConstantsRegex;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,9 +44,12 @@ public class JwtUserDetailsService implements UserDetailsService {
     private ModelMapper modelMapper;
     @Autowired
     private PasswordEncoder bcryptEncoder;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-
-
+    public boolean validateInput(String value, String regex) {
+        return value.matches(regex);
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = userRepository.findByUsername(username);
@@ -60,15 +63,23 @@ public class JwtUserDetailsService implements UserDetailsService {
 //        return new CustomUserDetails(user);
     }
 
-    public Users createUser(UserDTO usersDTO) {
-        System.out.println("ok1");
-        Users users= new Users();
+    public Users createUser(UserDTO usersDTO) throws Exception {
+//        System.out.println("ok1");
+        if (checkDuplicateUsername(usersDTO.getUsername())) {
+            throw new Exception("Username is already");
+        }
+        if (!validateInput(usersDTO.getPassword(), ConstantsRegex.pass.toString())) {
+            throw new Exception("Invalid password");
+        }
+//        if (!validate.validateEmail(usersDTO.getEmail())) {
+//            throw new Exception("Invalid email");
+//        }
+        Users users = new Users();
         users.setUsername(usersDTO.getUsername());
         users.setPassword(bcryptEncoder.encode(usersDTO.getPassword()));
         //Setting =1 ->ROLE_STUDENT
         users.setSettings(settingsRepository.getById(1));
-       // users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
-
+        // users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
 //        System.out.println("ok1");
 //       // Users user = modelMapper.map(usersDTO, Users.class);
 //       // user.setSettings(modelMapper.map(usersDTO.getSettingsDTO(), Settings.class));
@@ -87,16 +98,14 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
 
-
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
 
 
-
-        public boolean checkDuplicateUsername(String username) {
-            return userRepository.findByUsername(username)!=null;
-        }
+    public boolean checkDuplicateUsername(String username) {
+        return userRepository.findByUsername(username) != null;
+    }
 
 
 }

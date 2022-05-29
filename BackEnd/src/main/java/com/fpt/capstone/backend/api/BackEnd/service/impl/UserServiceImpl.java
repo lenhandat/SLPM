@@ -71,12 +71,12 @@ public class UserServiceImpl implements UserService {
         ResponseObject response = new ResponseObject();
         Users users = userRepository.findById(id).orElse(null);
         if (users==null){
-            response.setStatus("Fail");
+            response.setSuccess("Fail");
             response.setMessage("Get user infor by id : not found");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
       UserDTO usersDTO = convertToDto(users);
-        response.setStatus("OK");
+        response.setSuccess("OK");
         response.setMessage("Get user infor by id:Succes");
         response.setData(usersDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -88,13 +88,13 @@ public class UserServiceImpl implements UserService {
         String userName= jwtTokenUtil.getUsernameFromToken(jwtToken);
         Users users = userRepository.findByUsername(userName);
         if (users==null){
-            response.setStatus("Fail");
+            response.setSuccess("Fail");
             response.setMessage("Get user infor : not found");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         //User thật không được phép trả về mà phải trả qua dto
         UserDTO usersDTO = convertToDto(users);
-        response.setStatus("OK");
+        response.setSuccess("OK");
         response.setMessage("Get user infor:Succes");
         response.setData(usersDTO);
 

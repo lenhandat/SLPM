@@ -3,6 +3,7 @@ package com.fpt.capstone.backend.api.BackEnd.service;
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 public interface SettingService {
@@ -15,6 +16,8 @@ public interface SettingService {
 
     SettingsDTO updateSetting(SettingsDTO settingsDTO);
 
-    List<Settings> listBy(String keyTitle, String keyValue);
+    List<SettingsDTO> listBy(String keyTitle, String keyValue);
 
+    Integer getTotalSetting(String keyTitle, String keyValue);
+    public SettingsDTO findById(int id);
 }

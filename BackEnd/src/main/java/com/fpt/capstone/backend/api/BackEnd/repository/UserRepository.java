@@ -15,11 +15,9 @@ public interface UserRepository extends CrudRepository<Users, Integer> {
     Users findByUsername(String username);
 
     //DAOUser findByEmail(String email);
-    @Modifying
-    @Transactional
-    @Query("update Users u set u.fullName = ?1, u.birthday = ?2, u.tel = ?3, u.email=?4,u.avatarLink=?5" +
-            ",u.statusId=?6,u.modified=?7,u.modifiedBy = ?8 where u.id = ?9")
-
-    void updateUser(String fullName, java.sql.Timestamp birthDay , String tell, String email, String avatarLink,
-                    int status,java.sql.Timestamp modifileDay,int ModifileById, int id );
+//    @Modifying
+//    @Query("update Users u set u.fullName = ?1, u.birthday = ?2, u.tel = ?3, u.email=?4,u.avatarLink=?5" +
+//            ",u.statusId=?6,u.modified=?7,u.modifiedBy = ?8 where u.id = ?9")
+//    void updateUser(String fullName, java.sql.Timestamp birthDay , String tell, String email, String avatarLink,
+//                    int status,java.sql.Timestamp modifileDay,int ModifileById, int id );
 }

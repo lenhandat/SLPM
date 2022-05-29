@@ -42,7 +42,6 @@ public class Users {
 
 
 //    @JoinColumn(name = "role_id",nullable = true)
-
 //    @EqualsAndHashCode.Exclude
 //    @ToString.Exclude
  //   private Address address;
