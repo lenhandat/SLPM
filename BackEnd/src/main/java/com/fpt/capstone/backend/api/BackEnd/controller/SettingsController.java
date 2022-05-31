@@ -5,17 +5,15 @@ import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.SettingsServiceImpl;
-import org.apache.commons.collections4.MapUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("setting")
@@ -102,34 +100,37 @@ public class SettingsController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> findSettingByTile(@RequestParam("keyTitle") String keyTitle
-            , @RequestParam("keyValue") String keyValue,@RequestParam("page")  int page
+    public ResponseEntity<?> findSettingByTile(@RequestParam("key_title") String key_title
+            , @RequestParam("key_value") String key_value,@RequestParam("page")  int page
             , @RequestParam("per_page") int per_page
         ) {
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {
-
-            Page<Settings> settings = settingsService.listBy(keyTitle, keyValue,page,per_page);
+            Page<Settings> settings = settingsService.listBy(key_title, key_value,page,per_page);
             List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(),SettingsDTO[].class));
 //            ArrayList list=null;
-//
-            Map<String, SettingsDTO> map = new HashMap<>();
+            Map<String, List<SettingsDTO>> map = new HashMap<>();
+            Set<String> titles = settingsDTOS.stream().map(SettingsDTO::getTitle).collect(Collectors.toSet());
+            for(String title : titles){
+                List<SettingsDTO> settingsDTOS1 = settingsDTOS.stream().filter(s -> title.equals(s.getTitle())).collect(Collectors.toList());
+                map.put(title,settingsDTOS1);
+            }
 //                if (map.containsKey(SettingsDTO::getTitle))
 //            for ( SettingsDTO settingsDTO: settingsDTOS) {
 //                if (settingsDTO.getTypeId()== settingsDTOS.)
 //
 //            }
-          MapUtils.populateMap(map, settingsDTOS, SettingsDTO::getTitle);
-            response.setSuccess("True");
+//          MapUtils.populateMap(map, settingsDTOS, SettingsDTO::getTitle);
+
+            response.setSuccess(true);
             response.setMessage("Show list search setting success");
             response.setData(map);
-            response.setTotalItems(settings.getTotalElements());
-            response.setTotalPages(settings.getTotalPages());
-            response.setCurrentPage(page);
+            response.setTotal(settings.getTotalElements());
+//            response.setPerPages(settings.getTotalPages());
+//            response.setCurrentPage(page);
             return new ResponseEntity<>(response, HttpStatus.OK);
-
         } catch (Exception e) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Show list search setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
