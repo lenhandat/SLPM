@@ -14,6 +14,14 @@ public class CustomUserDetails implements UserDetails {
 
     private Users users;
 
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
     public CustomUserDetails(Users users) {
         this.users = users;
     }

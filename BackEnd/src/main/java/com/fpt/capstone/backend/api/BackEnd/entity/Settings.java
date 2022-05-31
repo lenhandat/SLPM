@@ -1,15 +1,17 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "settings")
 @Data
-public class Settings {
+
+public class Settings implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,7 @@ public class Settings {
     @Column(name = "status")
     private String status;
 
+
     @Column(name = "created")
     private java.sql.Timestamp created;
 
@@ -39,9 +42,9 @@ public class Settings {
     @Column(name = "modified")
     private java.sql.Timestamp modified;
 
+
     @Column(name = "modified_by")
     private Integer modifiedBy;
-
 
     //    @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
     // Quan hệ 1-n với đối tượng ở dưới (setting) (1 seting role có nhiều người )

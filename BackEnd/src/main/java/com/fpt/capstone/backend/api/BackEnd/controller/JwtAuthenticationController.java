@@ -83,7 +83,6 @@ public class JwtAuthenticationController {
             response.setSuccess("True");
             response.setMessage("Login success");
             response.setData(new JwtResponse(token, userDetails.getAuthorities().iterator().next().toString()));
-
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AuthenticationException authenticationException) {
             response.setSuccess("False");

@@ -42,7 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -58,9 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               antMatchers("/login", "/register","/setting").permitAll().
 
                 // all other requests need to be authenticated
-
                         anyRequest().authenticated().and().
-
 
 
                 // make sure we use stateless session; session won't be used to
@@ -71,4 +68,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 }

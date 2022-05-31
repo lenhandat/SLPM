@@ -8,6 +8,7 @@ import java.io.IOException;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,11 +49,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
-            } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
+                logger.error("Unable to get JWT Token"+e.getMessage());
             }
-        } else {
+
+
+        }else {
             logger.warn("JWT Token does not begin with Bearer String");
         }
 

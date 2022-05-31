@@ -7,5 +7,4 @@ public class ResponseObject {
     private String success;
     private String message;
     private Object data;
-
 }

@@ -17,7 +17,7 @@ public class HelloController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     //@Secured({"ADMIN"})
     @RequestMapping({ "/hello1" })
     public String firstPage1() {

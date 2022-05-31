@@ -5,7 +5,11 @@ import lombok.Data;
 @Data
 public class ResponsePaggingObject {
     private String success;
+    private Integer totalPages;
+    private Integer currentPage;
+    private Long totalItems;
     private String message;
     private Object data;
-    private Integer total;
+
+
 }

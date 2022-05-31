@@ -68,8 +68,16 @@
 			<artifactId>maven-repository-metadata</artifactId>
 			<version>3.8.5</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.4.2.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.4</version>
+		</dependency>
 
 
     </dependencies>

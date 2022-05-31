@@ -2,6 +2,7 @@ package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 
 import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
+import com.fpt.capstone.backend.api.BackEnd.entity.CustomUserDetails;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
@@ -44,6 +45,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     private ModelMapper modelMapper;
     @Autowired
     private PasswordEncoder bcryptEncoder;
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -56,13 +58,24 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add((GrantedAuthority) new SimpleGrantedAuthority(user.getSettings().getValue()));
         return new User(user.getUsername(), user.getPassword(), authorities);
-//        return new CustomUserDetails(user);
+ //       CustomUserDetails customUserDetails = new CustomUserDetails(user);
+//        return customUserDetails;
     }
 
+    public Integer loadUserIDByUsername(String username) throws UsernameNotFoundException {
+        Users user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+//        final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+//        authorities.add((GrantedAuthority) new SimpleGrantedAuthority(user.getSettings().getValue()));
+//        return new User(user.getUsername(), user.getPassword(), authorities);
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+        return customUserDetails.getUsers().getId();
+    }
     public Users createUser(UserDTO usersDTO) throws Exception {
 //        System.out.println("ok1");
         if (checkDuplicateUsername(usersDTO.getUsername())) {
@@ -78,7 +91,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         users.setUsername(usersDTO.getUsername());
         users.setPassword(bcryptEncoder.encode(usersDTO.getPassword()));
         //Setting =1 ->ROLE_STUDENT
-        users.setSettings(settingsRepository.getById(1));
+        users.setSettings(settingsRepository.getById(2));
         // users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
 //        System.out.println("ok1");
 //       // Users user = modelMapper.map(usersDTO, Users.class);
