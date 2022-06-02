@@ -15,7 +15,7 @@
 	<description>BackEnd for capstone</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 
 		<start-class>com.fpt.capstone.backend.api.BackEnd.BackEndApplication</start-class>
 
