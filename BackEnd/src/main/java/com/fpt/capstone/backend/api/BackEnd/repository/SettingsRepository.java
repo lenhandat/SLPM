@@ -14,7 +14,8 @@ import java.util.List;
 @Repository
 public interface SettingsRepository extends JpaRepository<Settings, Integer> {
 
-    @Query("SELECT p FROM Settings p WHERE p.title LIKE %:keyTitle%"
+    @Query("SELECT p FROM Settings p " +
+            " WHERE p.title LIKE %:keyTitle%"
             + " and p.value LIKE %:keyValue%"
             + " order by p.typeId"
     )

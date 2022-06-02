@@ -25,9 +25,9 @@ public class SettingsServiceImpl implements SettingService {
     private SettingsRepository settingsRepository;
 
     public SettingsDTO addSettings(SettingsDTO settingsDTO) {
-        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
-        settingsDTO.setCreated(date);
-        settingsDTO.setModified(date);
+//        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
+//        settingsDTO.setCreated(date);
+//        settingsDTO.setModified(date);
         //Set open for status
         settingsDTO.setStatus(ConstantsStatus.open.toString());
         settingsRepository.save(mapper.map(settingsDTO, Settings.class));
@@ -54,15 +54,15 @@ public class SettingsServiceImpl implements SettingService {
         //check dto ton tai không
         java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
         settingsDTO.setModified(date);
-        Settings settings = settingsRepository.getOne(settingsDTO.getId());
-        settings.setTypeId(settingsDTO.getTypeId());
-        settings.setTitle(settingsDTO.getTitle());
-        settings.setValue(settingsDTO.getValue());
-        settings.setDisplayOrder(settingsDTO.getDisplayOrder());
-        settings.setStatus(settingsDTO.getStatus());
-        settings.setModified(settingsDTO.getModified());
-        settings.setModifiedBy(settingsDTO.getModifiedBy());
-//        Settings settings = mapper.map(settingsDTO,Settings.class);
+//        Settings settings = settingsRepository.getOne(settingsDTO.getId());
+//        settings.setTypeId(settingsDTO.getTypeId());
+//        settings.setTitle(settingsDTO.getTitle());
+//        settings.setValue(settingsDTO.getValue());
+//        settings.setDisplayOrder(settingsDTO.getDisplayOrder());
+//        settings.setStatus(settingsDTO.getStatus());
+//        settings.setModified(settingsDTO.getModified());
+//        settings.setModifiedBy(settingsDTO.getModifiedBy());
+        Settings settings = mapper.map(settingsDTO,Settings.class);
         settingsRepository.save(settings);
         return settingsDTO;
 

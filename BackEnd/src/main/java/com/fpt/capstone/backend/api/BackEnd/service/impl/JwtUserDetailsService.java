@@ -7,7 +7,7 @@ import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 
-import com.fpt.capstone.backend.api.BackEnd.service.validate.ConstantsRegex;
+import com.fpt.capstone.backend.api.BackEnd.service.ConstantsRegex;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -81,7 +81,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (checkDuplicateUsername(usersDTO.getUsername())) {
             throw new Exception("Username is already");
         }
-        if (!validateInput(usersDTO.getPassword(), ConstantsRegex.passValidate.toString())) {
+        if (!validateInput(usersDTO.getPassword(), ConstantsRegex.pass.toString())) {
             throw new Exception("Invalid password");
         }
 //        if (!validate.validateEmail(usersDTO.getEmail())) {
