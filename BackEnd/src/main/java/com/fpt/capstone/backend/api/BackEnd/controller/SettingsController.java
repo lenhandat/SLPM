@@ -24,16 +24,17 @@ public class SettingsController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("/add")
+    @PostMapping("/add" )
     public ResponseEntity<?> addSetting(@RequestBody SettingsDTO settingsDTO) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
-            response.setSuccess("True");
+
+            response.setSuccess(true);
             response.setMessage("Add setting success");
             response.setData(settingsService.addSettings(settingsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.setSuccess("Fail");
+            response.setSuccess(false);
             response.setMessage("Add setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -43,12 +44,12 @@ public class SettingsController {
     public ResponseEntity<?> deleteSetting(@PathVariable("id") int id) {
         ResponseObject response = new ResponseObject();
         try {
-            response.setSuccess("True");
+            response.setSuccess(true);
             response.setMessage("Delete setting success");
             settingsService.deleteSetting(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Delete setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -58,12 +59,12 @@ public class SettingsController {
     public ResponseEntity<?> showListSetting() {
         ResponseObject response = new ResponseObject();
         try {
-            response.setSuccess("True");
+            response.setSuccess(true);
             response.setMessage("Show list setting success");
             response.setData(settingsService.showSettingsList());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Show list setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -73,12 +74,12 @@ public class SettingsController {
     public ResponseEntity<?> findByID(@PathVariable("id") int id) {
         ResponseObject response = new ResponseObject();
         try {
-            response.setSuccess("True");
+            response.setSuccess(true);
             response.setMessage("Get setting success");
             response.setData(settingsService.findById(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Show list setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -88,12 +89,12 @@ public class SettingsController {
     public ResponseEntity<?> editSetting(@RequestBody SettingsDTO settingsDTO) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
-            response.setSuccess("True");
+            response.setSuccess(true);
             response.setMessage("Edit setting success");
             response.setData(settingsService.updateSetting(settingsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Edit setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -115,6 +116,7 @@ public class SettingsController {
                 List<SettingsDTO> settingsDTOS1 = settingsDTOS.stream().filter(s -> title.equals(s.getTitle())).collect(Collectors.toList());
                 map.put(title,settingsDTOS1);
             }
+
 //                if (map.containsKey(SettingsDTO::getTitle))
 //            for ( SettingsDTO settingsDTO: settingsDTOS) {
 //                if (settingsDTO.getTypeId()== settingsDTOS.)
@@ -122,12 +124,14 @@ public class SettingsController {
 //            }
 //          MapUtils.populateMap(map, settingsDTOS, SettingsDTO::getTitle);
 
+
+
             response.setSuccess(true);
             response.setMessage("Show list search setting success");
             response.setData(map);
             response.setTotal(settings.getTotalElements());
-//            response.setPerPages(settings.getTotalPages());
-//            response.setCurrentPage(page);
+            response.setPerPages(settings.getTotalPages());
+            response.setCurrentPage(page);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);

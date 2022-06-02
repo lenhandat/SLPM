@@ -25,9 +25,9 @@ public class SettingsServiceImpl implements SettingService {
     private SettingsRepository settingsRepository;
 
     public SettingsDTO addSettings(SettingsDTO settingsDTO) {
-        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
-        settingsDTO.setCreated(date);
-        settingsDTO.setModified(date);
+//        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
+//        settingsDTO.setCreated(date);
+//        settingsDTO.setModified(date);
         //Set open for status
         settingsDTO.setStatus(ConstantsStatus.open.toString());
         settingsRepository.save(mapper.map(settingsDTO, Settings.class));

@@ -53,13 +53,13 @@ public class JwtAuthenticationController {
         try {
 
             Users users = userDetailsService.createUser(usersDTO);
-            response.setSuccess("True");
+            response.setSuccess(true);
             response.setMessage("Register success");
             //response.setData(userDetailsService.createUser(usersDTO));
             //response.setData(modelMapper.map(users,UserDTO.class));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Register fail catch " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -81,16 +81,16 @@ public class JwtAuthenticationController {
             final String token = jwtTokenUtil.generateToken(userDetails);
 
             //get role
-            response.setSuccess("True");
+            response.setSuccess(true);
             response.setMessage("Login success");
             response.setData(new JwtResponse(token, userDetails.getAuthorities().iterator().next().toString()));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AuthenticationException authenticationException) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Login fail: username or password wrong");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            response.setSuccess("False");
+            response.setSuccess(false);
             response.setMessage("Login fail " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }

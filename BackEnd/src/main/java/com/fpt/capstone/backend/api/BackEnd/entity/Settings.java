@@ -1,17 +1,21 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "settings")
 @Data
-
-public class Settings implements Serializable {
+public class Settings extends Auditable  implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,21 +36,28 @@ public class Settings implements Serializable {
     @Column(name = "status")
     private String status;
 
+//    @CreatedDate
+//    @Column(name = "created")
+//    private java.sql.Timestamp created;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "created_by")
+//    @CreatedBy
+//    @JsonBackReference
+//    private Users createdBy;
+//
+//    @LastModifiedDate
+//    @Column(name = "modified")
+//    private java.sql.Timestamp modified;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "modified_by")
+//    @LastModifiedBy
+//    @JsonBackReference
+//    private Users modifiedBy;
 
-    @Column(name = "created")
-    private java.sql.Timestamp created;
 
-    @Column(name = "created_by")
-    private Integer createdBy;
-
-    @Column(name = "modified")
-    private java.sql.Timestamp modified;
-
-
-    @Column(name = "modified_by")
-    private Integer modifiedBy;
-
-    //    @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
     // Quan hệ 1-n với đối tượng ở dưới (setting) (1 seting role có nhiều người )
     // MapopedBy trỏ tới tên biến settings ở trong Users.
     //    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
