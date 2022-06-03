@@ -4,6 +4,8 @@ import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Subjects;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.SubjectsService;
+import com.fpt.capstone.backend.api.BackEnd.service.validate.ConstantsRegex;
+import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,13 +22,15 @@ public class SubjectsServiceImpl implements SubjectsService {
     @Autowired
     private SubjectsRepository subjectsRepository;
 
+
+    private Validate validate = new Validate();
+
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
-    public SubjectsDTO addSubjects(SubjectsDTO subjectsDTO) {
-        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
-        subjectsDTO.setCreated(date);
+    public SubjectsDTO addSubjects(SubjectsDTO subjectsDTO) throws Exception {
+        validate.validateSubject(subjectsDTO);
         subjectsRepository.save(modelMapper.map(subjectsDTO, Subjects.class));
         return subjectsDTO;
     }
@@ -50,23 +54,32 @@ public class SubjectsServiceImpl implements SubjectsService {
     }
 
     @Override
-    public SubjectsDTO updateSubject(SubjectsDTO subjectsDTO) {
-        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
+    public SubjectsDTO updateSubject(SubjectsDTO subjectsDTO) throws Exception {
+
+        validate.validateSubject(subjectsDTO);
         Subjects subjects = subjectsRepository.getOne(subjectsDTO.getId());
 
         subjects.setCode(subjectsDTO.getCode());
         subjects.setName(subjectsDTO.getName());
         subjects.setStatus(subjectsDTO.getStatus());
-        subjects.setModified(date);
-        subjects.setModifiedBy(subjectsDTO.getModifiedBy());
 
         subjectsRepository.save(subjects);
-        subjectsDTO.setModified(date);
         return subjectsDTO;
     }
 
     @Override
-    public Page<Subjects> listBy(String code, String name, String status, int page, int per_page) {
+    public Page<Subjects> listBy(String code, String name, String status, int page, int per_page) throws Exception {
+
+        if(!validate.validate(code,String.valueOf(ConstantsRegex.CODE_PATTERN))){
+            throw new Exception("Subject Code must have 3-50 character and don't have special characters");
+        }
+        if (!validate.validate(name, String.valueOf(ConstantsRegex.NAME_PATTERN))){
+            throw new Exception("Subject name is not contain special characters");
+        }
+        if (!validate.validate(status, String.valueOf(ConstantsRegex.STATUS_PATTERN))){
+            throw new Exception("Subject status must be active or inactive");
+        }
+
         Pageable pageable = PageRequest.of(page - 1, per_page);
         Page<Subjects> subjects = subjectsRepository.search(code, name, status, pageable);
         return subjects;

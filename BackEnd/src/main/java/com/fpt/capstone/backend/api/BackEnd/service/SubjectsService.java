@@ -8,13 +8,13 @@ import javax.security.auth.Subject;
 import java.util.List;
 
 public interface SubjectsService {
-    SubjectsDTO addSubjects(SubjectsDTO subjectsDTO);
+    SubjectsDTO addSubjects(SubjectsDTO subjectsDTO) throws Exception;
 
     void deleteSubjects(int id);
 
     List<SubjectsDTO> showSubjectsList();
-    SubjectsDTO updateSubject(SubjectsDTO subjectsDTO);
+    SubjectsDTO updateSubject(SubjectsDTO subjectsDTO) throws Exception;
 
     SubjectsDTO findById(int id);
-    Page<Subjects> listBy(String code, String name, String status,int page, int per_page );
+    Page<Subjects> listBy(String code, String name, String status,int page, int per_page ) throws Exception;
 }

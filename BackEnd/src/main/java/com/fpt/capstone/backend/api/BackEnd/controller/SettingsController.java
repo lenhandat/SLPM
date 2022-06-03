@@ -28,7 +28,6 @@ public class SettingsController {
     public ResponseEntity<?> addSetting(@RequestBody SettingsDTO settingsDTO) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
-
             response.setSuccess(true);
             response.setMessage("Add setting success");
             response.setData(settingsService.addSettings(settingsDTO));

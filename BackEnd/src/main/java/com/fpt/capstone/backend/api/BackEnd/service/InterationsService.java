@@ -7,15 +7,15 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface InterationsService {
-    IterationsDTO addIterations(IterationsDTO iterationsDTO);
+    IterationsDTO addIterations(IterationsDTO iterationsDTO) throws Exception;
 
     void deleteIterations(int id);
 
     List<IterationsDTO> showIterationsList();
 
-    void updateIterations(IterationsDTO iterationsDTO);
+    void updateIterations(IterationsDTO iterationsDTO) throws Exception;
 
     IterationsDTO findById(int id);
 
-    Page<Iterations> listBy(String name, int page, int per_page);
+    Page<Iterations> listBy(String name, int page, int per_page) throws Exception;
 }

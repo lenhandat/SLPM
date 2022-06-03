@@ -5,6 +5,8 @@ import com.fpt.capstone.backend.api.BackEnd.entity.Iterations;
 import com.fpt.capstone.backend.api.BackEnd.repository.IterationsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.InterationsService;
+import com.fpt.capstone.backend.api.BackEnd.service.validate.ConstantsRegex;
+import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
@@ -29,12 +31,12 @@ public class IterationsServiceImpl implements InterationsService {
     @Autowired
     private SubjectsRepository subjectsRepository;
 
-    @Override
-    public IterationsDTO addIterations(IterationsDTO iterationsDTO) {
-        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
+    private Validate validate = new Validate();
 
+    @Override
+    public IterationsDTO addIterations(IterationsDTO iterationsDTO) throws Exception {
+        validate.validateIterations(iterationsDTO);
         Iterations iterations = modelMapper.map(iterationsDTO, Iterations.class);
-        iterations.setCreated(date);
         iterations.setSubject(subjectsRepository.getById(iterationsDTO.getSubjectId()));
         iterationsRepository.save(iterations);
         return iterationsDTO;
@@ -55,7 +57,10 @@ public class IterationsServiceImpl implements InterationsService {
     }
 
     @Override
-    public void updateIterations(IterationsDTO iterationsDTO) {
+    public void updateIterations(IterationsDTO iterationsDTO) throws Exception {
+
+        validate.validateIterations(iterationsDTO);
+
         Iterations iterations = iterationsRepository.getOne(iterationsDTO.getId());
 
         iterations.setSubject(subjectsRepository.getById(iterationsDTO.getSubjectId()));
@@ -71,7 +76,10 @@ public class IterationsServiceImpl implements InterationsService {
     }
 
     @Override
-    public Page<Iterations> listBy(String name, int page, int per_page) {
+    public Page<Iterations> listBy(String name, int page, int per_page) throws Exception {
+        if (!validate.validate(name, String.valueOf(ConstantsRegex.NAME_PATTERN))){
+            throw new Exception("Iterations name is not contain special characters");
+        }
         Pageable pageable= PageRequest.of(page-1,per_page);
         Page<Iterations> iterations = iterationsRepository.search(name,pageable);
 
