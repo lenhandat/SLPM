@@ -15,7 +15,7 @@ public class Validate {
     public boolean validate(String value, String regex) {
         return value.matches(regex);
     }
-    public boolean validateSubject(SubjectsDTO subjects) throws Exception {
+    public void validateSubject(SubjectsDTO subjects) throws Exception {
 
         if(!validate(subjects.getCode(),String.valueOf(ConstantsRegex.CODE_PATTERN))){
             throw new Exception("Subject Code must have 3-50 character and don't have special characters");
@@ -25,9 +25,6 @@ public class Validate {
         }
         if (!validate(subjects.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))){
             throw new Exception("Subject status must be active or inactive");
-        }
-        else{
-            return true;
         }
     }
 
