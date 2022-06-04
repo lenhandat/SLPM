@@ -42,13 +42,13 @@ public class SubjectsController {
         }
     }
 
-    @GetMapping("/delete/{id}")
-    public ResponseEntity<?> deleteSubject(@PathVariable("id") int id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteSubject(@RequestParam(name = "id") String id) {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
             response.setMessage("Delete subject success");
-            subjectsService.deleteSubjects(id);
+            subjectsService.deleteSubjects(Integer.parseInt(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             response.setSuccess(false);
@@ -72,13 +72,13 @@ public class SubjectsController {
         }
     }
 
-    @GetMapping("/findById/{id}")
-    public ResponseEntity<?> findSubjectByID(@PathVariable("id") int id) {
+    @GetMapping("/findById")
+    public ResponseEntity<?> findSubjectByID(@RequestParam(name = "id") String id) {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
             response.setMessage("Get subject success");
-            response.setData(subjectsService.findById(id));
+            response.setData(subjectsService.findById(Integer.parseInt(id)));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             response.setSuccess(false);
@@ -103,7 +103,8 @@ public class SubjectsController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> findSettingByTile(@RequestParam("key_code") String key_code, @RequestParam("key_status") String key_status,
-                                               @RequestParam("key_name") String key_name,                 @RequestParam("page")  int page, @RequestParam("per_page") int per_page
+                                               @RequestParam("key_name") String key_name,
+                                               @RequestParam("page")  int page, @RequestParam("per_page") int per_page
     ) {
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {

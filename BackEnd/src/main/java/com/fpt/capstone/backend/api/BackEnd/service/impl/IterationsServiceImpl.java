@@ -78,9 +78,6 @@ public class IterationsServiceImpl implements InterationsService {
 
     @Override
     public Page<Iterations> listBy(String name, int page, int per_page) throws Exception {
-        if (!validate.validate(name, String.valueOf(ConstantsRegex.NAME_PATTERN))){
-            throw new Exception("Iterations name is not contain special characters");
-        }
         Pageable pageable= PageRequest.of(page-1,per_page);
         Page<Iterations> iterations = iterationsRepository.search(name,pageable);
 

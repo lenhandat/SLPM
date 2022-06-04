@@ -70,15 +70,6 @@ public class SubjectsServiceImpl implements SubjectsService {
     @Override
     public Page<Subjects> listBy(String code, String name, String status, int page, int per_page) throws Exception {
 
-        if(!validate.validate(code,String.valueOf(ConstantsRegex.CODE_PATTERN))){
-            throw new Exception("Subject Code must have 3-50 character and don't have special characters");
-        }
-        if (!validate.validate(name, String.valueOf(ConstantsRegex.NAME_PATTERN))){
-            throw new Exception("Subject name is not contain special characters");
-        }
-        if (!validate.validate(status, String.valueOf(ConstantsRegex.STATUS_PATTERN))){
-            throw new Exception("Subject status must be active or inactive");
-        }
 
         Pageable pageable = PageRequest.of(page - 1, per_page);
         Page<Subjects> subjects = subjectsRepository.search(code, name, status, pageable);

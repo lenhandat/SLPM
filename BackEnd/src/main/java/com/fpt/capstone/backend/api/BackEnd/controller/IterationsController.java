@@ -42,13 +42,13 @@ public class IterationsController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteIteration(@PathVariable("id") int id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteIteration(@RequestParam(name = "id") String id) {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
             response.setMessage("Delete iteration success");
-            iterationsService.deleteIterations(id);
+            iterationsService.deleteIterations(Integer.parseInt(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
@@ -68,6 +68,21 @@ public class IterationsController {
         } catch (Exception e) {
             response.setSuccess(false);
             response.setMessage("Show list iterations fail " + "Message:" + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findById")
+    public ResponseEntity<?> findSubjectByID(@RequestParam(name = "id") String id) {
+        ResponseObject response = new ResponseObject();
+        try {
+            response.setSuccess(true);
+            response.setMessage("Get iteration success");
+            response.setData(iterationsService.findById(Integer.parseInt(id)));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            response.setSuccess(false);
+            response.setMessage("Get iteration fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
