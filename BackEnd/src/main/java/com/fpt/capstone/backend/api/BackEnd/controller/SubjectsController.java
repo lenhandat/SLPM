@@ -112,7 +112,7 @@ public class SubjectsController {
             List<SubjectsDTO> subjectsDTOS = Arrays.asList(modelMapper.map(subjects.getContent(),SubjectsDTO[].class));
 
             response.setSuccess(true);
-            response.setMessage("Show list search setting success");
+            response.setMessage("Show list subject success");
             response.setData(subjectsDTOS);
             response.setTotal(subjects.getTotalElements());
             response.setCurrentPage(page);
@@ -121,7 +121,7 @@ public class SubjectsController {
 
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list search setting fail " + "Message:" + e.getMessage());
+            response.setMessage("Show list subject fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
