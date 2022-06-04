@@ -92,7 +92,7 @@ public class SubjectsController {
         try {
             response.setSuccess(true);
             response.setMessage("Add subject success");
-            response.setData(subjectsService.updateSubject(subjectsDTO));
+            subjectsService.updateSubject(subjectsDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             response.setSuccess(false);

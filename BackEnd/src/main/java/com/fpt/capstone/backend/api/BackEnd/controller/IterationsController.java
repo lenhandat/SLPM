@@ -2,6 +2,7 @@ package com.fpt.capstone.backend.api.BackEnd.controller;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
+import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Iterations;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
@@ -111,5 +112,19 @@ public class IterationsController {
         }
     }
 
+    @PostMapping("/edit")
+    public ResponseEntity<?> editSubject(@RequestBody IterationsDTO iterationsDTO) throws Exception{
+        ResponseObject response = new ResponseObject();
+        try {
+            response.setSuccess(true);
+            response.setMessage("Add subject success");
+            iterationsService.updateIterations(iterationsDTO);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            response.setSuccess(false);
+            response.setMessage("Add subject fail "+"Message:"+ e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

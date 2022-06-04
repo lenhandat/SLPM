@@ -4,7 +4,6 @@ import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Subjects;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.SubjectsService;
-import com.fpt.capstone.backend.api.BackEnd.service.validate.ConstantsRegex;
 import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +53,7 @@ public class SubjectsServiceImpl implements SubjectsService {
     }
 
     @Override
-    public SubjectsDTO updateSubject(SubjectsDTO subjectsDTO) throws Exception {
+    public void updateSubject(SubjectsDTO subjectsDTO) throws Exception {
 
         validate.validateSubject(subjectsDTO);
         Subjects subjects = subjectsRepository.getOne(subjectsDTO.getId());
@@ -64,7 +63,6 @@ public class SubjectsServiceImpl implements SubjectsService {
         subjects.setStatus(subjectsDTO.getStatus());
 
         subjectsRepository.save(subjects);
-        return subjectsDTO;
     }
 
     @Override
