@@ -27,19 +27,7 @@ public class Subjects extends Auditable  implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "created")
-    private java.sql.Timestamp created;
-
-    @Column(name = "created_by")
-    private Integer createdBy;
-
-    @Column(name = "modified")
-    private java.sql.Timestamp modified;
-
-    @Column(name = "modified_by")
-    private Integer modifiedBy;
-
-    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Collection<Iterations> iterations;
+//    @OneToMany(mappedBy = "subject",cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private Collection<Iterations> iterations;
 }

@@ -4,9 +4,10 @@ import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
-
+@Service
 public class Validate {
 
     @Autowired
@@ -29,9 +30,9 @@ public class Validate {
     }
 
     public boolean validateIterations(IterationsDTO iterationsDTO) throws Exception {
-        if(subjectsRepository.findById(iterationsDTO.getSubjectId()).isEmpty()){
-            throw new Exception("Subject ID is not contain special characters");
-        }
+//        if(subjectsRepository.findById(iterationsDTO.getSubjectId()).isEmpty()){
+//            throw new Exception("Subject ID is not contain special characters");
+//        }
         if (!validate(iterationsDTO.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))){
             throw new Exception("Iterations name is not contain special characters");
         }

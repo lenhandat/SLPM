@@ -36,6 +36,7 @@ public class IterationsServiceImpl implements InterationsService {
     @Override
     public IterationsDTO addIterations(IterationsDTO iterationsDTO) throws Exception {
         validate.validateIterations(iterationsDTO);
+        iterationsDTO.setCreatedBy(1);
         Iterations iterations = modelMapper.map(iterationsDTO, Iterations.class);
         iterations.setSubject(subjectsRepository.getById(iterationsDTO.getSubjectId()));
         iterationsRepository.save(iterations);

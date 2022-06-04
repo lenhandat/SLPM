@@ -2,7 +2,7 @@ package com.fpt.capstone.backend.api.BackEnd.service.validate;
 
 public enum ConstantsRegex {
     USERNAME_PATTERN("^[a-z0-9._-]{5,20}$"),
-    NAME_PATTERN("^[a-zA-Z\\s]+"),
+    NAME_PATTERN("^[a-zA-Z0-9\\s]+"),
     STATUS_PATTERN("^(?i)(active|inactive)$"),
     NUMBER_PATTERN("^\\d+$"),
     PHONE_PATTERN("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}"),
