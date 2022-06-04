@@ -97,7 +97,7 @@ public class IterationsController {
             List<IterationsDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsDTO[].class));
 
             response.setSuccess(true);
-            response.setMessage("Show list search setting success");
+            response.setMessage("Show list search iteration success");
             response.setData(iterationsDTOS);
             response.setTotal(iterations.getTotalElements());
             response.setCurrentPage(page);
@@ -106,7 +106,7 @@ public class IterationsController {
 
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list search setting fail " + "Message:" + e.getMessage());
+            response.setMessage("Show list search iteration fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
