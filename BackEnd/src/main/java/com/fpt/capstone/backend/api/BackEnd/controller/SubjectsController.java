@@ -91,12 +91,12 @@ public class SubjectsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Add subject success");
+            response.setMessage("Update subject success");
             subjectsService.updateSubject(subjectsDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             response.setSuccess(false);
-            response.setMessage("Add subject fail "+"Message:"+ e.getMessage());
+            response.setMessage("Update subject fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

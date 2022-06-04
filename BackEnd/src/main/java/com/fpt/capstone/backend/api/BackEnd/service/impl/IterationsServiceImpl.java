@@ -68,6 +68,7 @@ public class IterationsServiceImpl implements InterationsService {
         iterations.setName(iterationsDTO.getName());
         iterations.setDuration(iterationsDTO.getDuration());
         iterations.setStatus(iterationsDTO.getStatus());
+        iterations.setModifiedBy(1);
         iterationsRepository.save(iterations);
     }
 
