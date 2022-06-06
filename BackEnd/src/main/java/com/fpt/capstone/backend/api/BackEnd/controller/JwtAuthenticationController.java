@@ -4,6 +4,7 @@ package com.fpt.capstone.backend.api.BackEnd.controller;
 import com.fpt.capstone.backend.api.BackEnd.configuration.sercurity.JwtTokenUtil;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
+import com.fpt.capstone.backend.api.BackEnd.entity.Subjects;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtRequest;
 import com.fpt.capstone.backend.api.BackEnd.entity.sercurity.JwtResponse;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,7 +100,28 @@ public class JwtAuthenticationController {
 
     }
 
+    @RequestMapping(value = "/userDetail", method = RequestMethod.GET)
+    public ResponseEntity<?> userDetail() throws Exception {
+        ResponseObject response = new ResponseObject();
 
+        try {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+//            String username = userDetails.getUsername();
+//            Users user = (Users) userDetailsService.loadUserByUsername(username);
+            ;
+            response.setSuccess(true);
+            response.setMessage("Show user proflie  success");
+            response.setData(modelMapper.map(userDetails, UserDTO.class));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage("Show user proflie fail " + "Message:" + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+        // return ResponseEntity.ok(userDetailsService.createUser(user));
+
+    }
     private void authenticate(String username, String password) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));

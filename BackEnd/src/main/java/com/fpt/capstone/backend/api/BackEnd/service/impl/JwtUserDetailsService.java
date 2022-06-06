@@ -91,8 +91,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         users.setUsername(usersDTO.getUsername());
         users.setPassword(bcryptEncoder.encode(usersDTO.getPassword()));
         //Setting =1 ->ROLE_STUDENT
-        users.setSettings(settingsRepository.getById(2));
-        // users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
+        users.setSettings(settingsRepository.getById(1));
+//         users.setSettings(settingsRepository.getById(usersDTO.getRoleId()));
 //        System.out.println("ok1");
 //       // Users user = modelMapper.map(usersDTO, Users.class);
 //       // user.setSettings(modelMapper.map(usersDTO.getSettingsDTO(), Settings.class));

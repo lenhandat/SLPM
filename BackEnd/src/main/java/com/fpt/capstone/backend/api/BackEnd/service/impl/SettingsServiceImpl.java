@@ -37,8 +37,9 @@ public class SettingsServiceImpl implements SettingService {
     public void deleteSetting(int id) {
         settingsRepository.deleteById(id);
     }
+
     public SettingsDTO findById(int id) {
-     return   mapper.map(settingsRepository.findById(id), SettingsDTO.class);
+        return mapper.map(settingsRepository.findById(id), SettingsDTO.class);
 //        return  settingMapper.toDto(settingsRepository.findById(id).get());
     }
 
@@ -62,17 +63,16 @@ public class SettingsServiceImpl implements SettingService {
 //        settings.setStatus(settingsDTO.getStatus());
 //        settings.setModified(settingsDTO.getModified());
 //        settings.setModifiedBy(settingsDTO.getModifiedBy());
-        Settings settings = mapper.map(settingsDTO,Settings.class);
+        Settings settings = mapper.map(settingsDTO, Settings.class);
         settingsRepository.save(settings);
         return settingsDTO;
 
     }
 
     @Override
-    public Page<Settings> listBy(String keyTitle, String keyValue,int page, int per_page) {
-    Pageable pageable= PageRequest.of(page-1,per_page);
-        return  settingsRepository.search(keyTitle,keyValue,pageable);
-
+    public Page<Settings> listBy(String keyTitle, String keyValue, int page, int per_page) {
+        Pageable pageable = PageRequest.of(page - 1, per_page);
+        return settingsRepository.search(keyTitle, keyValue, pageable);
 
 
 //        Page<Settings> settings = settingsRepository.search(keyTitle,keyValue,pageable);
@@ -91,16 +91,19 @@ public class SettingsServiceImpl implements SettingService {
 
 
     }
+
     private SettingsDTO convertToObjectDto(Object o) {
         SettingsDTO dto = new SettingsDTO();
         //conversion here
         return dto;
     }
+
     @Override
     public Integer getTotalSetting(String keyTitle, String keyValue) {
 
-        return settingsRepository.getTotalSetting(keyTitle,keyValue);
+        return settingsRepository.getTotalSetting(keyTitle, keyValue);
     }
+
     @Override
     public List<SettingsDTO> showSettingsList() {
         List<Settings> settings = settingsRepository.findAll();

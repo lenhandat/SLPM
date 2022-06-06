@@ -23,5 +23,8 @@ public class SettingsDTO implements Serializable {
     private Integer createdBy;
     private java.sql.Timestamp modified;
     private Integer modifiedBy;
+//    private String createdByUser;
+//    private String modifiedByUser;
+
 
 }
