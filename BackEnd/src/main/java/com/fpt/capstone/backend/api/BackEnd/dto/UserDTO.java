@@ -8,21 +8,20 @@ import java.sql.Timestamp;
 
 @Data
 public class UserDTO implements Serializable {
-    private final Integer id;
-    private final String username;
-    private final String password;
-    private final String fullName;
-    private final Timestamp birthday;
-    private final String tel;
-    private final String email;
-    private final String avatarLink;
-    private final String facebookLink;
-    private final Integer settingsId;
-    private final Integer statusId;
-    private final Timestamp created;
-    private final Integer createdBy;
-    private final Timestamp modified;
-    private final Integer modifiedBy;
-
+    private Integer id;
+    private String username;
+    private String password;
+    private String fullName;
+    private Timestamp birthday;
+    private String tel;
+    private String email;
+    private String avatarLink;
+    private String facebookLink;
+    private Integer settingsId;
+    private String status;
+    private Timestamp created;
+    private Integer createdBy;
+    private Timestamp modified;
+    private Integer modifiedBy;
 
 }

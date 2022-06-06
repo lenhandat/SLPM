@@ -35,9 +35,9 @@ public class SubjectsController {
             response.setMessage("Add subject success");
             response.setData(subjectsService.addSubjects(subjectsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Add subject fail "+"Message:"+ e.getMessage());
+            response.setMessage("Add subject fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -50,9 +50,9 @@ public class SubjectsController {
             response.setMessage("Delete subject success");
             subjectsService.deleteSubjects(Integer.parseInt(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Delete subject fail "+"Message:"+ e.getMessage());
+            response.setMessage("Delete subject fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -65,9 +65,9 @@ public class SubjectsController {
             response.setMessage("Add subject success");
             response.setData(subjectsService.showSubjectsList());
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Add subject fail "+"Message:"+ e.getMessage());
+            response.setMessage("Add subject fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -80,37 +80,40 @@ public class SubjectsController {
             response.setMessage("Get subject success");
             response.setData(subjectsService.findById(Integer.parseInt(id)));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Get subject fail "+"Message:"+ e.getMessage());
+            response.setMessage("Get subject fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping("/edit")
-    public ResponseEntity<?> editSubject(@RequestBody SubjectsDTO subjectsDTO) throws Exception{
+    public ResponseEntity<?> editSubject(@RequestBody SubjectsDTO subjectsDTO) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
             response.setMessage("Update subject success");
             subjectsService.updateSubject(subjectsDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Update subject fail "+"Message:"+ e.getMessage());
+            response.setMessage("Update subject fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> findSettingByTile(@RequestParam("key_code") String key_code, @RequestParam("key_status") String key_status,
-                                               @RequestParam("key_name") String key_name,
-                                               @RequestParam("page")  int page, @RequestParam("per_page") int per_page
+    public ResponseEntity<?> findSettingBy(@RequestParam("key_code") String key_code,
+                                           @RequestParam("key_status") String key_status,
+                                           @RequestParam("key_name") String key_name,
+                                           @RequestParam("page") int page,
+                                           @RequestParam("per_page") int per_page
     ) {
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {
-            Page<Subjects> subjects = subjectsService.listBy(key_code,key_name,key_status,page,per_page);
-            List<SubjectsDTO> subjectsDTOS = Arrays.asList(modelMapper.map(subjects.getContent(),SubjectsDTO[].class));
-
+            Page<SubjectsDTO> subjects = subjectsService
+                    .listBy(key_code, key_name, key_status, page, per_page);
+            List<SubjectsDTO> subjectsDTOS = subjects.getContent();
             response.setSuccess(true);
             response.setMessage("Show list subject success");
             response.setData(subjectsDTOS);

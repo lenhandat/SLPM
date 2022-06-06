@@ -36,25 +36,6 @@ public class Settings extends Auditable  implements Serializable {
     @Column(name = "status")
     private String status;
 
-//    @CreatedDate
-//    @Column(name = "created")
-//    private java.sql.Timestamp created;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "created_by")
-//    @CreatedBy
-//    @JsonBackReference
-//    private Users createdBy;
-//
-//    @LastModifiedDate
-//    @Column(name = "modified")
-//    private java.sql.Timestamp modified;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "modified_by")
-//    @LastModifiedBy
-//    @JsonBackReference
-//    private Users modifiedBy;
 
 
 //    @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)

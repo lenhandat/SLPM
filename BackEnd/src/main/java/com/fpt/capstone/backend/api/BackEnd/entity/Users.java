@@ -50,20 +50,7 @@ public class Users {
     @JsonBackReference
     private Settings settings;
 
-    @Column(name = "status_id")
-    private Integer statusId;
-
-    @Column(name = "created")
-    private java.sql.Timestamp created;
-
-    @Column(name = "created_by")
-    private Integer createdBy;
-
-    @Column(name = "modified")
-    private java.sql.Timestamp modified;
-
-
-    @Column(name = "modified_by")
-    private Integer modifiedBy;
+    @Column(name = "status")
+    private String status;
 
 }

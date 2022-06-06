@@ -29,7 +29,7 @@ public class Validate {
         }
     }
 
-    public boolean validateIterations(IterationsDTO iterationsDTO) throws Exception {
+    public void validateIterations(IterationsDTO iterationsDTO) throws Exception {
 //        if(subjectsRepository.findById(iterationsDTO.getSubjectId()).isEmpty()){
 //            throw new Exception("Subject ID is not contain special characters");
 //        }
@@ -42,9 +42,7 @@ public class Validate {
         if (!validate(iterationsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))){
             throw new Exception("Iterations status must be active or inactive");
         }
-        else{
-            return true;
-        }
+
     }
 
 
