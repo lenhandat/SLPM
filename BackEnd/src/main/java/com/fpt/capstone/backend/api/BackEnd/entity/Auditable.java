@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import java.sql.Timestamp;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -18,19 +19,20 @@ public abstract  class Auditable {
 
     @CreatedBy
     @Column( name = "created_by",updatable = false)
-    protected Integer createdBy;
+    protected Integer created_by;
 
     @CreatedDate
     @Column(name = "created", updatable = false)
-    protected java.sql.Timestamp  created;
+    protected Timestamp created;
+
 
     @LastModifiedBy
     @Column(name = "modified_by")
-    protected Integer modifiedBy;
+    protected Integer modified_by;
 
     @LastModifiedDate
     @Column(name = "modified")
-    protected java.sql.Timestamp  modified;
+    protected Timestamp  modified;
 
 
 }

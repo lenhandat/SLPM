@@ -36,6 +36,7 @@ public class Settings extends Auditable  implements Serializable {
     @Column(name = "status")
     private String status;
 
+
 //    @CreatedDate
 //    @Column(name = "created")
 //    private java.sql.Timestamp created;
@@ -56,8 +57,7 @@ public class Settings extends Auditable  implements Serializable {
 //    @JsonBackReference
 //    private Users modifiedBy;
 
-
-//    @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
+    //@OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
     // Quan hệ 1-n với đối tượng ở dưới (setting) (1 seting role có nhiều người )
     // MapopedBy trỏ tới tên biến settings ở trong Users.
     //    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode

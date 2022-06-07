@@ -12,10 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SettingsRepository extends JpaRepository<Settings, Integer> {
 
-    @Query(" SELECT p  FROM Settings p " +
-            " WHERE p.title LIKE %:keyTitle% "
-            +" and p.value LIKE %:keyValue% "
-            +" order by p.typeId"
+    @Query( value = "SELECT p FROM Settings as p " +
+
+            " WHERE p.title LIKE %:keyTitle%"
+            +" and p.value LIKE %:keyValue%"
+//            +" order by p.typeId"
     )
      Page<Settings> search(@Param("keyTitle") String keyTitle, @Param("keyValue") String keyValue, Pageable pageable);
 

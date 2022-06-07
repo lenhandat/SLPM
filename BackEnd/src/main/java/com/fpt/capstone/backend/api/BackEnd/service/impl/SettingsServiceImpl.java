@@ -92,11 +92,11 @@ public class SettingsServiceImpl implements SettingService {
 
     }
 
-    private SettingsDTO convertToObjectDto(Object o) {
-        SettingsDTO dto = new SettingsDTO();
-        //conversion here
-        return dto;
-    }
+//    private SettingsDTO convertToObjectDto(Object o) {
+//        SettingsDTO dto = new SettingsDTO();
+//        //conversion here
+//        return dto;
+//    }
 
     @Override
     public Integer getTotalSetting(String keyTitle, String keyValue) {

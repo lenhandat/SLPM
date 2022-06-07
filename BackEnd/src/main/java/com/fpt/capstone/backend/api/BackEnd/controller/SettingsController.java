@@ -111,7 +111,7 @@ public class SettingsController {
             Page<Settings> settings = settingsService.listBy(key_title, key_value,page,per_page);
 
 
-            List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(),SettingsDTO[].class));
+           List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(),SettingsDTO[].class));
 
 //            ArrayList list=null;
             Map<String, List<SettingsDTO>> map = new HashMap<>();
@@ -121,7 +121,6 @@ public class SettingsController {
                 List<SettingsDTO> settingsDTOS1 = settingsDTOS.stream().filter(s -> title.equals(s.getTitle())).collect(Collectors.toList());
                 map.put(title,settingsDTOS1);
             }
-
 
 
             response.setSuccess(true);
