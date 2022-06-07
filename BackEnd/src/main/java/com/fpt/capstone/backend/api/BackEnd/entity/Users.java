@@ -1,6 +1,7 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -22,6 +23,7 @@ public class Users  implements Serializable {
     private String username;
 
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
 

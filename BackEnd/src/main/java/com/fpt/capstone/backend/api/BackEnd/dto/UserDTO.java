@@ -1,10 +1,7 @@
 package com.fpt.capstone.backend.api.BackEnd.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -14,6 +11,7 @@ import java.sql.Timestamp;
 public class UserDTO implements Serializable {
     private Integer id;
     private String username;
+    @JsonIgnore
     private String password;
     private String fullName;
     private Timestamp birthday;

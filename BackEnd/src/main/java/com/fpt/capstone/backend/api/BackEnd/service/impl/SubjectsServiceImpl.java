@@ -61,7 +61,6 @@ public class SubjectsServiceImpl implements SubjectsService {
         subjects.setCode(subjectsDTO.getCode());
         subjects.setName(subjectsDTO.getName());
         subjects.setStatus(subjectsDTO.getStatus());
-        subjects.setModifiedBy(1);
         subjectsRepository.save(subjects);
     }
 

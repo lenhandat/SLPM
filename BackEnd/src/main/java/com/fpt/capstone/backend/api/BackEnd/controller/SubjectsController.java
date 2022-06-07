@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("subject")
+
 public class SubjectsController {
 
     @Autowired

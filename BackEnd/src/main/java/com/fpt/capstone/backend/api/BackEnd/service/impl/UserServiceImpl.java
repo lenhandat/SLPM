@@ -91,7 +91,6 @@ public class UserServiceImpl implements UserService {
         users.setEmail(userDTO.getEmail());
         users.setAvatarLink(userDTO.getAvatarLink());
         users.setFacebookLink(userDTO.getFacebookLink());
-        users.setStatus(userDTO.getStatus());
         users.setSettings(settingsRepository.getById(userDTO.getSettingsId()));
     }
 
