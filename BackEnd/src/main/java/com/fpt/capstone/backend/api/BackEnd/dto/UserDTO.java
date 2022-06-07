@@ -30,5 +30,4 @@ public class UserDTO implements Serializable {
     private Timestamp modified;
     private Integer modifiedBy;
 
-
 }
