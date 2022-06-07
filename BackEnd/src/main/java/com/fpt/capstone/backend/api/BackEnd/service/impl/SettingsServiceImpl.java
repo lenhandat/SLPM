@@ -75,28 +75,10 @@ public class SettingsServiceImpl implements SettingService {
         return settingsRepository.search(keyTitle, keyValue, pageable);
 
 
-//        Page<Settings> settings = settingsRepository.search(keyTitle,keyValue,pageable);
-//        Page<SettingsDTO> dtos  = settings.map(this::convertToObjectDto);
-//
-//        return dtos;
-//
-//        Page<Settings> entities = settingsRepository.search(keyTitle,keyValue,pageable);
-//        Page<SettingsDTO> dtoPage = entities.map(new Function<Settings, SettingsDTO>() {
-//            @Override
-//            public SettingsDTO apply(Settings settings) {
-//                SettingsDTO settingsDTO= new SettingsDTO();
-//                return  settingsDTO;
-//            }
-//        });
 
 
     }
 
-//    private SettingsDTO convertToObjectDto(Object o) {
-//        SettingsDTO dto = new SettingsDTO();
-//        //conversion here
-//        return dto;
-//    }
 
     @Override
     public Integer getTotalSetting(String keyTitle, String keyValue) {

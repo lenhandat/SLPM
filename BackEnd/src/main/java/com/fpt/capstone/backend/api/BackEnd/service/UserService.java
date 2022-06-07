@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UserService {
     List<UserDTO> getAllUser();
 
-    void saveUser(UserDTO user);
+    void saveUser(UserDTO user) throws Exception;
 
     void deleteUser(int id);
 

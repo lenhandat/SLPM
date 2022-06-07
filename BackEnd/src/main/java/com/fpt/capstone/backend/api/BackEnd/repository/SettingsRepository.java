@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface SettingsRepository extends JpaRepository<Settings, Integer> {
 
     @Query("SELECT new com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO(p.id,p.typeId,p.title,p.value,p.displayOrder" +
-            ",p.status,p.created,p.created_by,p.modified,p.modified_by,u.username,u2.username)  FROM Settings p " +
-            "join Users u on u.id=p.created_by " +
+            ",p.status,p.created,p.created_by,p.modified,p.modified_by,u1.username,u2.username)  FROM Settings p " +
+            "join Users u1 on u1.id=p.created_by " +
             "join Users u2 on u2.id=p.modified_by " +
             " WHERE p.title LIKE %:keyTitle% "
             +" and p.value LIKE %:keyValue% "

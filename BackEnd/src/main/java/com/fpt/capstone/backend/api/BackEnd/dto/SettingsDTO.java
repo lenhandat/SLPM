@@ -24,7 +24,4 @@ public class SettingsDTO implements Serializable {
     private String createdByUser;
     private String modifiedByUser;
 
-
-    public SettingsDTO() {
-    }
 }
