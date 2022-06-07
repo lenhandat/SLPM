@@ -20,5 +20,5 @@ public interface SettingService {
     Page<Settings> listBy(String keyTitle, String keyValue, int page, int per_pag);
 
     Integer getTotalSetting(String keyTitle, String keyValue);
-    public SettingsDTO findById(int id);
+    SettingsDTO findById(int id);
 }

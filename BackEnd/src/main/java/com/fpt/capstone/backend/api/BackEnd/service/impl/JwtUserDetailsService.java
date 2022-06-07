@@ -60,9 +60,9 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add((GrantedAuthority) new SimpleGrantedAuthority(user.getSettings().getValue()));
-        return new User(user.getUsername(), user.getPassword(), authorities);
- //       CustomUserDetails customUserDetails = new CustomUserDetails(user);
-//        return customUserDetails;
+        //return new User(user.getUsername(), user.getPassword(), authorities);
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+        return customUserDetails;
     }
 
     public Integer loadUserIDByUsername(String username) throws UsernameNotFoundException {
@@ -87,16 +87,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 //        if (!validate.validateEmail(usersDTO.getEmail())) {
 //            throw new Exception("Invalid email");
 //        }
-        Users users = new Users();
-        users.setUsername(usersDTO.getUsername());
+        Users users = modelMapper.map(usersDTO,Users.class);
+       // users.setUsername(usersDTO.getUsername());
         users.setPassword(bcryptEncoder.encode(usersDTO.getPassword()));
         //Setting =1 ->ROLE_STUDENT
-        users.setSettings(settingsRepository.getById(2));
-        // users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
-//        System.out.println("ok1");
-//       // Users user = modelMapper.map(usersDTO, Users.class);
-//       // user.setSettings(modelMapper.map(usersDTO.getSettingsDTO(), Settings.class));
-//        System.out.println("ok");
+        users.setSettings(settingsRepository.getById(1));
         return userRepository.save(users);
     }
 
