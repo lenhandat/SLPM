@@ -17,7 +17,7 @@ public interface SettingService {
 
     SettingsDTO updateSetting(SettingsDTO settingsDTO);
 
-    Page<Settings> listBy(String keyTitle, String keyValue, int page, int per_pag);
+    Page<SettingsDTO> listBy(String keyTitle, String keyValue, int page, int per_pag);
 
     Integer getTotalSetting(String keyTitle, String keyValue);
     SettingsDTO findById(int id);

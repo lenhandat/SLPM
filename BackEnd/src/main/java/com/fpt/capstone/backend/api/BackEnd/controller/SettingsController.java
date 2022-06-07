@@ -91,7 +91,7 @@ public class SettingsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Edit setting success");
+            response.setMessage("Edit setting successfully");
             response.setData(settingsService.updateSetting(settingsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -109,23 +109,20 @@ public class SettingsController {
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {
 
-            Page<Settings> settings = settingsService.listBy(key_title, key_value,page,per_page);
+            Page<SettingsDTO> settings = settingsService.listBy(key_title, key_value,page,per_page);
 
-
-           List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(),SettingsDTO[].class));
+        //   List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(),SettingsDTO[].class));
 
 //            ArrayList list=null;
             Map<String, List<SettingsDTO>> map = new HashMap<>();
 
-            Set<String> titles = settingsDTOS.stream().map(SettingsDTO::getTitle).collect(Collectors.toSet());
+            Set<String> titles = settings.stream().map(SettingsDTO::getTitle).collect(Collectors.toSet());
             for(String title : titles){
-                List<SettingsDTO> settingsDTOS1 = settingsDTOS.stream().filter(s -> title.equals(s.getTitle())).collect(Collectors.toList());
+                List<SettingsDTO> settingsDTOS1 = settings.stream().filter(s -> title.equals(s.getTitle())).collect(Collectors.toList());
                 map.put(title,settingsDTOS1);
             }
-
-
             response.setSuccess(true);
-            response.setMessage("Show list search setting success");
+            response.setMessage("Get setting list successfully");
             response.setData(map);
             response.setTotal(settings.getTotalElements());
             response.setPerPages(settings.getTotalPages());
@@ -137,5 +134,4 @@ public class SettingsController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
-
 }

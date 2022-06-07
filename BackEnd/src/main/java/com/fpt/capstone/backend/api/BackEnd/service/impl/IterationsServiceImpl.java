@@ -80,7 +80,6 @@ public class IterationsServiceImpl implements InterationsService {
     public Page<Iterations> listBy(String name, int page, int per_page) throws Exception {
         Pageable pageable= PageRequest.of(page-1,per_page);
         Page<Iterations> iterations = iterationsRepository.search(name,pageable);
-
         return iterations;
     }
 

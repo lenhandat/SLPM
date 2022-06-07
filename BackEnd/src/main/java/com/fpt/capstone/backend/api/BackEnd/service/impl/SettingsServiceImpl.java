@@ -70,7 +70,7 @@ public class SettingsServiceImpl implements SettingService {
     }
 
     @Override
-    public Page<Settings> listBy(String keyTitle, String keyValue, int page, int per_page) {
+    public Page<SettingsDTO> listBy(String keyTitle, String keyValue, int page, int per_page) {
         Pageable pageable = PageRequest.of(page - 1, per_page);
         return settingsRepository.search(keyTitle, keyValue, pageable);
 
