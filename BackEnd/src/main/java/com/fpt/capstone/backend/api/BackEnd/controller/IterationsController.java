@@ -96,12 +96,12 @@ public class IterationsController {
     ) {
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {
-            Page<Iterations> iterations = iterationsService.listBy(key_name,page,per_page);
-            List<IterationsDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsDTO[].class));
-
+            Page<IterationsDTO> iterations = iterationsService.listBy(key_name,page,per_page);
+            //List<IterationsDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsDTO[].class));
             response.setSuccess(true);
             response.setMessage("Get list search iteration successfully");
-            response.setData(iterationsDTOS);
+           // response.setData(iterationsDTOS);
+            response.setData(iterations);
             response.setTotal(iterations.getTotalElements());
             response.setCurrentPage(page);
             response.setPerPages(per_page);

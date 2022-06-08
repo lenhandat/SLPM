@@ -47,9 +47,9 @@ public class Validate {
     }
 
     public void validateIterations(IterationsDTO iterationsDTO) throws Exception {
-//        if(iterationsRepository.findByIterationsName(iterationsDTO.getName())>0){
-//            throw new Exception("Iterations Name already exist ");
-//        }
+        if(iterationsRepository.findByIterationsName(iterationsDTO.getName())>0){
+            throw new Exception("Iterations Name already exist ");
+        }
         if (!subjectsRepository.existsById(iterationsDTO.getSubjectId())) {
             throw new Exception("Id of subject not found");
         }

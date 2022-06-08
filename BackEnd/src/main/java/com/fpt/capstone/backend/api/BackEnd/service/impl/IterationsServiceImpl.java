@@ -36,7 +36,7 @@ public class IterationsServiceImpl implements InterationsService {
     @Override
     public IterationsDTO addIterations(IterationsDTO iterationsDTO) throws Exception {
         validate.validateIterations(iterationsDTO);
-        iterationsDTO.setCreatedBy(1);
+
         Iterations iterations = modelMapper.map(iterationsDTO, Iterations.class);
         iterations.setSubject(subjectsRepository.getById(iterationsDTO.getSubjectId()));
         iterationsRepository.save(iterations);
@@ -77,9 +77,9 @@ public class IterationsServiceImpl implements InterationsService {
     }
 
     @Override
-    public Page<Iterations> listBy(String name, int page, int per_page) throws Exception {
+    public Page<IterationsDTO> listBy(String name, int page, int per_page) throws Exception {
         Pageable pageable= PageRequest.of(page-1,per_page);
-        Page<Iterations> iterations = iterationsRepository.search(name,pageable);
+        Page<IterationsDTO> iterations = iterationsRepository.search(name,pageable);
         return iterations;
     }
 

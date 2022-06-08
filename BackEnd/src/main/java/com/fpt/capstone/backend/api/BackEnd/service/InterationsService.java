@@ -17,5 +17,5 @@ public interface InterationsService {
 
     IterationsDTO findById(int id);
 
-    Page<Iterations> listBy(String name, int page, int per_page) throws Exception;
+    Page<IterationsDTO> listBy(String name, int page, int per_page) throws Exception;
 }
