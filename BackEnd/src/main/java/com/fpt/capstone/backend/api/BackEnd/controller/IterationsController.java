@@ -1,12 +1,8 @@
 package com.fpt.capstone.backend.api.BackEnd.controller;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
-import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
-import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
-import com.fpt.capstone.backend.api.BackEnd.entity.Iterations;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
-import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.IterationsServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("iterations")
@@ -83,24 +76,24 @@ public class IterationsController {
             response.setMessage("Get iteration successfully");
             response.setData(iterationsService.findById(Integer.parseInt(id)));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Get iteration fail "+"Message:"+ e.getMessage());
+            response.setMessage("Get iteration fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<?> findIterationsByTile(@RequestParam("key_name") String key_name,
-            @RequestParam("page")  int page, @RequestParam("per_page") int per_page
+                                                  @RequestParam("page") int page, @RequestParam("per_page") int per_page
     ) {
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {
-            Page<IterationsDTO> iterations = iterationsService.listBy(key_name,page,per_page);
+            Page<IterationsDTO> iterations = iterationsService.listBy(key_name, page, per_page);
             //List<IterationsDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsDTO[].class));
             response.setSuccess(true);
             response.setMessage("Get list search iteration successfully");
-           // response.setData(iterationsDTOS);
+            // response.setData(iterationsDTOS);
             response.setData(iterations);
             response.setTotal(iterations.getTotalElements());
             response.setCurrentPage(page);
@@ -115,16 +108,16 @@ public class IterationsController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editIterations(@RequestBody IterationsDTO iterationsDTO) throws Exception{
+    public ResponseEntity<?> editIterations(@RequestBody IterationsDTO iterationsDTO) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
             response.setMessage("Add iteration successfully");
             iterationsService.updateIterations(iterationsDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Add iteration fail "+"Message:"+ e.getMessage());
+            response.setMessage("Add iteration fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

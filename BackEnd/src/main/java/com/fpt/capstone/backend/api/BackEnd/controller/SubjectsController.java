@@ -1,11 +1,8 @@
 package com.fpt.capstone.backend.api.BackEnd.controller;
 
-import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
-import com.fpt.capstone.backend.api.BackEnd.entity.Iterations;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
-import com.fpt.capstone.backend.api.BackEnd.entity.Subjects;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.SubjectsServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController

@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface SubjectsRepository extends JpaRepository<Subjects, Integer> {
     @Query(" SELECT new com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO(s.id,s.code,s.name,s.status,s.created," +

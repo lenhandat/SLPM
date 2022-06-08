@@ -68,7 +68,7 @@ public class SubjectsServiceImpl implements SubjectsService {
     public Page<SubjectsDTO> listBy(String code, String name, String status, int page, int per_page) throws Exception {
         Pageable pageable = PageRequest.of(page - 1, per_page);
         Page<SubjectsDTO> subjects = subjectsRepository.search(code, name, status, pageable);
-       // Page<SubjectsDTO> subjectsDTOS = subjects.map(subjects1 -> modelMapper.map(subjects1, SubjectsDTO.class));
+        // Page<SubjectsDTO> subjectsDTOS = subjects.map(subjects1 -> modelMapper.map(subjects1, SubjectsDTO.class));
         return subjects;
     }
 }

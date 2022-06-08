@@ -5,11 +5,8 @@ import com.fpt.capstone.backend.api.BackEnd.entity.Iterations;
 import com.fpt.capstone.backend.api.BackEnd.repository.IterationsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.InterationsService;
-import com.fpt.capstone.backend.api.BackEnd.service.validate.ConstantsRegex;
 import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -78,17 +75,17 @@ public class IterationsServiceImpl implements InterationsService {
 
     @Override
     public Page<IterationsDTO> listBy(String name, int page, int per_page) throws Exception {
-        Pageable pageable= PageRequest.of(page-1,per_page);
-        Page<IterationsDTO> iterations = iterationsRepository.search(name,pageable);
+        Pageable pageable = PageRequest.of(page - 1, per_page);
+        Page<IterationsDTO> iterations = iterationsRepository.search(name, pageable);
         return iterations;
     }
 
-    public List<IterationsDTO> showIterationList(){
+    public List<IterationsDTO> showIterationList() {
         List<Iterations> iterations = iterationsRepository.findAll();
         List<IterationsDTO> iterationsDTOS = iterations.stream()
-                .map(iterations1 -> modelMapper.map(iterations1 , IterationsDTO.class))
+                .map(iterations1 -> modelMapper.map(iterations1, IterationsDTO.class))
                 .collect(Collectors.toList());
 
-        return  iterationsDTOS;
+        return iterationsDTOS;
     }
 }

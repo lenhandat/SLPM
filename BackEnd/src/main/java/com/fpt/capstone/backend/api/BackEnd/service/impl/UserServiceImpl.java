@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
+
     @Override
     public List<UserDTO> getAllUser() {
         List<Users> users = userRepository.findAll();
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
     private Users convertToEntity(UserDTO usersDTO) throws ParseException {
         Users users = modelMapper.map(usersDTO, Users.class);
         users.setPassword(BCrypt.hashpw(usersDTO.getPassword(), BCrypt.gensalt(12)));
-        Date birthDate=new SimpleDateFormat("yyyy-mm-dd").parse(usersDTO.getBirthday());
+        Date birthDate = new SimpleDateFormat("yyyy-mm-dd").parse(usersDTO.getBirthday());
         users.setBirthday(birthDate);
         users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
         return users;
