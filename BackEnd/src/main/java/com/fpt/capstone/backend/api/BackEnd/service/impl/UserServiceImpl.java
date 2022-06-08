@@ -20,7 +20,10 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,9 +55,12 @@ public class UserServiceImpl implements UserService {
         return userDTOS;
     }
 
-    private Users convertToEntity(UserDTO usersDTO) {
+    private Users convertToEntity(UserDTO usersDTO) throws ParseException {
         Users users = modelMapper.map(usersDTO, Users.class);
         users.setPassword(BCrypt.hashpw(usersDTO.getPassword(), BCrypt.gensalt(12)));
+        Date birthDate=new SimpleDateFormat("yyyy-mm-dd").parse(usersDTO.getBirthday());
+        users.setBirthday(birthDate);
+        users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
         return users;
     }
 
@@ -70,8 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(UserDTO userDTO) throws Exception {
-        validate.validateUsers(userDTO);
-        userDTO.setPassword(bcryptEncoder.encode(userDTO.getPassword()));
+        validate.validateUsersAdd(userDTO);
         userRepository.save(convertToEntity(userDTO));
     }
 
@@ -86,17 +91,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserDTO userDTO) {
-        //validate
+    public void update(UserDTO userDTO) throws Exception {
         Users users = userRepository.getOne(userDTO.getId());
-
-        users.setFullName(userDTO.getFullName());
-        users.setBirthday(userDTO.getBirthday());
-        users.setTel(userDTO.getTel());
-        users.setEmail(userDTO.getEmail());
-        users.setAvatarLink(userDTO.getAvatarLink());
-        users.setFacebookLink(userDTO.getFacebookLink());
-        users.setSettings(settingsRepository.getById(userDTO.getSettingsId()));
+        validate.validateUsersEdit(userDTO);
+        users = convertToEntity(userDTO);
+        userRepository.save(users);
     }
 
     @Override

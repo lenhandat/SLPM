@@ -26,4 +26,8 @@ public interface SettingsRepository extends JpaRepository<Settings, Integer> {
             + " and p.value LIKE %:keyValue%")
      Integer getTotalSetting(@Param("keyTitle") String keyTitle, @Param("keyValue") String keyValue);
 
+
+    @Query("SELECT count(p.id) FROM Settings p WHERE p.typeId = ?1"
+            + " and p.displayOrder = ?2")
+    Integer searchByTypeIdDisplayOrder(int typeId,int displayOrder);
 }
