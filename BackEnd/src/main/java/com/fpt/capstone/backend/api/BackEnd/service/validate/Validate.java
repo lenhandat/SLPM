@@ -32,9 +32,9 @@ public class Validate {
 
     public void validateSubject(SubjectsDTO subjectsDTO) throws Exception {
 
-//        if(subjectsRepository.findBySubjectName(subjectsDTO.getName())>0){
-//            throw new Exception("Subjects Name already exist ");
-//        }
+        if (subjectsRepository.findBySubjectName(subjectsDTO.getName()) > 0) {
+            throw new Exception("Subjects Name already exist ");
+        }
         if (!validate(subjectsDTO.getCode(), String.valueOf(ConstantsRegex.CODE_PATTERN))) {
             throw new Exception("Subject Code must have 3-50 character and don't have special characters");
         }
@@ -47,7 +47,7 @@ public class Validate {
     }
 
     public void validateIterations(IterationsDTO iterationsDTO) throws Exception {
-        if(iterationsRepository.findByIterationsName(iterationsDTO.getName())>0){
+        if (iterationsRepository.findByIterationsName(iterationsDTO.getName()) > 0) {
             throw new Exception("Iterations Name already exist ");
         }
         if (!subjectsRepository.existsById(iterationsDTO.getSubjectId())) {
@@ -149,7 +149,7 @@ public class Validate {
         }
     }
 
-    public void validateSetting(SettingsDTO settingsDTO) throws Exception{
+    public void validateSetting(SettingsDTO settingsDTO) throws Exception {
 
         if (!validate(settingsDTO.getTitle(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
             throw new Exception("Title must not contain special character and number");
@@ -158,7 +158,7 @@ public class Validate {
             throw new Exception("Value must not contain special character and number");
         }
         //displayOrder check trùng trong phạm vi type id
-        if(settingsRepository.searchByTypeIdDisplayOrder(settingsDTO.getTypeId(),settingsDTO.getDisplayOrder())>0){
+        if (settingsRepository.searchByTypeIdDisplayOrder(settingsDTO.getTypeId(), settingsDTO.getDisplayOrder()) > 0) {
             throw new Exception("DisplayOrder already exist on this typeID");
         }
         if (!validate(settingsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
