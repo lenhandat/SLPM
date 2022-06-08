@@ -58,16 +58,12 @@ public class JwtAuthenticationController {
             Users users = userDetailsService.createUser(usersDTO);
             response.setSuccess(true);
             response.setMessage("Register success");
-            //response.setData(userDetailsService.createUser(usersDTO));
-            //response.setData(modelMapper.map(users,UserDTO.class));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
             response.setMessage("Register fail catch " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        // return ResponseEntity.ok(userDetailsService.createUser(user));
-
     }
 
 
@@ -107,8 +103,6 @@ public class JwtAuthenticationController {
         try {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
-//            String username = userDetails.getUsername();
-//            Users user = (Users) userDetailsService.loadUserByUsername(username);
 
             response.setSuccess(true);
             response.setMessage("Show user proflie  success");

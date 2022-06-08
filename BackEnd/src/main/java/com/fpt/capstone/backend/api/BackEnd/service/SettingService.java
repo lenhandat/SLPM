@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface SettingService {
 
-    SettingsDTO addSettings(SettingsDTO settingsDTO);
+    SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception;
 
     void deleteSetting(int id);
 
     List<SettingsDTO> showSettingsList();
 
-    SettingsDTO updateSetting(SettingsDTO settingsDTO);
+    SettingsDTO updateSetting(SettingsDTO settingsDTO) throws Exception;
 
     Page<SettingsDTO> listBy(String keyTitle, String keyValue, int page, int per_pag);
 

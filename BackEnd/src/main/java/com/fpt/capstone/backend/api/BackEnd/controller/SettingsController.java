@@ -3,7 +3,6 @@ package com.fpt.capstone.backend.api.BackEnd.controller;
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
-import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.SettingsServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,12 @@ public class SettingsController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("/add" )
+    @PostMapping("/add")
     public ResponseEntity<?> addSetting(@RequestBody SettingsDTO settingsDTO) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Add setting success");
+            response.setMessage("Add setting successfully");
             response.setData(settingsService.addSettings(settingsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -41,12 +40,12 @@ public class SettingsController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public ResponseEntity<?> deleteSetting(@PathVariable("id") int id) {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Delete setting success");
+            response.setMessage("Delete setting successfully");
             settingsService.deleteSetting(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -61,12 +60,12 @@ public class SettingsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Show list setting success");
+            response.setMessage("Get list setting successfully");
             response.setData(settingsService.showSettingsList());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list setting fail " + "Message:" + e.getMessage());
+            response.setMessage("Get list setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -76,12 +75,12 @@ public class SettingsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Get setting success");
+            response.setMessage("Get setting successfully");
             response.setData(settingsService.findById(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list setting fail " + "Message:" + e.getMessage());
+            response.setMessage("Get setting fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -103,35 +102,27 @@ public class SettingsController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> findSettingByTile(@RequestParam("key_title") String key_title
-            , @RequestParam("key_value") String key_value,@RequestParam("page")  int page
+            , @RequestParam("key_value") String key_value, @RequestParam("page") int page
             , @RequestParam("per_page") int per_page
-        ) {
+    ) {
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {
 
-            Page<SettingsDTO> settings = settingsService.listBy(key_title, key_value,page,per_page);
+            Page<SettingsDTO> settings = settingsService.listBy(key_title, key_value, page, per_page);
+            List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(), SettingsDTO[].class));
 
-        //   List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(),SettingsDTO[].class));
-
-//            ArrayList list=null;
-            Map<String, List<SettingsDTO>> map = new HashMap<>();
-
-            Set<String> titles = settings.stream().map(SettingsDTO::getTitle).collect(Collectors.toSet());
-            for(String title : titles){
-                List<SettingsDTO> settingsDTOS1 = settings.stream().filter(s -> title.equals(s.getTitle())).collect(Collectors.toList());
-                map.put(title,settingsDTOS1);
-            }
             response.setSuccess(true);
             response.setMessage("Get setting list successfully");
-            response.setData(map);
+            response.setData(settingsDTOS);
             response.setTotal(settings.getTotalElements());
             response.setPerPages(settings.getTotalPages());
             response.setCurrentPage(page);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list search setting fail " + "Message:" + e.getMessage());
+            response.setMessage("Get setting list fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
+
 }

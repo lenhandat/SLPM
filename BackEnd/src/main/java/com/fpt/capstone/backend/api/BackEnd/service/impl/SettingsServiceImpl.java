@@ -5,6 +5,7 @@ import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.ConstantsStatus;
 import com.fpt.capstone.backend.api.BackEnd.service.SettingService;
+import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,12 +25,11 @@ public class SettingsServiceImpl implements SettingService {
     @Autowired
     private SettingsRepository settingsRepository;
 
-    public SettingsDTO addSettings(SettingsDTO settingsDTO) {
-//        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
-//        settingsDTO.setCreated(date);
-//        settingsDTO.setModified(date);
-        //Set open for status
-        settingsDTO.setStatus(ConstantsStatus.open.toString());
+    @Autowired
+    private Validate validate;
+
+    public SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception {
+        validate.validateSetting(settingsDTO);
         settingsRepository.save(mapper.map(settingsDTO, Settings.class));
         return settingsDTO;
     }
@@ -51,52 +51,20 @@ public class SettingsServiceImpl implements SettingService {
 //        return settingsDTOS;
 //    }
 
-    public SettingsDTO updateSetting(SettingsDTO settingsDTO) {
-        //check dto ton tai không
-        java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
-        settingsDTO.setModified(date);
-//        Settings settings = settingsRepository.getOne(settingsDTO.getId());
-//        settings.setTypeId(settingsDTO.getTypeId());
-//        settings.setTitle(settingsDTO.getTitle());
-//        settings.setValue(settingsDTO.getValue());
-//        settings.setDisplayOrder(settingsDTO.getDisplayOrder());
-//        settings.setStatus(settingsDTO.getStatus());
-//        settings.setModified(settingsDTO.getModified());
-//        settings.setModifiedBy(settingsDTO.getModifiedBy());
-        Settings settings = mapper.map(settingsDTO, Settings.class);
+    public SettingsDTO updateSetting(SettingsDTO settingsDTO) throws Exception {
+        Settings settings = settingsRepository.getOne(settingsDTO.getId());
+        validate.validateSetting(settingsDTO);
+        settings = mapper.map(settingsDTO, Settings.class);
         settingsRepository.save(settings);
         return settingsDTO;
-
     }
 
     @Override
     public Page<SettingsDTO> listBy(String keyTitle, String keyValue, int page, int per_page) {
         Pageable pageable = PageRequest.of(page - 1, per_page);
         return settingsRepository.search(keyTitle, keyValue, pageable);
-
-
-//        Page<Settings> settings = settingsRepository.search(keyTitle,keyValue,pageable);
-//        Page<SettingsDTO> dtos  = settings.map(this::convertToObjectDto);
-//
-//        return dtos;
-//
-//        Page<Settings> entities = settingsRepository.search(keyTitle,keyValue,pageable);
-//        Page<SettingsDTO> dtoPage = entities.map(new Function<Settings, SettingsDTO>() {
-//            @Override
-//            public SettingsDTO apply(Settings settings) {
-//                SettingsDTO settingsDTO= new SettingsDTO();
-//                return  settingsDTO;
-//            }
-//        });
-
-
     }
 
-//    private SettingsDTO convertToObjectDto(Object o) {
-//        SettingsDTO dto = new SettingsDTO();
-//        //conversion here
-//        return dto;
-//    }
 
     @Override
     public Integer getTotalSetting(String keyTitle, String keyValue) {

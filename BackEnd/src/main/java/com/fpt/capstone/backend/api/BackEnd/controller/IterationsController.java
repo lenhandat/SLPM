@@ -35,7 +35,7 @@ public class IterationsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Add iterations success");
+            response.setMessage("Add iterations successfully");
             response.setData(iterationsService.addIterations(iterationsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -45,12 +45,12 @@ public class IterationsController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @GetMapping("/delete")
     public ResponseEntity<?> deleteIteration(@RequestParam(name = "id") String id) {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Delete iteration success");
+            response.setMessage("Delete iteration successfully");
             iterationsService.deleteIterations(Integer.parseInt(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -65,22 +65,22 @@ public class IterationsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Show list iterations success");
+            response.setMessage("Get list iterations successfully");
             response.setData(iterationsService.showIterationList());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list iterations fail " + "Message:" + e.getMessage());
+            response.setMessage("Get list iterations fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/findById")
-    public ResponseEntity<?> findSubjectByID(@RequestParam(name = "id") String id) {
+    public ResponseEntity<?> findIterationsByID(@RequestParam(name = "id") String id) {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Get iteration success");
+            response.setMessage("Get iteration successfully");
             response.setData(iterationsService.findById(Integer.parseInt(id)));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
@@ -91,7 +91,7 @@ public class IterationsController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> findSettingByTile(@RequestParam("key_name") String key_name,
+    public ResponseEntity<?> findIterationsByTile(@RequestParam("key_name") String key_name,
             @RequestParam("page")  int page, @RequestParam("per_page") int per_page
     ) {
         ResponsePaggingObject response = new ResponsePaggingObject();
@@ -100,7 +100,7 @@ public class IterationsController {
             List<IterationsDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsDTO[].class));
 
             response.setSuccess(true);
-            response.setMessage("Show list search iteration success");
+            response.setMessage("Get list search iteration successfully");
             response.setData(iterationsDTOS);
             response.setTotal(iterations.getTotalElements());
             response.setCurrentPage(page);
@@ -109,22 +109,22 @@ public class IterationsController {
 
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list search iteration fail " + "Message:" + e.getMessage());
+            response.setMessage("Get list search iteration fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<?> editSubject(@RequestBody IterationsDTO iterationsDTO) throws Exception{
+    public ResponseEntity<?> editIterations(@RequestBody IterationsDTO iterationsDTO) throws Exception{
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Add subject success");
+            response.setMessage("Add iteration successfully");
             iterationsService.updateIterations(iterationsDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e){
             response.setSuccess(false);
-            response.setMessage("Add subject fail "+"Message:"+ e.getMessage());
+            response.setMessage("Add iteration fail "+"Message:"+ e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

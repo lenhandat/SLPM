@@ -1,8 +1,12 @@
 package com.fpt.capstone.backend.api.BackEnd.service.validate;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
+import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
+import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
+import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
+import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +17,25 @@ public class Validate {
     @Autowired
     private SubjectsRepository subjectsRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private SettingsRepository settingsRepository;
+
     public boolean validate(String value, String regex) {
         return value.matches(regex);
     }
+
     public void validateSubject(SubjectsDTO subjects) throws Exception {
 
-        if(!validate(subjects.getCode(),String.valueOf(ConstantsRegex.CODE_PATTERN))){
+        if (!validate(subjects.getCode(), String.valueOf(ConstantsRegex.CODE_PATTERN))) {
             throw new Exception("Subject Code must have 3-50 character and don't have special characters");
         }
-        if (!validate(subjects.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))){
+        if (!validate(subjects.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))) {
             throw new Exception("Subject name is not contain special characters");
         }
-        if (!validate(subjects.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))){
+        if (!validate(subjects.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
             throw new Exception("Subject status must be active or inactive");
         }
     }
@@ -33,17 +44,116 @@ public class Validate {
 //        if(subjectsRepository.findById(iterationsDTO.getSubjectId()).isEmpty()){
 //            throw new Exception("Subject ID is not contain special characters");
 //        }
-        if (!validate(iterationsDTO.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))){
+        if (!validate(iterationsDTO.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))) {
             throw new Exception("Iterations name is not contain special characters");
         }
-        if (!validate(iterationsDTO.getDuration().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN))){
+        if (!validate(iterationsDTO.getDuration().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN))) {
             throw new Exception("Iterations duration must be integer");
         }
-        if (!validate(iterationsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))){
+        if (!validate(iterationsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
             throw new Exception("Iterations status must be active or inactive");
         }
 
     }
 
+    public void validateUsersAdd(UserDTO userDTO) throws Exception {
 
+        if (!validate(userDTO.getUsername(), String.valueOf(ConstantsRegex.USERNAME_PATTERN))) {
+            throw new Exception("Username must have 5-20 character and not contain special characters");
+        }
+        if (userRepository.findByUsername(userDTO.getUsername()) != null) {
+            throw new Exception("Username is duplicate");
+        }
+        if (!validate(userDTO.getPassword(), String.valueOf(ConstantsRegex.PASSWORD_PATTERN))) {
+            throw new Exception("Password must have 8-20 character," +
+                    " must have uppercase, lowercase, number and special character ");
+        }
+        if (!validate(userDTO.getFullName(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
+            throw new Exception("Full name must not contain special character and number");
+        }
+        if (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN))) {
+            throw new Exception("Birth day must be format YYYY-MM-DD");
+        }
+        if (!validate(userDTO.getTel(), String.valueOf(ConstantsRegex.PHONE_PATTERN))) {
+            throw new Exception("Phone number must have 10 character");
+        }
+        if (!validate(userDTO.getEmail(), String.valueOf(ConstantsRegex.EMAIL_PATTERN))) {
+            throw new Exception("Email must be format abc@xyz.edg");
+        }
+        if (!validate(userDTO.getAvatarLink(), String.valueOf(ConstantsRegex.LINK_PATTERN))) {
+            throw new Exception("Wrong link");
+        }
+        if (!validate(userDTO.getFacebookLink(), String.valueOf(ConstantsRegex.LINK_PATTERN))) {
+            throw new Exception("Wrong link");
+        }
+        if (!validate(userDTO.getSettingsId().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN))) {
+            throw new Exception("Id must be a integer");
+        }
+        if (!settingsRepository.existsById(userDTO.getSettingsId())) {
+            throw new Exception("Id of setting not found");
+        }
+
+        if (!validate(userDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
+            throw new Exception("Status must be active or inactive");
+        }
+    }
+
+    public void validateUsersEdit(UserDTO userDTO) throws Exception {
+
+        if (!validate(userDTO.getUsername(), String.valueOf(ConstantsRegex.USERNAME_PATTERN))) {
+            throw new Exception("Username must have 5-20 character and not contain special characters");
+        }
+        //cần check nếu trùng với hiện tại thì bỏ qua check duplicate
+//        if(userRepository.findByUsername(userDTO.getUsername())!=null){
+//            throw new Exception("Username is duplicate");
+//        }
+        if (!validate(userDTO.getPassword(), String.valueOf(ConstantsRegex.PASSWORD_PATTERN))) {
+            throw new Exception("Password must have 8-20 character," +
+                    " must have uppercase, lowercase, number and special character ");
+        }
+        if (!validate(userDTO.getFullName(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
+            throw new Exception("Full name must not contain special character and number");
+        }
+        if (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN))) {
+            throw new Exception("Birth day must be format YYYY-MM-DD");
+        }
+        if (!validate(userDTO.getTel(), String.valueOf(ConstantsRegex.PHONE_PATTERN))) {
+            throw new Exception("Phone number must have 10 character");
+        }
+        if (!validate(userDTO.getEmail(), String.valueOf(ConstantsRegex.EMAIL_PATTERN))) {
+            throw new Exception("Email must be format abc@xyz.edg");
+        }
+        if (!validate(userDTO.getAvatarLink(), String.valueOf(ConstantsRegex.LINK_PATTERN))) {
+            throw new Exception("Wrong link");
+        }
+        if (!validate(userDTO.getFacebookLink(), String.valueOf(ConstantsRegex.LINK_PATTERN))) {
+            throw new Exception("Wrong link");
+        }
+        if (!validate(userDTO.getSettingsId().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN))) {
+            throw new Exception("Id must be a integer");
+        }
+        if (!settingsRepository.existsById(userDTO.getSettingsId())) {
+            throw new Exception("Id of setting not found");
+        }
+        if (!validate(userDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
+            throw new Exception("Status must be active or inactive");
+        }
+    }
+
+    public void validateSetting(SettingsDTO settingsDTO) throws Exception{
+
+        if (!validate(settingsDTO.getTitle(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
+            throw new Exception("Title must not contain special character and number");
+        }
+        if (!validate(settingsDTO.getValue(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
+            throw new Exception("Value must not contain special character and number");
+        }
+        //displayOrder check trùng trong phạm vi type id
+        if(settingsRepository.searchByTypeIdDisplayOrder(settingsDTO.getTypeId(),settingsDTO.getDisplayOrder())>0){
+            throw new Exception("DisplayOrder already exist on this typeID");
+        }
+        if (!validate(settingsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
+            throw new Exception("Status must be active or inactive");
+        }
+    }
 }

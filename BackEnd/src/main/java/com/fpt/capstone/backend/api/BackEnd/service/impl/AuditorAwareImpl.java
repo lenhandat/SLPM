@@ -14,9 +14,10 @@ public class AuditorAwareImpl implements AuditorAware<Integer> {
 
     @Autowired
     UserRepository userRepository;
+
     @Override
     public Optional<Integer> getCurrentAuditor() {
-        String userName= SecurityContextHolder.getContext().getAuthentication().getName();
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Users user = userRepository.findByUsername(userName);
 

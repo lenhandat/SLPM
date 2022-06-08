@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 
 @Entity
@@ -31,7 +32,7 @@ public class Users  implements Serializable {
     private String fullName;
 
     @Column(name = "birthday")
-    private java.sql.Timestamp birthday;
+    private Date birthday;
 
     @Column(name = "tel")
     private String tel;
@@ -57,20 +58,7 @@ public class Users  implements Serializable {
     private Settings settings;
 
 
-    @Column(name = "status_id")
-    private Integer statusId;
-
-    @Column(name = "created")
-    private java.sql.Timestamp created;
-
-    @Column(name = "created_by")
-    private Integer createdBy;
-
-    @Column(name = "modified")
-    private java.sql.Timestamp modified;
-
-
-    @Column(name = "modified_by")
-    private Integer modifiedBy;
+    @Column(name = "status")
+    private String status;
 
 }
