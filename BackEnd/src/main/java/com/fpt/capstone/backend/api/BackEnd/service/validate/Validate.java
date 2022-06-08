@@ -56,13 +56,15 @@ public class Validate {
         if (!validate(userDTO.getUsername(), String.valueOf(ConstantsRegex.USERNAME_PATTERN))) {
             throw new Exception("Username must have 5-20 character and not contain special characters");
         }
-
         if(userRepository.findByUsername(userDTO.getUsername())!=null){
             throw new Exception("Username is duplicate");
         }
-
         if (!validate(userDTO.getPassword(), String.valueOf(ConstantsRegex.PASSWORD_PATTERN))) {
-            throw new Exception("Password must have 8-20 character, must have uppercase, lowercase, number and special character ");
+            throw new Exception("Password must have 8-20 character," +
+                    " must have uppercase, lowercase, number and special character ");
+        }
+        if (!validate(userDTO.getFullName(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
+            throw new Exception("Full name must not contain special character and number");
         }
 
 
