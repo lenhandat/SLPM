@@ -16,4 +16,6 @@ public interface IterationsRepository extends JpaRepository<Iterations, Integer>
     )
     public Page<Iterations> search(@Param("keyName") String keyName, Pageable pageable);
 
+    @Query("SELECT count(p.id) FROM Iterations p WHERE p.name like '?1' ")
+    Integer findByIterationsName(String keyName);
 }

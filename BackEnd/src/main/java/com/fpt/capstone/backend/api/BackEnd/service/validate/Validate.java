@@ -4,6 +4,7 @@ import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
+import com.fpt.capstone.backend.api.BackEnd.repository.IterationsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
@@ -22,28 +23,36 @@ public class Validate {
 
     @Autowired
     private SettingsRepository settingsRepository;
+    @Autowired
+    private IterationsRepository iterationsRepository;
 
     public boolean validate(String value, String regex) {
         return value.matches(regex);
     }
 
-    public void validateSubject(SubjectsDTO subjects) throws Exception {
+    public void validateSubject(SubjectsDTO subjectsDTO) throws Exception {
 
-        if (!validate(subjects.getCode(), String.valueOf(ConstantsRegex.CODE_PATTERN))) {
+//        if(subjectsRepository.findBySubjectName(subjectsDTO.getName())>0){
+//            throw new Exception("Subjects Name already exist ");
+//        }
+        if (!validate(subjectsDTO.getCode(), String.valueOf(ConstantsRegex.CODE_PATTERN))) {
             throw new Exception("Subject Code must have 3-50 character and don't have special characters");
         }
-        if (!validate(subjects.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))) {
+        if (!validate(subjectsDTO.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))) {
             throw new Exception("Subject name is not contain special characters");
         }
-        if (!validate(subjects.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
+        if (!validate(subjectsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
             throw new Exception("Subject status must be active or inactive");
         }
     }
 
     public void validateIterations(IterationsDTO iterationsDTO) throws Exception {
-//        if(subjectsRepository.findById(iterationsDTO.getSubjectId()).isEmpty()){
-//            throw new Exception("Subject ID is not contain special characters");
+//        if(iterationsRepository.findByIterationsName(iterationsDTO.getName())>0){
+//            throw new Exception("Iterations Name already exist ");
 //        }
+        if (!subjectsRepository.existsById(iterationsDTO.getSubjectId())) {
+            throw new Exception("Id of subject not found");
+        }
         if (!validate(iterationsDTO.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))) {
             throw new Exception("Iterations name is not contain special characters");
         }
