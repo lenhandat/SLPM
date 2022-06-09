@@ -10,6 +10,9 @@ import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.Objects;
 
 
 @Service
@@ -116,35 +119,35 @@ public class Validate {
 //        if(userRepository.findByUsername(userDTO.getUsername())!=null){
 //            throw new Exception("Username is duplicate");
 //        }
-        if (!validate(userDTO.getPassword(), String.valueOf(ConstantsRegex.PASSWORD_PATTERN))) {
-            throw new Exception("Password must have 8-20 character," +
-                    " must have uppercase, lowercase, number and special character ");
-        }
-        if (!validate(userDTO.getFullName(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
+//        if (!validate(userDTO.getPassword(), String.valueOf(ConstantsRegex.PASSWORD_PATTERN))) {
+//            throw new Exception("Password must have 8-20 character," +
+//                    " must have uppercase, lowercase, number and special character ");
+//        }
+        if (!StringUtils.isEmpty(userDTO.getFullName()) && (!validate(userDTO.getFullName(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN)))) {
             throw new Exception("Full name must not contain special character and number");
         }
-        if (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN))) {
+        if (!StringUtils.isEmpty(userDTO.getBirthday()) && (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN)))) {
             throw new Exception("Birth day must be format YYYY-MM-DD");
         }
-        if (!validate(userDTO.getTel(), String.valueOf(ConstantsRegex.PHONE_PATTERN))) {
+        if (!StringUtils.isEmpty(userDTO.getTel()) && (!validate(userDTO.getTel(), String.valueOf(ConstantsRegex.PHONE_PATTERN)))) {
             throw new Exception("Phone number must have 10 character");
         }
-        if (!validate(userDTO.getEmail(), String.valueOf(ConstantsRegex.EMAIL_PATTERN))) {
+        if (!StringUtils.isEmpty(userDTO.getEmail()) &&(!validate(userDTO.getEmail(), String.valueOf(ConstantsRegex.EMAIL_PATTERN)))) {
             throw new Exception("Email must be format abc@xyz.edg");
         }
-        if (!validate(userDTO.getAvatarLink(), String.valueOf(ConstantsRegex.LINK_PATTERN))) {
+        if (!StringUtils.isEmpty(userDTO.getAvatarLink()) &&(!validate(userDTO.getAvatarLink(), String.valueOf(ConstantsRegex.LINK_PATTERN)))) {
             throw new Exception("Wrong link");
         }
-        if (!validate(userDTO.getFacebookLink(), String.valueOf(ConstantsRegex.LINK_PATTERN))) {
+        if (!StringUtils.isEmpty(userDTO.getFacebookLink()) &&(!validate(userDTO.getFacebookLink(), String.valueOf(ConstantsRegex.LINK_PATTERN)))) {
             throw new Exception("Wrong link");
         }
-        if (!validate(userDTO.getSettingsId().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN))) {
+        if (userDTO.getSettingsId() != null &&(!validate(userDTO.getSettingsId().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN)))) {
             throw new Exception("Id must be a integer");
         }
-        if (!settingsRepository.existsById(userDTO.getSettingsId())) {
+        if (userDTO.getSettingsId() != null && !settingsRepository.existsById(userDTO.getSettingsId())) {
             throw new Exception("Id of setting not found");
         }
-        if (!validate(userDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
+        if (!StringUtils.isEmpty(userDTO.getStatus()) &&(!validate(userDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN)))) {
             throw new Exception("Status must be active or inactive");
         }
     }

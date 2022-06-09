@@ -16,9 +16,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -58,9 +61,9 @@ public class UserServiceImpl implements UserService {
 
     private Users convertToEntity(UserDTO usersDTO) throws ParseException {
         Users users = modelMapper.map(usersDTO, Users.class);
-        users.setPassword(BCrypt.hashpw(usersDTO.getPassword(), BCrypt.gensalt(12)));
-        Date birthDate = new SimpleDateFormat("yyyy-mm-dd").parse(usersDTO.getBirthday());
-        users.setBirthday(birthDate);
+//        users.setPassword(BCrypt.hashpw(usersDTO.getPassword(), BCrypt.gensalt(12)));
+//        Date birthDate = new SimpleDateFormat("yyyy-mm-dd").parse(usersDTO.getBirthday());
+//        users.setBirthday(birthDate);
         users.setSettings(settingsRepository.getById(usersDTO.getSettingsId()));
         return users;
     }
@@ -92,11 +95,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserDTO userDTO) throws Exception {
-        Users users = userRepository.getOne(userDTO.getId());
+    public void updateByID(UserDTO userDTO ) throws Exception {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        Users currentUser = userRepository.findByUsername(userName);
+        Users userDB= userRepository.findByUsername(userDTO.getUsername());
+        userDTO.setSettingsId(userDB.getSettings().getId());
+        userDTO.setPassword(userDB.getPassword());
         validate.validateUsersEdit(userDTO);
-        users = convertToEntity(userDTO);
-        userRepository.save(users);
+        if (userDB==null) {
+            throw new Exception("User not exsit");
+        }
+        Users users = convertToEntity(userDTO);
+        if (currentUser.getSettings().getId()==2){
+            userRepository.save(users);
+        }else{
+            if (!currentUser.getUsername().equals(userDTO.getUsername())){
+                throw new Exception("User don't permisstion");
+            }
+            userRepository.save(users);
+        }
+
     }
 
     @Override

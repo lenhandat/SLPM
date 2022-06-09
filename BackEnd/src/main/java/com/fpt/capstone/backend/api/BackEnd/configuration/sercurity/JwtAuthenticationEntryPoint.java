@@ -27,10 +27,9 @@ public class JwtAuthenticationEntryPoint implements  AuthenticationEntryPoint , 
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
 
-
         ResponseObject responseObject = new ResponseObject();
         responseObject.setSuccess(false);
-        responseObject.setMessage("Login fail wrong username or password");
+        responseObject.setMessage("Login fail:"+authException.getMessage());
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         //response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         PrintWriter out = response.getWriter();
@@ -40,7 +39,6 @@ public class JwtAuthenticationEntryPoint implements  AuthenticationEntryPoint , 
         response.setCharacterEncoding("UTF-8");
         out.print(jsonString);
         out.flush();
-
-
+     //   response.setStatus(HttpStatus.UNAUTHORIZED.value());
     }
 }

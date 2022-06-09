@@ -1,5 +1,6 @@
 package com.fpt.capstone.backend.api.BackEnd.dto;
 
+import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -14,5 +15,5 @@ public class UserSignInDTO {
     private String email;
     private String avatarLink;
     private String facebookLink;
-
+    private Settings settings;
 }

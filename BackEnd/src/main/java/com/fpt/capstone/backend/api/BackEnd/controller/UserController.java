@@ -8,6 +8,7 @@ import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class UserController {
                     .listBy(key_username, key_fullName, key_tel, key_email, page, per_page);
             List<UserDTO> userDTOList = userDTOS.getContent();
             response.setSuccess(true);
-            response.setMessage("Get list subject successfully");
+            response.setMessage("Get list user successfully");
             response.setData(userDTOList);
             response.setTotal(userDTOS.getTotalElements());
             response.setCurrentPage(page);
@@ -49,17 +49,19 @@ public class UserController {
         }
     }
 
-    @PostMapping("/edit")
-    public ResponseEntity<?> editSubject(@RequestBody UserDTO userDTO) throws Exception {
+    @PutMapping ("/edit")
+    public ResponseEntity<?> editSubject(@RequestBody UserDTO userDTO
+                                         ) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
+
+            userService.updateByID(userDTO);
             response.setSuccess(true);
-            response.setMessage("Update subject successfully");
-            userService.update(userDTO);
+            response.setMessage("Update user successfully");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Update subject fail " + "Message:" + e.getMessage());
+            response.setMessage("Update user fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

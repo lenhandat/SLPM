@@ -2,6 +2,7 @@ package com.fpt.capstone.backend.api.BackEnd.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -9,10 +10,10 @@ import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO implements Serializable {
     private Integer id;
     private String username;
-
     private String password;
     private String fullName;
     private String birthday;

@@ -21,7 +21,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         ResponseObject responseObject = new ResponseObject();
         responseObject.setSuccess(false);
-        responseObject.setMessage("Login fail wrong username or password");
+        responseObject.setMessage("Login fail: wrong  username or password");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         PrintWriter out = response.getWriter();
         ObjectMapper objectMapper= new ObjectMapper();

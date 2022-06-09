@@ -76,7 +76,6 @@ public class JwtAuthenticationController {
         try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
             final CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
             final String token = jwtTokenUtil.generateToken(userDetails);
 
             //get role
@@ -116,7 +115,7 @@ public class JwtAuthenticationController {
         // return ResponseEntity.ok(userDetailsService.createUser(user));
 
     }
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String username, String password) throws Exception,AuthenticationException {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {

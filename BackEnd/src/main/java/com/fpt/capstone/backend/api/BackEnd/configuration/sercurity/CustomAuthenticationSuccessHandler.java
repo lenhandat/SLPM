@@ -14,17 +14,13 @@ import java.io.PrintWriter;
 
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        ResponseObject responseObject = new ResponseObject();
-        responseObject.setSuccess(true);
-        responseObject.setMessage("Login succes");
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
 
-        PrintWriter out = response.getWriter();
-        ObjectMapper objectMapper= new ObjectMapper();
-        String jsonString = objectMapper.writeValueAsString(responseObject);
+
+        response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        out.print(jsonString);
-        out.flush();
+
+
     }
 }

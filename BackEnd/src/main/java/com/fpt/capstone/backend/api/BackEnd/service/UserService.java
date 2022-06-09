@@ -18,7 +18,7 @@ public interface UserService {
 
     UserDTO findUserById(int id);
 
-    void update (UserDTO userDTO) throws Exception;
+    void updateByID (UserDTO userDTO) throws Exception;
     Page<UserDTO> listBy(String username, String fullName, String tel , String email, int page, int per_page);
 
     ResponseEntity<?> getUserInformationByID(int id, String jwtToken) ;
