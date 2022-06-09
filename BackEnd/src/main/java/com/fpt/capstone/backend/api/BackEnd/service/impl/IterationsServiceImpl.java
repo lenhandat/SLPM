@@ -27,7 +27,7 @@ public class IterationsServiceImpl implements InterationsService {
 
     @Autowired
     private SubjectsRepository subjectsRepository;
-
+    @Autowired
     private Validate validate = new Validate();
 
     @Override

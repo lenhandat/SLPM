@@ -21,7 +21,7 @@ public class SubjectsServiceImpl implements SubjectsService {
     @Autowired
     private SubjectsRepository subjectsRepository;
 
-
+    @Autowired
     private Validate validate = new Validate();
 
     @Autowired
