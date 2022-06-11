@@ -29,7 +29,7 @@ public class SubjectsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Add subject success");
+            response.setMessage("Add subject successfully");
             response.setData(subjectsService.addSubjects(subjectsDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class SubjectsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Delete subject success");
+            response.setMessage("Delete subject successfully");
             subjectsService.deleteSubjects(Integer.parseInt(id));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class SubjectsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Add subject success");
+            response.setMessage("Add subject successfully");
             response.setData(subjectsService.showSubjectsList());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class SubjectsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Get subject success");
+            response.setMessage("Get subject successfully");
             response.setData(subjectsService.findById(Integer.parseInt(id)));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class SubjectsController {
         ResponseObject response = new ResponseObject();
         try {
             response.setSuccess(true);
-            response.setMessage("Update subject success");
+            response.setMessage("Update subject successfully");
             subjectsService.updateSubject(subjectsDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class SubjectsController {
                     .listBy(key_code, key_name, key_status, page, per_page);
             List<SubjectsDTO> subjectsDTOS = subjects.getContent();
             response.setSuccess(true);
-            response.setMessage("Show list subject success");
+            response.setMessage("Get list subject successfully");
             response.setData(subjectsDTOS);
             response.setTotal(subjects.getTotalElements());
             response.setCurrentPage(page);
@@ -121,7 +121,7 @@ public class SubjectsController {
 
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Show list subject fail " + "Message:" + e.getMessage());
+            response.setMessage("Get list subject fail " + "Message:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

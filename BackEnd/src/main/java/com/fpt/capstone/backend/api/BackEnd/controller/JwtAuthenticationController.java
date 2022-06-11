@@ -57,7 +57,7 @@ public class JwtAuthenticationController {
         try {
             Users users = userDetailsService.createUser(usersDTO);
             response.setSuccess(true);
-            response.setMessage("Register success");
+            response.setMessage("Register successfully");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
@@ -81,7 +81,7 @@ public class JwtAuthenticationController {
 
             //get role
             response.setSuccess(true);
-            response.setMessage("Login success");
+            response.setMessage("Login successfully");
             response.setData(new JwtResponse(token,modelMapper.map(userDetails.getUsers(), UserSignInDTO.class),userDetails.getAuthorities().iterator().next().toString()));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (AuthenticationException authenticationException) {
@@ -105,7 +105,7 @@ public class JwtAuthenticationController {
                     .getPrincipal();
 
             response.setSuccess(true);
-            response.setMessage("Show user proflie  success");
+            response.setMessage("Show user proflie  successfully");
             response.setData(modelMapper.map(userDetails, UserDTO.class));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
