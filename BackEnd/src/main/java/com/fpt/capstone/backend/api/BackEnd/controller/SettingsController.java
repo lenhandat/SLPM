@@ -95,7 +95,7 @@ public class SettingsController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Edit setting fail " + "Message:" + e.getMessage());
+            response.setMessage("Edit setting fail: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

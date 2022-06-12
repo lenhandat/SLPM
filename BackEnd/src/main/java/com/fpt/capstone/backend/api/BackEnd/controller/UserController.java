@@ -54,14 +54,13 @@ public class UserController {
                                          ) throws Exception {
         ResponseObject response = new ResponseObject();
         try {
-
             userService.updateByID(userDTO);
             response.setSuccess(true);
             response.setMessage("Update user successfully");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Update user fail " + "Message:" + e.getMessage());
+            response.setMessage("Update user fail: "  + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

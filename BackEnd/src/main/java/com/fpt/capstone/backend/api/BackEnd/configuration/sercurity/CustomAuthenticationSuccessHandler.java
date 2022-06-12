@@ -16,11 +16,21 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
 
+//        ResponseObject responseObject = new ResponseObject();
+//        responseObject.setSuccess(false);
+//        responseObject.setMessage("Login success");
+//        response.setStatus(HttpStatus.OK.value());
+//        PrintWriter out = response.getWriter();
+//        ObjectMapper objectMapper= new ObjectMapper();
+//        String jsonString = objectMapper.writeValueAsString(responseObject);
+//        response.setContentType("application/json");
+//        response.setCharacterEncoding("UTF-8");
+//        out.print(jsonString);
+//        out.flush();
 
-        response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
+        response.setStatus(HttpServletResponse.SC_OK);
 
     }
 }

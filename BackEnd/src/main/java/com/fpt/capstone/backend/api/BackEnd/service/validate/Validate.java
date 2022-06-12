@@ -49,6 +49,7 @@ public class Validate {
         }
     }
 
+
     public void validateIterations(IterationsDTO iterationsDTO) throws Exception {
         if (iterationsRepository.findByIterationsName(iterationsDTO.getName()) > 0) {
             throw new Exception("Iterations Name already exist ");
@@ -141,6 +142,8 @@ public class Validate {
         if (!StringUtils.isEmpty(userDTO.getFacebookLink()) &&(!validate(userDTO.getFacebookLink(), String.valueOf(ConstantsRegex.LINK_PATTERN)))) {
             throw new Exception("Wrong link");
         }
+        //check if role=user => check setting id => loc tim ra nhung truong xua
+
         if (userDTO.getSettingsId() != null &&(!validate(userDTO.getSettingsId().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN)))) {
             throw new Exception("Id must be a integer");
         }
@@ -150,6 +153,7 @@ public class Validate {
         if (!StringUtils.isEmpty(userDTO.getStatus()) &&(!validate(userDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN)))) {
             throw new Exception("Status must be active or inactive");
         }
+
     }
 
     public void validateSetting(SettingsDTO settingsDTO) throws Exception {

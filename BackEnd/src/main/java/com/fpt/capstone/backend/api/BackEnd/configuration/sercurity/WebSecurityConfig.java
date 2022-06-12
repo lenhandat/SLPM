@@ -58,17 +58,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // dont authenticate this particular request
                 .authorizeRequests().
                 antMatchers("/login", "/register").permitAll().
-                // all other requests need to be authenticated
-                anyRequest().authenticated().and().
+        // all other requests need to be authenticated
+                        anyRequest().authenticated().and().logout().and().
 //                formLogin()
-//                    .loginPage("/login")
-//                    .successHandler(authenticationSuccessHandler())
-//                    .failureHandler(authenticationFailureHandler())
-//                    .permitAll().and().
+//                .loginPage("/login")
+//                .successHandler(authenticationSuccessHandler())
+//                .failureHandler(authenticationFailureHandler())
+//                .permitAll().and().
                 exceptionHandling().
-                    //handle accessdenied
-                    accessDeniedHandler(accessDeniedHandler()).
-                    authenticationEntryPoint(jwtAuthenticationEntryPoint).
+                //handle accessdenied
+                        accessDeniedHandler(accessDeniedHandler()).
+                authenticationEntryPoint(jwtAuthenticationEntryPoint).
                 and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // Add a filter to validate the tokens with every request
@@ -84,8 +84,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
+
     @Bean
-   public AuthenticationSuccessHandler authenticationSuccessHandler(){
-        return  new CustomAuthenticationSuccessHandler();
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
     }
 }

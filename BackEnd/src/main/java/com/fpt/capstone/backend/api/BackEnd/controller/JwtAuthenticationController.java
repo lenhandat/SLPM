@@ -22,10 +22,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /*
@@ -61,7 +66,7 @@ public class JwtAuthenticationController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Register fail catch " + "Message:" + e.getMessage());
+            response.setMessage("Register fail:" + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
@@ -70,14 +75,13 @@ public class JwtAuthenticationController {
 //    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+      //  authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         ResponseObject response = new ResponseObject();
         try {
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
             final CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
             final String token = jwtTokenUtil.generateToken(userDetails);
-
             //get role
             response.setSuccess(true);
             response.setMessage("Login success");
@@ -87,9 +91,10 @@ public class JwtAuthenticationController {
             response.setSuccess(false);
             response.setMessage("Login fail: username or password wrong");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Login fail " + e.getMessage());
+            response.setMessage("Login fail: invalid username or password ");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
 
@@ -100,12 +105,12 @@ public class JwtAuthenticationController {
         ResponseObject response = new ResponseObject();
 
         try {
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
 
             response.setSuccess(true);
             response.setMessage("Show user proflie  success");
-            response.setData(modelMapper.map(userDetails, UserDTO.class));
+            response.setData(modelMapper.map(userDetails.getUsers(), UserSignInDTO.class));
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
@@ -113,7 +118,16 @@ public class JwtAuthenticationController {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         // return ResponseEntity.ok(userDetailsService.createUser(user));
+    }
 
+
+    @RequestMapping(value="/logout", method=RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/";
     }
     private void authenticate(String username, String password) throws Exception,AuthenticationException {
         try {

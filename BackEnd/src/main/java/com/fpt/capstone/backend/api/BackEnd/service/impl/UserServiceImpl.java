@@ -95,24 +95,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateByID(UserDTO userDTO ) throws Exception {
+    public void updateByID(UserDTO userDTO) throws Exception {
+        //check current user
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         Users currentUser = userRepository.findByUsername(userName);
-        Users userDB= userRepository.findByUsername(userDTO.getUsername());
-        userDTO.setSettingsId(userDB.getSettings().getId());
+
+        //check ng dung truyen vo
+        Users userDB = userRepository.findByUsername(userDTO.getUsername());
+
         userDTO.setPassword(userDB.getPassword());
         validate.validateUsersEdit(userDTO);
-        if (userDB==null) {
+        Users users = convertToEntity(userDTO);
+
+        if (userDB == null) {
             throw new Exception("User not exsit");
         }
-        Users users = convertToEntity(userDTO);
-        if (currentUser.getSettings().getId()==2){
+        //check admin
+        if (currentUser.getSettings().getId() == 2) {
             userRepository.save(users);
-        }else{
-            if (!currentUser.getUsername().equals(userDTO.getUsername())){
-                throw new Exception("User don't permisstion");
+        } else {
+            if (!currentUser.getUsername().equals(userDTO.getUsername())) {
+                throw new Exception("User don't have permisstion");
             }
-            userRepository.save(users);
+            int currentSettingID=currentUser.getSettings().getId();
+            int settingIdInsert=userDTO.getSettingsId();
+            if(settingIdInsert!=currentSettingID){
+                throw new Exception("User don't have permisstion to edit role");
+            }
+            else {
+                userRepository.save(users);
+            }
+
+
         }
 
     }
