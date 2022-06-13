@@ -84,9 +84,9 @@ public class Validate {
         if (!validate(userDTO.getFullName(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
             throw new Exception("Full name must not contain special character and number");
         }
-        if (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN))) {
-            throw new Exception("Birth day must be format YYYY-MM-DD");
-        }
+//        if (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN))) {
+//            throw new Exception("Birth day must be format YYYY-MM-DD");
+//        }
         if (!validate(userDTO.getTel(), String.valueOf(ConstantsRegex.PHONE_PATTERN))) {
             throw new Exception("Phone number must have 10 character");
         }
@@ -127,9 +127,9 @@ public class Validate {
         if (!StringUtils.isEmpty(userDTO.getFullName()) && (!validate(userDTO.getFullName(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN)))) {
             throw new Exception("Full name must not contain special character and number");
         }
-        if (!StringUtils.isEmpty(userDTO.getBirthday()) && (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN)))) {
-            throw new Exception("Birth day must be format YYYY-MM-DD");
-        }
+//        if (!StringUtils.isEmpty(userDTO.getBirthday()) && (!validate(userDTO.getBirthday(), String.valueOf(ConstantsRegex.DATE_PATTERN)))) {
+//            throw new Exception("Birth day must be format ĐD-MM-YYYY");
+//        }
         if (!StringUtils.isEmpty(userDTO.getTel()) && (!validate(userDTO.getTel(), String.valueOf(ConstantsRegex.PHONE_PATTERN)))) {
             throw new Exception("Phone number must have 10 character");
         }
@@ -168,8 +168,8 @@ public class Validate {
         if (settingsRepository.searchByTypeIdDisplayOrder(settingsDTO.getTypeId(), settingsDTO.getDisplayOrder()) > 0) {
             throw new Exception("DisplayOrder already exist on this typeID");
         }
-        if (!validate(settingsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
-            throw new Exception("Status must be active or inactive");
-        }
+//        if (!validate(settingsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
+//            throw new Exception("Status must be active or inactive");
+//        }
     }
 }

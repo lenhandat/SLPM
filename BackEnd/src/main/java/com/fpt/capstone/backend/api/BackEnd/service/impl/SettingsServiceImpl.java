@@ -30,6 +30,7 @@ public class SettingsServiceImpl implements SettingService {
 
     public SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception {
         validate.validateSetting(settingsDTO);
+        settingsDTO.setStatus(ConstantsStatus.active.toString());
         settingsRepository.save(mapper.map(settingsDTO, Settings.class));
         return settingsDTO;
     }

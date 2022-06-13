@@ -79,7 +79,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public Users createUser(UserDTO usersDTO) throws Exception {
 //        System.out.println("ok1");
         if (checkDuplicateUsername(usersDTO.getUsername())) {
-            throw new Exception( " Username is already exist");
+            throw new Exception( "Username is already exist");
         }
         if (!validateInput(usersDTO.getPassword(), ConstantsRegex.pass.toString())) {
             throw new Exception("Invalid password");

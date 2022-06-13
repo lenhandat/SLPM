@@ -56,7 +56,8 @@ public class UserController {
         try {
             userService.updateByID(userDTO);
             response.setSuccess(true);
-            response.setMessage("Update user successfully");
+            response.setMessage("Update user proflie successfully");
+            response.setData(userDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);

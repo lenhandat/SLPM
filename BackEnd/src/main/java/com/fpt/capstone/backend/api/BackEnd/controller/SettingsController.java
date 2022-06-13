@@ -35,12 +35,12 @@ public class SettingsController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Add setting fail " + "Message:" + e.getMessage());
+            response.setMessage("Add setting fail: "  + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping ("/delete/{id}")
     public ResponseEntity<?> deleteSetting(@PathVariable("id") int id) {
         ResponseObject response = new ResponseObject();
         try {
@@ -85,7 +85,7 @@ public class SettingsController {
         }
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     public ResponseEntity<?> editSetting(@RequestBody SettingsDTO settingsDTO) throws Exception {
         ResponseObject response = new ResponseObject();
         try {

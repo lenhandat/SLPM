@@ -4,8 +4,8 @@ package com.fpt.capstone.backend.api.BackEnd.service;
 
 
 public enum ConstantsStatus {
-    open("OPEN"),
-    close("CLOSE");
+    active("active"),
+    inactive("inactive");
 
     private final String text;
     ConstantsStatus(String s) {
