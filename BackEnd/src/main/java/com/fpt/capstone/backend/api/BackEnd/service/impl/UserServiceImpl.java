@@ -7,6 +7,7 @@ import com.fpt.capstone.backend.api.BackEnd.entity.ResponseObject;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
+import com.fpt.capstone.backend.api.BackEnd.service.ConstantsStatus;
 import com.fpt.capstone.backend.api.BackEnd.service.UserService;
 import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.ModelMapper;
@@ -86,7 +87,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-        userRepository.deleteById(id);
+        Users users = userRepository.getOne(id);
+        users.setStatus(ConstantsStatus.inactive.toString());
+        userRepository.save(users);
     }
 
     @Override

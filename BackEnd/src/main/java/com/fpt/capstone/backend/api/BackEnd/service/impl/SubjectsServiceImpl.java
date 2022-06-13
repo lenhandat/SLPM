@@ -2,7 +2,9 @@ package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Subjects;
+import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
+import com.fpt.capstone.backend.api.BackEnd.service.ConstantsStatus;
 import com.fpt.capstone.backend.api.BackEnd.service.SubjectsService;
 import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.ModelMapper;
@@ -36,7 +38,9 @@ public class SubjectsServiceImpl implements SubjectsService {
 
     @Override
     public void deleteSubjects(int id) {
-        subjectsRepository.deleteById(id);
+        Subjects subjects = subjectsRepository.getOne(id);
+        subjects.setStatus(ConstantsStatus.inactive.toString());
+        subjectsRepository.save(subjects);
     }
 
     public SubjectsDTO findById(int id) {

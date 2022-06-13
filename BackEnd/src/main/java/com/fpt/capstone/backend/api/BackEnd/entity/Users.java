@@ -3,9 +3,6 @@ package com.fpt.capstone.backend.api.BackEnd.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +11,6 @@ import java.util.Date;
 @Entity
 @Table(name = "users")
 @Data
-
 public class Users extends  Auditable  implements Serializable {
     @Id
     @Column(name = "id")
@@ -27,7 +23,6 @@ public class Users extends  Auditable  implements Serializable {
     @Column(name = "password")
     @JsonIgnore
     private String password;
-
 
     @Column(name = "full_name")
     private String fullName;
@@ -58,7 +53,6 @@ public class Users extends  Auditable  implements Serializable {
     @JoinColumn(name = "role_id")
     @JsonBackReference
     private Settings settings;
-
 
     @Column(name = "status")
     private String status;

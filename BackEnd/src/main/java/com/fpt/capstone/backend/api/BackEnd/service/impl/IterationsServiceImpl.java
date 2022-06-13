@@ -4,6 +4,7 @@ import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Iterations;
 import com.fpt.capstone.backend.api.BackEnd.repository.IterationsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
+import com.fpt.capstone.backend.api.BackEnd.service.ConstantsStatus;
 import com.fpt.capstone.backend.api.BackEnd.service.InterationsService;
 import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.ModelMapper;
@@ -42,7 +43,9 @@ public class IterationsServiceImpl implements InterationsService {
 
     @Override
     public void deleteIterations(int id) {
-        iterationsRepository.deleteById(id);
+        Iterations iterations = iterationsRepository.getOne(id);
+        iterations.setStatus(ConstantsStatus.inactive.toString());
+        iterationsRepository.save(iterations);
     }
 
     @Override

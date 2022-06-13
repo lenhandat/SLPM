@@ -36,7 +36,9 @@ public class SettingsServiceImpl implements SettingService {
     }
 
     public void deleteSetting(int id) {
-        settingsRepository.deleteById(id);
+        Settings settings = settingsRepository.getOne(id);
+        settings.setStatus(ConstantsStatus.inactive.toString());
+        settingsRepository.save(settings);
     }
 
     public SettingsDTO findById(int id) {
