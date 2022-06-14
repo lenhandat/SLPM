@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/abc</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="SLPM@34.142.228.186" uuid="4ecb14e5-7503-42a8-a789-277d2e8fa417">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://34.142.228.186:3306/SLPM</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

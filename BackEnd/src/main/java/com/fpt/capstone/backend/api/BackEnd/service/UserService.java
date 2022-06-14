@@ -1,27 +1,35 @@
 package com.fpt.capstone.backend.api.BackEnd.service;
 
-import com.fpt.capstone.backend.api.BackEnd.dto.UserDTO;
-import com.fpt.capstone.backend.api.BackEnd.entity.Users;
-import org.springframework.data.domain.Page;
+import com.fpt.capstone.backend.api.BackEnd.dto.UpdateUserInfoDto;
+import com.fpt.capstone.backend.api.BackEnd.dto.UserChangePasswordDto;
+import com.fpt.capstone.backend.api.BackEnd.dto.UserRegisterDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Optional;
-
+@Service
 public interface UserService {
-    List<UserDTO> getAllUser();
 
-    void saveUser(UserDTO user) throws Exception;
+    ResponseEntity<?> getUserInformation(String jwtToken) throws Exception;
 
-    void deleteUser(int id);
+    ResponseEntity<?> changePassword(UserChangePasswordDto userChangePasswordDto, String jwtToken) throws Exception;
 
-    UserDTO findUserById(int id);
+    ResponseEntity<?> saveAvatarLink(String url, String token) throws Exception;
 
-    void updateByID (UserDTO userDTO) throws Exception;
-    Page<UserDTO> listBy(String username, String fullName, String tel , String email, int page, int per_page);
+    ResponseEntity<?> getAllUsers(String jwtToken) throws Exception;
 
-    ResponseEntity<?> getUserInformationByID(int id, String jwtToken) ;
-    ResponseEntity<?> getUserInformationByToken( String jwtToken) ;
+    ResponseEntity<?> getUserInformationById(long id, String jwtToken) throws Exception;
 
+    ResponseEntity<?> getNumberStaff(String jwtToken) throws Exception;
+
+    ResponseEntity<?> getAllUsers(String name, int page, int size, String sort, String jwtToken) throws Exception;
+
+    ResponseEntity<?> getStaffPaging(String name, int page, int size, String sort, String jwtToken) throws Exception;
+
+    ResponseEntity<?> putUserInformationById(UpdateUserInfoDto userInfo, long id) throws Exception;
+
+    ResponseEntity<?> isActiveUserById(long id) throws Exception;
+
+    ResponseEntity<?> searchByName(String name, int page, int size, String sort, String jwtToken) throws Exception;
+
+    ResponseEntity<?> addListUsers(UserRegisterDTO userRegisterDto) throws Exception;
 }

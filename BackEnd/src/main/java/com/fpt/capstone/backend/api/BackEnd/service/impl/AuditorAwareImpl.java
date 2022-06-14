@@ -1,5 +1,6 @@
 package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
+import com.fpt.capstone.backend.api.BackEnd.entity.CustomUserDetails;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,13 @@ public class AuditorAwareImpl implements AuditorAware<Integer> {
 
     @Override
     public Optional<Integer> getCurrentAuditor() {
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        Users user = userRepository.findByUsername(userName);
-
-        return Optional.ofNullable(user.getId());
+      //  String email = SecurityContextHolder.getContext().getAuthentication().getN;
+//        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+//                .getPrincipal();
+//        String userName = userDetails.getUsername();
+//        Users user = userRepository.findEmail(userName);
+//
+//        return Optional.ofNullable(user.getId());
+        return null;
     }
 }

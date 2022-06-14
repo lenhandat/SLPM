@@ -34,6 +34,7 @@ public class CustomUserDetails implements UserDetails {
         return  authorities;
     }
 
+
     @Override
     public String getPassword() {
         return users.getPassword();
@@ -41,7 +42,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return users.getUsername();
+        return users.getEmail();
     }
 
     @Override

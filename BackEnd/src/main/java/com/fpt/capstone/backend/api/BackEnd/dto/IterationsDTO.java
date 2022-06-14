@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
-
 @Data
 @AllArgsConstructor
 public class IterationsDTO {
@@ -19,5 +18,4 @@ public class IterationsDTO {
     private Integer modified_by;
     private String createdByUser;
     private String modifiedByUser;
-
 }

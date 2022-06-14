@@ -9,25 +9,30 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface SettingsRepository extends JpaRepository<Settings, Integer> {
 
-    @Query("SELECT new com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO(p.id,p.typeId,p.title,p.value,p.displayOrder" +
-            ",p.status,p.created,p.created_by,p.modified,p.modified_by,u1.username,u2.username)  FROM Settings p " +
-            "join Users u1 on u1.id=p.created_by " +
-            "join Users u2 on u2.id=p.modified_by " +
-            " WHERE p.title LIKE %:keyTitle% "
-            + " and p.value LIKE %:keyValue% "
-            + " order by p.typeId"
-    )
-    Page<SettingsDTO> search(@Param("keyTitle") String keyTitle, @Param("keyValue") String keyValue, Pageable pageable);
+//    @Query("SELECT new com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO(s1.id,s1.typeId,s1.title,s1.value,s1.displayOrder" +
+//            ",s1.status,s1.created,s1.created_by,s1.modified,s1.modified_by,u1.email,u2.email)  FROM Settings s1 " +
+//            "join Settings s2 ON s1.typeId = s2.id "+
+//            "join Users u1 on u1.id=s1.created_by " +
+//            "join Users u2 on u2.id=s1.modified_by " +
+//            " WHERE s1.title LIKE %:keyTitle% "
+//            + " and s1.value LIKE %:keyValue% "
+//            + " order by s1.typeId"
+//    )
+//    Page<SettingsDTO> search(@Param("keyTitle") String keyTitle, @Param("keyValue") String keyValue, Pageable pageable);
+//
+//    @Query("SELECT count(p.id) FROM Settings p WHERE p.title LIKE %:keyTitle%"
+//            + " and p.value LIKE %:keyValue%")
+//    Integer getTotalSetting(@Param("keyTitle") String keyTitle, @Param("keyValue") String keyValue);
 
-    @Query("SELECT count(p.id) FROM Settings p WHERE p.title LIKE %:keyTitle%"
-            + " and p.value LIKE %:keyValue%")
-    Integer getTotalSetting(@Param("keyTitle") String keyTitle, @Param("keyValue") String keyValue);
+    Optional<Settings> findRoleByValue(String value);
 
-
-    @Query("SELECT count(p.id) FROM Settings p WHERE p.typeId = ?1"
-            + " and p.displayOrder = ?2")
-    Integer searchByTypeIdDisplayOrder(int typeId, int displayOrder);
+//    @Query("SELECT count(p.id) FROM Settings p WHERE p.typeId = ?1"
+//
+//            + " and p.displayOrder = ?2")
+//    Integer searchByTypeIdDisplayOrder(int typeId, int displayOrder);
 }

@@ -1,15 +1,11 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -31,19 +27,12 @@ public class Settings extends Auditable  implements Serializable {
     private String value;
 
     @Column(name = "display_order")
-    private Integer displayOrder;
+    private Byte displayOrder;
 
     @Column(name = "status")
     private String status;
 
 
 
-//    @OneToMany(mappedBy = "settings", cascade = CascadeType.ALL)
-    // Quan hệ 1-n với đối tượng ở dưới (setting) (1 seting role có nhiều người )
-    // MapopedBy trỏ tới tên biến settings ở trong Users.
-    //    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    //    @ToString.Exclude // Khoonhg sử dụng trong toString()
-    //    @JsonManagedReference
-    //    private Collection<Users> Users;
 
 }
