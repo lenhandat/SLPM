@@ -8,6 +8,7 @@ import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 
 @Service
@@ -151,31 +152,28 @@ public class Validate {
 
     public void validateSetting(SettingsDTO settingsDTO) throws Exception {
 
-//        if (ObjectUtils.isEmpty(settingsDTO.getTitle())) {
-//            throw new Exception("Title can't be empty");
-//        }
-//        if (!validate(settingsDTO.getTitle(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
-//            throw new Exception("Title must not contain special character and number");
-//        }
-//        if (ObjectUtils.isEmpty(settingsDTO.getValue())) {
-//            throw new Exception("Value can't be empty");
-//        }
-//        //displayOrder check trùng trong phạm vi type id
-//        if (ObjectUtils.isEmpty(settingsDTO.getTitle())) {
-//            throw new Exception("Title can't be empty");
-//        }
-//        if (ObjectUtils.isEmpty(settingsDTO.getTypeId())) {
-//            throw new Exception("TypeID can't be empty");
-//        }
-//        if (ObjectUtils.isEmpty(settingsDTO.getDisplayOrder())) {
-//            throw new Exception("DisplayOrder can't be empty");
-//        }
-//        if (settingsRepository.searchByTypeIdDisplayOrder(settingsDTO.getTypeId(), settingsDTO.getDisplayOrder()) > 0) {
-//            throw new Exception("DisplayOrder already exist on this typeID");
-//        }
-//        if (!validate(settingsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))
-//                || ObjectUtils.isEmpty(settingsDTO.getStatus())) {
-//            throw new Exception("Status must be active or inactive");
-//        }
+        if (ObjectUtils.isEmpty(settingsDTO.getTitle())) {
+            throw new Exception("Title can't be empty");
+        }
+        if (!validate(settingsDTO.getTitle(), String.valueOf(ConstantsRegex.FULLNAME_PATTERN))) {
+            throw new Exception("Title must not contain special character and number");
+        }
+        if (ObjectUtils.isEmpty(settingsDTO.getValue())) {
+            throw new Exception("Value can't be empty");
+        }
+        //displayOrder check trùng trong phạm vi type id
+        if (ObjectUtils.isEmpty(settingsDTO.getTitle())) {
+            throw new Exception("Title can't be empty");
+        }
+        if (ObjectUtils.isEmpty(settingsDTO.getTypeId())) {
+            throw new Exception("TypeID can't be empty");
+        }
+        if (ObjectUtils.isEmpty(settingsDTO.getDisplayOrder())) {
+            throw new Exception("DisplayOrder can't be empty");
+        }
+        if (ObjectUtils.isEmpty(settingsDTO.getStatus())
+                ||!validate(settingsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
+            throw new Exception("Status must be active or inactive");
+        }
     }
 }
