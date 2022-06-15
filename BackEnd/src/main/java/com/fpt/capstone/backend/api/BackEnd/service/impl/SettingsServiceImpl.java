@@ -34,7 +34,9 @@ public class SettingsServiceImpl implements SettingService {
     @Override
     public Page<SettingsDTO> getSetingByType(int id, int page, int per_page) {
         Pageable pageable = PageRequest.of(page - 1, per_page);
+
         return settingsRepository.getSetingByType(id, pageable);
+
     }
 
 //    public SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception {
