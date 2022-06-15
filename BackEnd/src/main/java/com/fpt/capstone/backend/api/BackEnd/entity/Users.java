@@ -72,6 +72,16 @@ public class Users {
     @Column(name = "verification_code", length = 64)
     private String verificationCode;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_provider")
+    private Provider Provider;
     private boolean enabled;
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
 }

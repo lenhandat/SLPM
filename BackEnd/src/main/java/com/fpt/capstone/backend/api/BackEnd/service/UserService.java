@@ -32,4 +32,5 @@ public interface UserService {
     ResponseEntity<?> searchByName(String name, int page, int size, String sort, String jwtToken) throws Exception;
 
     ResponseEntity<?> addListUsers(UserRegisterDTO userRegisterDto) throws Exception;
+
 }

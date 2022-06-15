@@ -1,19 +1,27 @@
-package com.fpt.capstone.backend.api.BackEnd.service;
+package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 
 import com.fpt.capstone.backend.api.BackEnd.dto.UpdateUserInfoDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserChangePasswordDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserRegisterDTO;
+import com.fpt.capstone.backend.api.BackEnd.entity.Provider;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
+import com.fpt.capstone.backend.api.BackEnd.service.UserService;
 import com.fpt.capstone.backend.api.BackEnd.utils.security.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @Service
@@ -38,6 +46,9 @@ public class UserServiceImpl implements UserService {
    // private final MailServiceImpl mailService;
 
    // private final DepartmentRepository departmentRepository;
+
+
+
 
     @Override
     public ResponseEntity<?> getUserInformation(String jwtToken) throws Exception {
