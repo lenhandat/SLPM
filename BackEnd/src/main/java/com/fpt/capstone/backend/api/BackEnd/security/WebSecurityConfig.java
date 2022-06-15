@@ -63,31 +63,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/login", "/register").permitAll().
                 antMatchers("/oauth2/**").permitAll().
                 // all other requests need to be authenticated
-                        anyRequest().permitAll().and().
-                formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .permitAll()
-                .defaultSuccessUrl("/")
-                .and()
-                .oauth2Login().loginPage("/login")
-                .userInfoEndpoint().userService(oAuth2UserService)
-                .and()
-                .successHandler(new AuthenticationSuccessHandler() {
-
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                        Authentication authentication) throws IOException, ServletException {
-                        System.out.println("AuthenticationSuccessHandler invoked");
-                        System.out.println("Authentication name: " + authentication.getName());
-                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-
-                        userService.processOAuthPostLogin(oauthUser.getEmail());
-                        //send redirect
-                        response.sendRedirect("/list");
-                    }
-                })
-                .and()
+                        anyRequest().permitAll().and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .usernameParameter("email")
+//                .permitAll()
+//                .defaultSuccessUrl("/")
+//                .and()
+//                .oauth2Login().loginPage("/login")
+//                .userInfoEndpoint().userService(oAuth2UserService)
+//                .and()
+//                .successHandler(new AuthenticationSuccessHandler() {
+//
+//                    @Override
+//                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+//                                                        Authentication authentication) throws IOException, ServletException {
+//                        System.out.println("AuthenticationSuccessHandler invoked");
+//                        System.out.println("Authentication name: " + authentication.getName());
+//                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+//
+//                        userService.processOAuthPostLogin(oauthUser.getEmail());
+//                        //send redirect
+//                        response.sendRedirect("/list");
+//                    }
+//                })
+//                .and()
                 .logout().permitAll().and().
 
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

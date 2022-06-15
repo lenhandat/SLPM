@@ -69,7 +69,7 @@ public class JwtAuthenticationController {
 @Autowired
 private AuthenticationServiceImpl authenticationService;
 
-    @PostMapping("/signIn")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticate(
             @Valid @RequestBody UserLoginDto userLoginDto) {
         try {

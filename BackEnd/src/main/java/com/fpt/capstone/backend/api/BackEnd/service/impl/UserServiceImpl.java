@@ -4,6 +4,7 @@ package com.fpt.capstone.backend.api.BackEnd.service.impl;
 import com.fpt.capstone.backend.api.BackEnd.dto.UpdateUserInfoDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserChangePasswordDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserRegisterDTO;
+import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Provider;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
@@ -11,9 +12,13 @@ import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.UserService;
 import com.fpt.capstone.backend.api.BackEnd.utils.security.JwtUtils;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +42,8 @@ public class UserServiceImpl implements UserService {
     private final SettingsRepository settingsRepository;
 
     private final JwtUtils jwtUtils;
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     //private final CommonUtils utils;
@@ -485,6 +492,15 @@ public class UserServiceImpl implements UserService {
 //                        .data(failResponse)
 //                        .build()
 //        );
+    }
+
+    @Override
+    public Page<UsersDTO> listBy(String email,String fullName, int page, int per_page) {
+        Pageable pageable = PageRequest.of(page - 1, per_page);
+        Page<Users> users = userRepository.search(email, fullName, pageable);
+        Page<UsersDTO> userDTOs = users.map(users1 -> modelMapper.map(users1, UsersDTO.class));
+        return userDTOs;
+
     }
 
     private String validateRegisterInformation(UserRegisterDTO user) {
