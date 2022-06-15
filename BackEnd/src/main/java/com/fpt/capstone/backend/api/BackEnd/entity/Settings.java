@@ -32,4 +32,7 @@ public class Settings extends Auditable  implements Serializable {
     @Column(name = "status")
     private String status;
 
+
+
+
 }

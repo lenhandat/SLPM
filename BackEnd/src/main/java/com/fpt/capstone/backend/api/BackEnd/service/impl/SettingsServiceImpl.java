@@ -1,9 +1,7 @@
 package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
-import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
-import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.ConstantsStatus;
 import com.fpt.capstone.backend.api.BackEnd.service.SettingService;
@@ -14,10 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
-import java.text.ParseException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SettingsServiceImpl implements SettingService {
@@ -37,34 +34,52 @@ public class SettingsServiceImpl implements SettingService {
     }
 
     @Override
-    public Page<SettingsDTO> getSetingByType(int id,String value, int page, int per_page) {
+    public Page<SettingsDTO> getSetingByType(int id, String value, int page, int per_page) {
         Pageable pageable = PageRequest.of(page - 1, per_page);
-        return settingsRepository.getSetingByType(id,value, pageable);
+        return settingsRepository.getSetingByType(id, value, pageable);
     }
+
     @Override
-    public SettingsDTO addSettings(SettingsDTO settingsDTO) {
-//        validate.validateSetting(settingsDTO);
+    public SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception {
         settingsDTO.setStatus(ConstantsStatus.active.toString());
+        validate.validateSetting(settingsDTO);
+        if (settingsRepository.searchByTypeIdDisplayOrder(settingsDTO.getTypeId(), settingsDTO.getDisplayOrder()) > 0) {
+            throw new Exception("DisplayOrder already exist on this typeID");
+        }
         settingsRepository.save(mapper.map(settingsDTO, Settings.class));
         return settingsDTO;
     }
 
     @Override
     public void deleteSetting(int id) {
-        settingsRepository.deleteSettingById(id);
+        Settings settings = settingsRepository.getOne(id);
+        settings.setStatus(ConstantsStatus.inactive.toString());
+        settingsRepository.save(settings);
     }
+
     @Override
-    public void updateSetting(SettingsDTO settingsDTO) throws ParseException {
+    public void updateSetting(SettingsDTO settingsDTO) throws Exception {
+        if (ObjectUtils.isEmpty(settingsDTO.getId())) {
+            throw new Exception("ID can't be empty");
+        }
+        validate.validateSetting(settingsDTO);
         Settings settings = settingsRepository.getOne(settingsDTO.getId());
+        if (settingsDTO.getDisplayOrder() != settings.getDisplayOrder()
+                || settingsDTO.getTypeId() != settings.getTypeId()) {
+            if (settingsRepository.searchByTypeIdDisplayOrder(settingsDTO.getTypeId(), settingsDTO.getDisplayOrder()) > 0) {
+                throw new Exception("DisplayOrder already exist on this typeID");
+            }
+        }
         settings = convertToEntity(settingsDTO);
-         settingsRepository.save(settings);
+        settingsRepository.save(settings);
 
     }
 
-    private Settings convertToEntity(SettingsDTO settingsDTO) throws ParseException {
+    private Settings convertToEntity(SettingsDTO settingsDTO) throws Exception {
         Settings settings = mapper.map(settingsDTO, Settings.class);
         return settings;
     }
+
     //
     @Override
     public SettingsDTO getSettingDetail(int id) {

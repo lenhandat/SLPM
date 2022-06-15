@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "/*", maxAge = 3600)
 public class SettingController {
     @Autowired
-   private ModelMapper modelMapper ;
+    private ModelMapper modelMapper ;
     @Autowired
     private SettingService settingService;
 
@@ -60,6 +60,7 @@ public class SettingController {
         try {
             response.setSuccess(true);
             response.setMessage("Update setting successfully");
+            settingService.updateSetting(settingsDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
@@ -75,7 +76,6 @@ public class SettingController {
             @RequestParam("page") int page,
             @RequestParam("per_page") int per_page)
     {
-
         ResponsePaggingObject response = new ResponsePaggingObject();
         try {
             Page<SettingsDTO> settings = settingService.getSetingByType(key_id,key_value,page,per_page);

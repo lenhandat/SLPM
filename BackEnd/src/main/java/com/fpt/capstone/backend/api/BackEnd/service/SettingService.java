@@ -14,9 +14,9 @@ public interface SettingService {
 
     public void deleteSetting(int id);
 
-    public SettingsDTO addSettings(SettingsDTO settingsDTO);
+    public SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception;
 
-    public void updateSetting(SettingsDTO settingsDTO) throws ParseException;
+    public void updateSetting(SettingsDTO settingsDTO) throws Exception;
 
     public SettingsDTO getSettingDetail(int id);
 }

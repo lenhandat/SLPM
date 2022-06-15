@@ -35,10 +35,10 @@ public interface SettingsRepository extends JpaRepository<Settings, Integer> {
 
     Optional<Settings> findRoleByValue(String value);
 
-    //    @Query("SELECT count(p.id) FROM Settings p WHERE p.typeId = ?1"
-//
-//            + " and p.displayOrder = ?2")
-//    Integer searchByTypeIdDisplayOrder(int typeId, int displayOrder);
+        @Query("SELECT count(p.id) FROM Settings p WHERE p.typeId = ?1"
+            + " and p.displayOrder = ?2")
+    Integer searchByTypeIdDisplayOrder(int typeId, int displayOrder);
+
     @Query("SELECT s FROM Settings s WHERE s.typeId = 1")
     public List<Settings> getTypeSeting();
 
