@@ -1,5 +1,5 @@
 package com.fpt.capstone.backend.api.BackEnd.entity;
 
 public enum Provider {
-	LOCAL, GOOGLE, FACEBOOK, GITHUB
+	LOCAL, GOOGLE, FACEBOOK, GITLAB
 }

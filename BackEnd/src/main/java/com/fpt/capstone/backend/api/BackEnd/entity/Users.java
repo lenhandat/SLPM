@@ -69,8 +69,8 @@ public class Users {
     @Column(name = "modified_by")
     private Integer modifiedBy;
 
-    @Column(name = "verification_code", length = 64)
-    private String verificationCode;
+//    @Column(name = "verification_code", length = 64)
+//    private String verificationCode;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
