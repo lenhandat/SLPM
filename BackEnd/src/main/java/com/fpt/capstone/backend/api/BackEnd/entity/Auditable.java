@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -23,7 +24,7 @@ public abstract  class Auditable {
 
     @CreatedDate
     @Column(name = "created", updatable = false)
-    protected Timestamp created;
+    protected Date created;
 
 
     @LastModifiedBy
@@ -32,7 +33,7 @@ public abstract  class Auditable {
 
     @LastModifiedDate
     @Column(name = "modified")
-    protected Timestamp  modified;
+    protected Date  modified;
 
 
 }

@@ -39,6 +39,11 @@ public class SettingsServiceImpl implements SettingService {
 
     }
 
+    @Override
+    public Settings save(Settings settings) {
+        return  settingsRepository.save(settings);
+    }
+
 //    public SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception {
 //        validate.validateSetting(settingsDTO);
 //        settingsDTO.setStatus(ConstantsStatus.active.toString());

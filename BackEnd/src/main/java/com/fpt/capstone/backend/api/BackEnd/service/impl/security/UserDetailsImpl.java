@@ -21,7 +21,7 @@ import java.util.Date;
 public class UserDetailsImpl implements UserDetails {
     private Users users;
 
-    private Long id;
+    private Integer id;
 
     private String username;
 

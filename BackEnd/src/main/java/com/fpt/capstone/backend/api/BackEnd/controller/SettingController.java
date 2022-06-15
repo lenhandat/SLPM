@@ -1,11 +1,14 @@
 package com.fpt.capstone.backend.api.BackEnd.controller;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
+import com.fpt.capstone.backend.api.BackEnd.entity.ApiResponse;
 import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.service.SettingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -33,5 +36,18 @@ public class SettingController {
         List<SettingsDTO> settingsDTOS = Arrays.asList(modelMapper.map(settings.getContent(), SettingsDTO[].class));
         return settingsDTOS;
     }
-
+    @PostMapping("add")
+        public ResponseEntity<?> addSetting(@RequestBody Settings settingsDTO) {
+        ApiResponse response = new ApiResponse();
+        try {
+            response.setSuccess(true);
+            response.setMessage("Add subject successfully");
+            response.setData(settingService.save(settingsDTO));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage("Add subject fail " + "Message:" + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
