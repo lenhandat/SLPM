@@ -3,6 +3,7 @@ package com.fpt.capstone.backend.api.BackEnd.controller;
 import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.ApiResponse;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
+import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
-
+@CrossOrigin(origins = "/*", maxAge = 3600)
 public class UserController {
 
     @Autowired
@@ -61,6 +62,23 @@ public class UserController {
             response.setSuccess(true);
             response.setMessage("Update user proflie successfully");
             response.setData(userDTO);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage("Update user fail: "  + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @Autowired
+    UserRepository userRepository;
+    @PutMapping ("/inactiveUser")
+    public ResponseEntity<?> inactiveUser(@RequestParam Integer id
+    ) throws Exception {
+        ApiResponse response = new ApiResponse();
+        try {
+            userRepository.setInactiveUser(id);
+            response.setSuccess(true);
+            response.setMessage("Update user to inactive successfully");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);

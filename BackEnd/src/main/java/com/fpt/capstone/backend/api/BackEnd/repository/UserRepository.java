@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,9 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     @Query("SELECT u FROM Users u WHERE u.email LIKE %?1%"
             + " and u.fullName LIKE %?2% ")
     public Page<Users> search(String email, String fullName,  Pageable pageable);
-
+    @Modifying
+    @Query("update Users u set u.status = 'inactive' where u.id=:id")
+    void setInactiveUser(@Param("id") Integer id);
 
     //  Page<Users> findByRoles(Settings settings, PageRequest of);
 

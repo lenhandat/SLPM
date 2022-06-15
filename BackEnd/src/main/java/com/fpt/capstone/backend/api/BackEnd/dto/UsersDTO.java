@@ -1,6 +1,7 @@
 package com.fpt.capstone.backend.api.BackEnd.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fpt.capstone.backend.api.BackEnd.entity.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class UsersDTO {
     private Integer createdBy;
     private Date modified;
     private Integer modifiedBy;
+    private Provider provider;
 
 
 }
