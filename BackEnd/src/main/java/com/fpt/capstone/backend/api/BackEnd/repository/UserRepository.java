@@ -30,6 +30,7 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     public Page<Users> search(String email, String fullName,  Pageable pageable);
 
 
+
     //  Page<Users> findByRoles(Settings settings, PageRequest of);
 
    // List<Users> findAllByRolesContains(Settings settings, Pageable pageable);
