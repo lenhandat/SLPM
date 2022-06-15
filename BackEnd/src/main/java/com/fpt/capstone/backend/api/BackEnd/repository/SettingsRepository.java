@@ -43,7 +43,7 @@ public interface SettingsRepository extends JpaRepository<Settings, Integer> {
     public List<Settings> getTypeSeting();
 
     @Query("SELECT new com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO( s1.id, s1.typeId, s2.value , s1.value" +
-            ", s1.displayOrder, s1.status, s1.created, s1.created_by, s1.modified, s1.modified_by,u1.email,u2.email) " +
+            ", s1.displayOrder, s1.status, s1.created, s1.created_by, s1.modified, s1.modified_by,u1.fullName,u2.fullName) " +
             "FROM Settings s1 " +
             "JOIN Settings s2 ON s1.typeId = s2.id " +
             "join Users u1 on u1.id=s1.created_by " +
