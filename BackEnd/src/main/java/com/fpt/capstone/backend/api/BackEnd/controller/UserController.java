@@ -1,12 +1,14 @@
 package com.fpt.capstone.backend.api.BackEnd.controller;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
+import com.fpt.capstone.backend.api.BackEnd.entity.ApiResponse;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -18,13 +20,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
+
 public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
     @Autowired
     private UserDetailsService userDetailsService;
-
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/getAll")
     public ResponseEntity<?> findUserBy(@RequestParam("key_email") String key_email,
                                         @RequestParam("key_fullName") String key_fullName,
@@ -49,22 +52,22 @@ public class UserController {
         }
     }
 
-//    @PutMapping ("/edit")
-//    public ResponseEntity<?> editSubject(@RequestBody UsersDTO userDTO
-//                                         ) throws Exception {
-//        ResponseObject response = new ResponseObject();
-//        try {
-//            userService.updateByID(userDTO);
-//            response.setSuccess(true);
-//            response.setMessage("Update user proflie successfully");
-//            response.setData(userDTO);
-//            return new ResponseEntity<>(response, HttpStatus.OK);
-//        } catch (Exception e) {
-//            response.setSuccess(false);
-//            response.setMessage("Update user fail: "  + e.getMessage());
-//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @PutMapping ("/edit")
+    public ResponseEntity<?> editSubject(@RequestBody UsersDTO userDTO
+                                         ) throws Exception {
+        ApiResponse response = new ApiResponse();
+        try {
+            userService.updateByID(userDTO);
+            response.setSuccess(true);
+            response.setMessage("Update user proflie successfully");
+            response.setData(userDTO);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage("Update user fail: "  + e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 
 //    @RequestMapping(value = "/add", method = RequestMethod.POST)
 //    public ResponseEntity<?> addUser(@RequestBody UsersDTO usersDTO) throws Exception {

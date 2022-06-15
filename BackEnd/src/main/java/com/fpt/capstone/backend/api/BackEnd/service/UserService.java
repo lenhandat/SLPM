@@ -1,6 +1,6 @@
 package com.fpt.capstone.backend.api.BackEnd.service;
 
-import com.fpt.capstone.backend.api.BackEnd.dto.UpdateUserInfoDto;
+import com.fpt.capstone.backend.api.BackEnd.dto.UserInfoDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserChangePasswordDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserRegisterDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
@@ -27,7 +27,7 @@ public interface UserService {
 
     ResponseEntity<?> getStaffPaging(String name, int page, int size, String sort, String jwtToken) throws Exception;
 
-    ResponseEntity<?> putUserInformationById(UpdateUserInfoDto userInfo, long id) throws Exception;
+    ResponseEntity<?> putUserInformationById(UserInfoDto userInfo, long id) throws Exception;
 
     ResponseEntity<?> isActiveUserById(long id) throws Exception;
 
@@ -35,5 +35,9 @@ public interface UserService {
 
     ResponseEntity<?> addListUsers(UserRegisterDTO userRegisterDto) throws Exception;
     Page<UsersDTO> listBy(String fullName, String email, int page, int per_page);
+    UsersDTO findUserById(long id);
+
+    void updateByID (UsersDTO userDTO) throws Exception;
+
 
 }

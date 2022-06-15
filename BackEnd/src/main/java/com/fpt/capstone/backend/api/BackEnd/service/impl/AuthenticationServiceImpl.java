@@ -60,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         Users user = userRepository.findByEmail(userLoginDto.getEmail()).get();
 
-        if (user.getStatus().equals("inactive")) {
+        if (user.getStatus().equals("inactive")||user.getStatus().equals("")) {
             logger.error("Account INACTIVE!");
             return ResponseEntity.status(401).body(
                     ApiResponse.builder()

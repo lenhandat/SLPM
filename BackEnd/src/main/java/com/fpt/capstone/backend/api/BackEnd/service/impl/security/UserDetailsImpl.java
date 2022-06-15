@@ -53,6 +53,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @JsonIgnore
     private String password;
+    private int roleID;
     private boolean enable;
 
     private Collection<? extends GrantedAuthority> authorities;

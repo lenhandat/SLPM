@@ -21,6 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -63,7 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/login", "/register").permitAll().
                 antMatchers("/oauth2/**").permitAll().
                 // all other requests need to be authenticated
-                        anyRequest().permitAll().and()
+
+                        anyRequest().authenticated().and()
 //                .formLogin()
 //                .loginPage("/login")
 //                .usernameParameter("email")
@@ -89,10 +91,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                })
 //                .and()
                 .logout().permitAll().and().
-
+                exceptionHandling().
+                //handle accessdenied
+                        accessDeniedHandler(accessDeniedHandler()).and().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 
     @Autowired

@@ -1,15 +1,15 @@
 package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
 
-import com.fpt.capstone.backend.api.BackEnd.dto.UpdateUserInfoDto;
+import com.fpt.capstone.backend.api.BackEnd.dto.UserInfoDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserChangePasswordDto;
 import com.fpt.capstone.backend.api.BackEnd.dto.UserRegisterDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
-import com.fpt.capstone.backend.api.BackEnd.entity.Provider;
 import com.fpt.capstone.backend.api.BackEnd.entity.Users;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.UserService;
+import com.fpt.capstone.backend.api.BackEnd.service.impl.security.UserDetailsImpl;
 import com.fpt.capstone.backend.api.BackEnd.utils.security.JwtUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,13 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParseException;
+import java.util.Optional;
 
 
 @Service
@@ -293,7 +292,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public ResponseEntity<?> putUserInformationById(UpdateUserInfoDto userInfo, long id) throws Exception {
+    public ResponseEntity<?> putUserInformationById(UserInfoDto userInfo, long id) throws Exception {
 //        UserInforResponse userInforResponse = new UserInforResponse();
 //        User currentUser = userRepository.findById(id).orElse(null);
 //
@@ -500,6 +499,56 @@ public class UserServiceImpl implements UserService {
         Page<Users> users = userRepository.search(email, fullName, pageable);
         Page<UsersDTO> userDTOs = users.map(users1 -> modelMapper.map(users1, UsersDTO.class));
         return userDTOs;
+
+    }
+
+    @Override
+    public UsersDTO findUserById(long id) {
+        return modelMapper.map(userRepository.findById(id), UsersDTO.class);
+    }
+    private Users convertToEntity(UsersDTO usersDTO) throws ParseException {
+        Users users = modelMapper.map(usersDTO, Users.class);
+//        users.setPassword(BCrypt.hashpw(usersDTO.getPassword(), BCrypt.gensalt(12)));
+//        Date birthDate = new SimpleDateFormat("yyyy-mm-dd").parse(usersDTO.getBirthday());
+//        users.setBirthday(birthDate);
+        users.setSettings(settingsRepository.getById(usersDTO.getRoleId()));
+        return users;
+    }
+
+    @Override
+    public void updateByID(UsersDTO userDTO) throws Exception {
+
+        //UserDetailsImpl currentUser= (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+       Optional<Users> currentUser = userRepository.findByEmail(userName);
+
+        //check ng dung truyen vo
+        Optional<Users> userDB = userRepository.findByEmail(userDTO.getEmail());
+
+        userDTO.setPassword(userDB.get().getPassword());
+        //validate.validateUsersEdit(userDTO);
+        Users users = convertToEntity(userDTO);
+
+        if (userDB == null) {
+            throw new Exception("User not exsit");
+        }
+        //check admin
+        if (currentUser.get().getSettings().getId()==7) {
+            userRepository.save(users);
+        } else {
+            if (!currentUser.get().getEmail().equals(userDTO.getEmail())) {
+                throw new Exception("User don't have permisstion");
+            }
+            int currentSettingID=currentUser.get().getSettings().getId();
+            int settingIdInsert=userDTO.getRoleId();
+            if(settingIdInsert!=currentSettingID){
+                throw new Exception("User don't have permisstion to edit role");
+            }
+            else {
+                userRepository.save(users);
+            }
+
+        }
 
     }
 
