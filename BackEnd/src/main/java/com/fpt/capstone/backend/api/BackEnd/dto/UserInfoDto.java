@@ -1,6 +1,5 @@
 package com.fpt.capstone.backend.api.BackEnd.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,13 +7,11 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UsersDTO {
+@AllArgsConstructor
+public class UserInfoDto {
     private Integer id;
     private String email;
-    @JsonIgnore
-    private String password;
     private String fullName;
     private Date birthday;
     private String tel;
@@ -30,6 +27,4 @@ public class UsersDTO {
     private Integer createdBy;
     private Date modified;
     private Integer modifiedBy;
-
-
 }

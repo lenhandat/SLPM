@@ -27,7 +27,7 @@ public class Settings extends Auditable  implements Serializable {
     private String value;
 
     @Column(name = "display_order")
-    private Byte displayOrder;
+    private Integer displayOrder;
 
     @Column(name = "status")
     private String status;

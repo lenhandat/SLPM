@@ -11,20 +11,20 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class AuditorAwareImpl implements AuditorAware<Integer> {
+public class AuditorAwareImpl implements AuditorAware<Long> {
 
     @Autowired
     UserRepository userRepository;
 
     @Override
-    public Optional<Integer> getCurrentAuditor() {
-      //  String email = SecurityContextHolder.getContext().getAuthentication().getN;
-//        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
-//                .getPrincipal();
-//        String userName = userDetails.getUsername();
-//        Users user = userRepository.findEmail(userName);
-//
-//        return Optional.ofNullable(user.getId());
-        return null;
+    public Optional<Long> getCurrentAuditor() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        //CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+        //        .getPrincipal();
+       // String userName = userDetails.getUsername();
+        Optional<Users> user = userRepository.findByEmail(email);
+
+        return Optional.ofNullable(user.get().getId());
+        //return null;
     }
 }

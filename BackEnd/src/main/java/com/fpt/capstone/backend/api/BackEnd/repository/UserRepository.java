@@ -25,7 +25,12 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     @Query("SELECT u FROM Users u WHERE u.email = :email")
     public Users getUserByEmail(@Param("email") String email);
 
-  //  Page<Users> findByRoles(Settings settings, PageRequest of);
+    @Query("SELECT u FROM Users u WHERE u.email LIKE %?1%"
+            + " and u.fullName LIKE %?2% ")
+    public Page<Users> search(String email, String fullName,  Pageable pageable);
+
+
+    //  Page<Users> findByRoles(Settings settings, PageRequest of);
 
    // List<Users> findAllByRolesContains(Settings settings, Pageable pageable);
 

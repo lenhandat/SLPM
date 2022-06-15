@@ -21,6 +21,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -63,36 +64,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/login", "/register").permitAll().
                 antMatchers("/oauth2/**").permitAll().
                 // all other requests need to be authenticated
-                        anyRequest().permitAll().and().
-                formLogin()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .permitAll()
-                .defaultSuccessUrl("/")
-                .and()
-                .oauth2Login().loginPage("/login")
-                .userInfoEndpoint().userService(oAuth2UserService)
-                .and()
-                .successHandler(new AuthenticationSuccessHandler() {
 
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                        Authentication authentication) throws IOException, ServletException {
-                        System.out.println("AuthenticationSuccessHandler invoked");
-                        System.out.println("Authentication name: " + authentication.getName());
-                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-
-                        userService.processOAuthPostLogin(oauthUser.getEmail());
-                        //send redirect
-                        response.sendRedirect("/list");
-                    }
-                })
-                .and()
+                        anyRequest().authenticated().and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .usernameParameter("email")
+//                .permitAll()
+//                .defaultSuccessUrl("/")
+//                .and()
+//                .oauth2Login().loginPage("/login")
+//                .userInfoEndpoint().userService(oAuth2UserService)
+//                .and()
+//                .successHandler(new AuthenticationSuccessHandler() {
+//
+//                    @Override
+//                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+//                                                        Authentication authentication) throws IOException, ServletException {
+//                        System.out.println("AuthenticationSuccessHandler invoked");
+//                        System.out.println("Authentication name: " + authentication.getName());
+//                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+//
+//                        userService.processOAuthPostLogin(oauthUser.getEmail());
+//                        //send redirect
+//                        response.sendRedirect("/list");
+//                    }
+//                })
+//                .and()
                 .logout().permitAll().and().
-
+                exceptionHandling().
+                //handle accessdenied
+                        accessDeniedHandler(accessDeniedHandler()).and().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 
     @Autowired

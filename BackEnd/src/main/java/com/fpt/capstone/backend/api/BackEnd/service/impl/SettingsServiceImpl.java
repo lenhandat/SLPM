@@ -1,13 +1,21 @@
 package com.fpt.capstone.backend.api.BackEnd.service.impl;
 
+import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
+import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
+import com.fpt.capstone.backend.api.BackEnd.service.SettingService;
 import com.fpt.capstone.backend.api.BackEnd.service.validate.Validate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class SettingsServiceImpl {
+public class SettingsServiceImpl implements SettingService {
 
     @Autowired
     ModelMapper mapper;
@@ -17,6 +25,17 @@ public class SettingsServiceImpl {
 
     @Autowired
     private Validate validate;
+
+    @Override
+    public List<Settings> getTypeSetting() {
+        return settingsRepository.getTypeSeting();
+    }
+
+    @Override
+    public Page<SettingsDTO> getSetingByType(int id, int page, int per_page) {
+        Pageable pageable = PageRequest.of(page - 1, per_page);
+        return settingsRepository.getSetingByType(id, pageable);
+    }
 
 //    public SettingsDTO addSettings(SettingsDTO settingsDTO) throws Exception {
 //        validate.validateSetting(settingsDTO);
