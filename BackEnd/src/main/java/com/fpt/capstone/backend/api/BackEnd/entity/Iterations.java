@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class Iterations extends Auditable  implements Serializable {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne

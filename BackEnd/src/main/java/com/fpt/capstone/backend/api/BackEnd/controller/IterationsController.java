@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("iterations")
 @PreAuthorize("hasAuthority('Admin')")
+@CrossOrigin(origins = "/*", maxAge = 3600)
 public class IterationsController {
     @Autowired
     private ModelMapper modelMapper;
@@ -35,7 +36,7 @@ public class IterationsController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Add iterations fail " + "Message:" + e.getMessage());
+            response.setMessage("Add iterations fail: " + e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

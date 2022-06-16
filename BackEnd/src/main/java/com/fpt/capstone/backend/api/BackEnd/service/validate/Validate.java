@@ -4,7 +4,9 @@ import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SettingsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.UsersDTO;
+import com.fpt.capstone.backend.api.BackEnd.repository.IterationsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SettingsRepository;
+import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,10 @@ public class Validate {
 
     @Autowired
     private SettingsRepository settingsRepository;
-
+    @Autowired
+    private IterationsRepository iterationsRepository;
+    @Autowired
+    private SubjectsRepository subjectsRepository;
 
     public boolean validate(String value, String regex) {
         return value.matches(regex);
@@ -45,21 +50,19 @@ public class Validate {
 
 
     public void validateIterations(IterationsDTO iterationsDTO) throws Exception {
-//        if (iterationsRepository.findByIterationsName(iterationsDTO.getName()) > 0) {
-//            throw new Exception("Iterations Name already exist ");
-//        }
-//        if (!subjectsRepository.existsById(iterationsDTO.getSubjectId())) {
-//            throw new Exception("Id of subject not found");
-//        }
-//        if (!validate(iterationsDTO.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))) {
-//            throw new Exception("Iterations name is not contain special characters");
-//        }
-//        if (!validate(iterationsDTO.getDuration().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN))) {
-//            throw new Exception("Iterations duration must be integer");
-//        }
-//        if (!validate(iterationsDTO.getStatus(), String.valueOf(ConstantsRegex.STATUS_PATTERN))) {
-//            throw new Exception("Iterations status must be active or inactive");
-//        }
+        if (iterationsRepository.findByIterationsName(iterationsDTO.getName()) > 0) {
+            throw new Exception("Iterations Name already exist ");
+        }
+        if (!subjectsRepository.existsById(iterationsDTO.getSubjectId())) {
+            throw new Exception("Id of subject not found");
+        }
+        if (!validate(iterationsDTO.getName(), String.valueOf(ConstantsRegex.NAME_PATTERN))) {
+            throw new Exception("Iterations name is not contain special characters");
+        }
+        if (!validate(iterationsDTO.getDuration().toString(), String.valueOf(ConstantsRegex.NUMBER_PATTERN))) {
+            throw new Exception("Iterations duration must be integer");
+        }
+
 
     }
 

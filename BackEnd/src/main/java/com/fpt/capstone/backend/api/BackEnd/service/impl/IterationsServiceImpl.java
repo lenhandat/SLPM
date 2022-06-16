@@ -3,6 +3,7 @@ package com.fpt.capstone.backend.api.BackEnd.service.impl;
 import com.fpt.capstone.backend.api.BackEnd.dto.IterationsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.IterationsListDTO;
 import com.fpt.capstone.backend.api.BackEnd.entity.Iterations;
+import com.fpt.capstone.backend.api.BackEnd.entity.Settings;
 import com.fpt.capstone.backend.api.BackEnd.repository.IterationsRepository;
 import com.fpt.capstone.backend.api.BackEnd.repository.SubjectsRepository;
 import com.fpt.capstone.backend.api.BackEnd.service.ConstantsStatus;
@@ -33,11 +34,17 @@ public class IterationsServiceImpl implements InterationsService {
 
     @Override
     public IterationsDTO addIterations(IterationsDTO iterationsDTO) throws Exception {
-        validate.validateIterations(iterationsDTO);
+       validate.validateIterations(iterationsDTO);
 
-        Iterations iterations = modelMapper.map(iterationsDTO, Iterations.class);
+        Iterations iterations =   modelMapper.map(iterationsDTO, Iterations.class);
         iterations.setSubject(subjectsRepository.getById(iterationsDTO.getSubjectId()));
+        iterations.setStatus(ConstantsStatus.active.toString());
         iterationsRepository.save(iterations);
+
+//        return iterationsDTO;
+//        iterationsDTO.setStatus(ConstantsStatus.active.toString());
+//        validate.validateIterations(iterationsDTO);
+//        iterationsRepository.save(modelMapper.map(iterationsDTO, Iterations.class));
         return iterationsDTO;
     }
 
