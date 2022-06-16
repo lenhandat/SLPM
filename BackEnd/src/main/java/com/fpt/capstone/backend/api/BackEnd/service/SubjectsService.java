@@ -17,6 +17,6 @@ public interface SubjectsService {
 
     SubjectsDTO findById(int id);
 
-    Page<SubjectsListDTO> listBy(String code, String name, String status, int page, int per_page) throws Exception;
+    List<SubjectsListDTO> listBy() throws Exception;
 
 }

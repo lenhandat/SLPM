@@ -2,6 +2,7 @@ package com.fpt.capstone.backend.api.BackEnd.controller;
 
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsDTO;
 import com.fpt.capstone.backend.api.BackEnd.dto.SubjectsListDTO;
+import com.fpt.capstone.backend.api.BackEnd.entity.ApiResponse;
 import com.fpt.capstone.backend.api.BackEnd.entity.ResponsePaggingObject;
 import com.fpt.capstone.backend.api.BackEnd.service.impl.SubjectsServiceImpl;
 import org.modelmapper.ModelMapper;
@@ -9,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("subject")
+@PreAuthorize("hasAuthority('Admin')")
 @CrossOrigin(origins = "/*", maxAge = 3600)
 public class SubjectsController {
 
@@ -100,23 +103,23 @@ public class SubjectsController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> findSettingBy(@RequestParam("key_code") String key_code,
-                                           @RequestParam("key_status") String key_status,
-                                           @RequestParam("key_name") String key_name,
-                                           @RequestParam("page") int page,
-                                           @RequestParam("per_page") int per_page
+    public ResponseEntity<?> findSettingBy(
+//            @RequestParam("key_code") String key_code,
+//                                           @RequestParam("key_status") String key_status,
+//                                           @RequestParam("key_name") String key_name,
+//                                           @RequestParam("page") int page,
+//                                           @RequestParam("per_page") int per_page
     ) {
-        ResponsePaggingObject response = new ResponsePaggingObject();
+        ApiResponse response = new ApiResponse();
         try {
-            Page<SubjectsListDTO> subjects = subjectsService
-                    .listBy(key_code, key_name, key_status, page, per_page);
-            List<SubjectsListDTO> subjectsDTOS = subjects.getContent();
+            List<SubjectsListDTO> subjects = subjectsService.listBy();
+           // List<SubjectsListDTO> subjectsDTOS = subjects.getContent();
             response.setSuccess(true);
             response.setMessage("Get list subject successfully");
-            response.setData(subjectsDTOS);
-            response.setTotal(subjects.getTotalElements());
-            response.setCurrentPage(page);
-            response.setPerPages(per_page);
+            response.setData(subjects);
+//            response.setTotal(subjects.getTotalElements());
+//            response.setCurrentPage(page);
+//            response.setPerPages(per_page);
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (Exception e) {

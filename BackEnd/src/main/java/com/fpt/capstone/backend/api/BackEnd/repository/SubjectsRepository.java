@@ -12,14 +12,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 @Repository
 public interface SubjectsRepository  extends JpaRepository<Subjects, Integer> {
     @Query(" SELECT new com.fpt.capstone.backend.api.BackEnd.dto.SubjectsListDTO(s.id,s.name)" +
-            "  FROM Subjects s "
-            + " WHERE s.code LIKE %:code%"
-            + " and s.name LIKE %:name% and s.status LIKE %:status%")
-    public Page<SubjectsListDTO> search(@Param("code") String code, @Param("name") String name, @Param("status") String status, Pageable pageable);
+            "  FROM Subjects s where s.status='active'")
+    public List<SubjectsListDTO> search();
 
     @Query("SELECT count(p.id) FROM Subjects p WHERE p.name like ?1 ")
     Integer findBySubjectName(String keyName);

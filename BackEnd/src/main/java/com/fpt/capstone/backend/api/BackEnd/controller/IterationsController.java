@@ -12,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RestController
 @RequestMapping("iterations")
 @PreAuthorize("hasAuthority('Admin')")
@@ -82,30 +85,52 @@ public class IterationsController {
         }
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity<?> findIterationsByTile(@RequestParam("key_name") String key_name,
-                                                  @RequestParam("page") int page, @RequestParam("per_page") int per_page
-    ) {
-        ResponsePaggingObject response = new ResponsePaggingObject();
-        try {
-            Page<IterationsListDTO> iterations = iterationsService.listBy(key_name, page, per_page);
-            //List<IterationsDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsDTO[].class));
-            response.setSuccess(true);
-            response.setMessage("Get list search iteration successfully");
-            // response.setData(iterationsDTOS);
-            response.setData(iterations);
-            response.setTotal(iterations.getTotalElements());
-            response.setCurrentPage(page);
-            response.setPerPages(per_page);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+//    @GetMapping("/getAll")
+//    public ResponseEntity<?> findIterationsByTile(@RequestParam("key_name") String key_name,
+//                                                  @RequestParam("page") int page, @RequestParam("limit") int limit
+//    ) {
+//        ResponsePaggingObject response = new ResponsePaggingObject();
+//        try {
+//            Page<IterationsListDTO> iterations = iterationsService.listBy(key_name, page, limit);
+//            List<IterationsListDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsListDTO[].class));
+//            response.setSuccess(true);
+//            response.setMessage("Get list search iteration successfully");
+//            // response.setData(iterationsDTOS);
+//            response.setData(iterationsDTOS);
+//            response.setTotal(iterations.getTotalElements());
+//            response.setCurrentPage(page);
+//            response.setPerPages(limit);
+//            return new ResponseEntity<>(response, HttpStatus.OK);
+//
+//        } catch (Exception e) {
+//            response.setSuccess(false);
+//            response.setMessage("Get list search iteration fail " + "Message:" + e.getMessage());
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
+//    }
+@GetMapping("/getAll")
+public ResponseEntity<?> findIterationsByTile(@RequestParam("key_name") String key_name,
+                                              @RequestParam("page") int page, @RequestParam("limit") int limit
+) {
+    ResponsePaggingObject response = new ResponsePaggingObject();
+    try {
+        Page<IterationsListDTO> iterations = iterationsService.listBy(key_name, page, limit);
+        List<IterationsListDTO> iterationsDTOS = Arrays.asList(modelMapper.map(iterations.getContent(),IterationsListDTO[].class));
+        response.setSuccess(true);
+        response.setMessage("Get list search iteration successfully");
+        // response.setData(iterationsDTOS);
+        response.setData(iterationsDTOS);
+        response.setTotal(iterations.getTotalElements());
+        response.setCurrentPage(page);
+        response.setPerPages(limit);
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
-        } catch (Exception e) {
-            response.setSuccess(false);
-            response.setMessage("Get list search iteration fail " + "Message:" + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+    } catch (Exception e) {
+        response.setSuccess(false);
+        response.setMessage("Get list search iteration fail " + "Message:" + e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
+}
     @PostMapping("/edit")
     public ResponseEntity<?> editIterations(@RequestBody IterationsDTO iterationsDTO) throws Exception {
         ResponsePaggingObject response = new ResponsePaggingObject();

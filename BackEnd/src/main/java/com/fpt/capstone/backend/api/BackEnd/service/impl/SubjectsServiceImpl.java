@@ -67,10 +67,17 @@ public class SubjectsServiceImpl  implements SubjectsService {
         subjectsRepository.save(subjects);
     }
 
+//    @Override
+//    public Page<SubjectsListDTO> listBy(String code, String name, String status, int page, int per_page) throws Exception {
+//        Pageable pageable = PageRequest.of(page - 1, per_page);
+//        Page<SubjectsListDTO> subjects = subjectsRepository.search(code, name, status, pageable);
+//        // Page<SubjectsDTO> subjectsDTOS = subjects.map(subjects1 -> modelMapper.map(subjects1, SubjectsDTO.class));
+//        return subjects;
+//    }
     @Override
-    public Page<SubjectsListDTO> listBy(String code, String name, String status, int page, int per_page) throws Exception {
-        Pageable pageable = PageRequest.of(page - 1, per_page);
-        Page<SubjectsListDTO> subjects = subjectsRepository.search(code, name, status, pageable);
+    public List<SubjectsListDTO> listBy() throws Exception {
+     //   Pageable pageable = PageRequest.of(page - 1, per_page);
+        List<SubjectsListDTO> subjects = subjectsRepository.search();
         // Page<SubjectsDTO> subjectsDTOS = subjects.map(subjects1 -> modelMapper.map(subjects1, SubjectsDTO.class));
         return subjects;
     }
